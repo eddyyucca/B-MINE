@@ -3,66 +3,71 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
-            <!-- Simper & Minepermit Boxes -->
-            <div class="row mt-2">
-                <!-- SIMPER -->
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-light">
-                        <div class="inner">
-                            <h3>1</h3>
-                            <p>SUBMISSION</p>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Example</h3>
+                </div>
+                <!-- Simper & Minepermit Boxes -->
+                <div class="row mt-2">
+                    <!-- SIMPER -->
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-light">
+                            <div class="inner">
+                                <h3>1</h3>
+                                <p>SUBMISSION</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
                         </div>
-                        <div class="icon">
-                            <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <!-- Minepermit -->
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-light">
+                            <div class="inner">
+                                <h3>2</h3>
+                                <p>SUBMISSION</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Outstanding Proses -->
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-light">
+                            <div class="inner">
+                                <h3>6</h3>
+                                <p>BEC Proses</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-sync"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-light">
+                            <div class="inner">
+                                <h3>12</h3>
+                                <p>KTT Proses</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-sync"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Minepermit -->
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-light">
-                        <div class="inner">
-                            <h3>2</h3>
-                            <p>SUBMISSION</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-clipboard-check"></i>
-                        </div>
-                    </div>
-                </div>
-                <!-- Outstanding Proses -->
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-light">
-                        <div class="inner">
-                            <h3>6</h3>
-                            <p>BEC Proses</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-6">
-                    <div class="small-box bg-light">
-                        <div class="inner">
-                            <h3>12</h3>
-                            <p>KTT Proses</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Trend Simper & Minepermit -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">The trend of Simper & Minepermit</h3>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="simperMinepermitChart"></canvas>
+                <!-- Trend Simper & Minepermit -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">The trend of Simper & Minepermit</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="simperMinepermitChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
