@@ -14,6 +14,7 @@
     <!-- AdminLTE -->
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
     <!-- Custom Style -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
     <style>
         .small-box {
             background: #f4f6f9;
@@ -55,6 +56,8 @@
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
+    <!-- Page specific script -->
+    <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
 
     @yield('scripts')
 </body>
