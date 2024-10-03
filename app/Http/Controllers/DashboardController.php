@@ -15,4 +15,8 @@ class DashboardController extends Controller
     {
         return view('dashboard.dashboard_external');
     }
+    public function about()
+    {
+        return view('dashboard.about');
+    }
 }
