@@ -19,7 +19,6 @@
 
             </div>
         </div>
-
         {{-- search --}}
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
@@ -32,8 +31,6 @@
                 </div>
             </div>
         </div>
-
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -42,6 +39,12 @@
                     <a href={{ url('/') }} class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href={{ url('/dashboard_external') }} class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard External</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -86,7 +89,10 @@
                     </a>
                 </li>
             </ul>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1aaaf7a (update 03102024)
             <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
                 <li class="nav-item">
                     <a href="{{ url('/about') }}" class="nav-link">
