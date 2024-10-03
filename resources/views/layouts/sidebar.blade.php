@@ -89,10 +89,6 @@
                     </a>
                 </li>
             </ul>
-<<<<<<< HEAD
-
-=======
->>>>>>> 1aaaf7a (update 03102024)
             <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
                 <li class="nav-item">
                     <a href="{{ url('/about') }}" class="nav-link">

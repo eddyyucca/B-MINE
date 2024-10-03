@@ -7,10 +7,12 @@ use App\Http\Controllers\RequestController;
 
 // dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-<<<<<<< HEAD
-=======
+
 Route::get('/dashboard_external', [DashboardController::class, 'dashboard_external'])->name('dashboard_external');
->>>>>>> 1aaaf7a (update 03102024)
+
+
+Route::get('/dashboard_external', [DashboardController::class, 'dashboard_external'])->name('dashboard_external');
+
 Route::get('/about', [DashboardController::class, 'about'])->name('about');
 
 // Auth
