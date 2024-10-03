@@ -89,14 +89,15 @@
                     </a>
                 </li>
             </ul>
-            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
-                <li class="nav-item">
-                    <a href="{{ url('/about') }}" class="nav-link">
-                        <i class="nav-icon fas fa-info-circle"></i>
-                        <p>About</p>
-                    </a>
-                </li>
-            </ul>
+            <<<<<<< HEAD=======>>>>>>> e6f7dcd72af5267994942873c142f6a32e600f05
+                <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
+                    <li class="nav-item">
+                        <a href="{{ url('/about') }}" class="nav-link">
+                            <i class="nav-icon fas fa-info-circle"></i>
+                            <p>About</p>
+                        </a>
+                    </li>
+                </ul>
         </nav>
     </div>
 </aside>

@@ -11,10 +11,13 @@ class DashboardController extends Controller
     {
         return view('dashboard.dashboard');
     }
+<<<<<<< HEAD
     public function dashboard_external()
     {
         return view('dashboard.dashboard_external');
     }
+=======
+>>>>>>> e6f7dcd72af5267994942873c142f6a32e600f05
     public function about()
     {
         return view('dashboard.about');
