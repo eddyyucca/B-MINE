@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\QrcodeController;
 
 // dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [AuthController::class, 'login'])->name('login');
 
-Route::get('/dashboard_external', [DashboardController::class, 'dashboard_external'])->name('dashboard_external');
+Route::get('/dashboard', [DashboardController::class, 'dashboard_external'])->name('dashboard_external');
 
 // Route::get('/dashboard_external', [DashboardController::class, 'dashboard_external'])->name('dashboard_external');
 
@@ -32,3 +33,7 @@ Route::post('/search_nik', [RequestController::class, 'get_data_nik'])->name('se
 Route::get('/comingsoon', function () {
     return view('comingsoon.comingsoon');
 });
+
+// cobaqrcode
+    Route::get('/qrcode', [QrcodeController::class,'index'])->name('qrcode');
+    Route::get('/generatePDF', [QrcodeController::class,'generatePDF'])->name('generatePDF');
