@@ -312,7 +312,9 @@
                 'Mine Permit',
             ],
             datasets: [{
-                data: [200, 200], // Ganti dengan data SIMPER dan Mine Permit Anda
+                data: [{{ $simper }},
+                    {{ $minepermit }}
+                ], // Ganti dengan data SIMPER dan Mine Permit Anda
                 backgroundColor: ['#3498db', '#00a65a'], // Warna untuk SIMPER dan Mine Permit
             }]
         }

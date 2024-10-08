@@ -76,10 +76,10 @@
                 <p class="login-box-msg">Sign in to start your session</p>
 
                 <!-- Login Form -->
-                <form action="" method="post">
+                <form action="{{ route('auth') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email" required>
+                        <input type="text" class="form-control" placeholder="NIK" name="nik" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -105,8 +105,8 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            {{-- <button type="submit" class="btn btn-primary btn-block">Sign In</button> --}}
-                            <a href="{{ route('dashboard') }}" class="btn btn-primary btn-block">Sign In</a>
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            {{-- <a href="{{ route('dashboard') }}" class="btn btn-primary btn-block">Sign In</a> --}}
                         </div>
                         <!-- /.col -->
                     </div>
