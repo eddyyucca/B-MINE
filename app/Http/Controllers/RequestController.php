@@ -1,7 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http; // Tambahkan ini
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller {
     public function index() {
@@ -76,4 +77,44 @@ class RequestController extends Controller {
         // Simpan data ke session atau tampilkan
         return back()->with('data', $data);
     }
+
+
+public function karyawanfolder()
+{
+    // Ambil token API dari file .env
+    $token = env('BMINE_API_TOKEN');
+
+    // Ambil data dari REST API
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $token,
+    ])->get('https://rest-api-peoplesync.bmine.id/karyawan/');
+
+    // Periksa jika request berhasil
+    if ($response->successful()) {
+        // Ambil data JSON dari response
+        $karyawans = $response->json();
+        
+        // Perulangan setiap karyawan
+        foreach ($karyawans as $karyawan) {
+            // Ambil NIK dari setiap karyawan
+            $nik = $karyawan['nik'];
+            
+            // Tentukan path folder yang ingin dibuat berdasarkan NIK
+            $folderPath = "data/data_karyawan/{$nik}";
+            
+            // Buat folder jika belum ada
+            if (!Storage::exists($folderPath)) {
+                Storage::makeDirectory($folderPath);
+            }
+        }
+        
+        return 'Folders created successfully!';
+    } else {
+        return 'Failed to fetch data from the API.';
+    }
+        }
+
+
+
+    
 }
