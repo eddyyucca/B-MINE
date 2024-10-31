@@ -14,7 +14,9 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center">
-                    <a href={{ url('/') }} class="d-block">Eddy Adha Saputra</a>
+                    <a href={{ url('/') }} class="d-block">Eddy Adha Saputra <br>
+                        <h6>Admin</h6>
+                    </a>
                 </div>
 
             </div>
@@ -77,7 +79,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href={{ url('/comingsoon') }} class="nav-link">
+                    <a href={{ url('/personal_tak') }} class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
                         <p>Personal Task</p>
                     </a>

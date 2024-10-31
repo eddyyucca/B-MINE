@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
     <link rel="icon" type="image/x-icon" href="{{ asset('adminlte/img/logo-bmine.ico') }}">
     <style>
         /* CSS untuk progress bar */
@@ -103,7 +106,8 @@
     <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
     <!-- Page specific script -->
     <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
-
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
 
     {{-- loading --}}
     <script>

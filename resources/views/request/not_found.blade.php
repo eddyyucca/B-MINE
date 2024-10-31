@@ -20,13 +20,25 @@
                             <div class="card-body">
                                 <!-- Animated "Not Found" message -->
 
-                                <div class="alert alert-danger alert-dismissible not-found-animate">
-                                    <button type="button" class="close" data-dismiss="alert"
-                                        aria-hidden="true">&times;</button>
-                                    <h5><i class="icon fas fa-exclamation-triangle"></i> Data Not Found</h5>
-                                    {{ session('error') }}
-                                </div>
-                                <p>Employee data will be displayed here after the search.</p>
+                                {{-- Display errors if any --}}
+                                @if ($errors->any())
+                                    <div class="alert alert-danger alert-dismissible not-found-animate">
+                                        <button type="button" class="close" data-dismiss="alert"
+                                            aria-hidden="true">&times;</button>
+                                        <h5><i class="icon fas fa-exclamation-triangle"></i> {{ $errors->first() }}</h5>
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+
+                                {{-- Display success message if any --}}
+                                @if (session('success'))
+                                    <div class="alert alert-success alert-dismissible not-found-animate">
+                                        <button type="button" class="close" data-dismiss="alert"
+                                            aria-hidden="true">&times;</button>
+                                        <h5><i class="icon fas fa-check-circle"></i> Sukses!</h5>
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
 
                             </div>
                             <!-- /.card-body -->
