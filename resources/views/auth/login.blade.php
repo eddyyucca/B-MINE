@@ -129,7 +129,7 @@
         </div>
         <!-- Footer -->
         <div class="footer">
-            <p>Copyright © 2024 BUMA Site IPR. <br>
+            <p>Copyright © B'Mine. <br>
                 All rights reserved.</p>
         </div>
         <!-- /.footer -->

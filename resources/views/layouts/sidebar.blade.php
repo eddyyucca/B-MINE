@@ -3,7 +3,7 @@
     <a href={{ url('/') }} class="brand-link">
         <img src={{ asset('adminlte/img/logo-bmine.png') }} alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
         <div class="d-flex justify-content-center">
-            <span class="brand-text font-weight-light"><b>B'MINE | Buma-IPR</b></span>
+            <span class="brand-text font-weight-light"><b>B'MINE App</b></span>
         </div>
     </a>
     {{-- sidebar --}}

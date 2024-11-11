@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="jobtitle">Job Title</label>
-                                            <input type="text" class="form-control" id="jabatan" name="jobtitle"
+                                            <input type="text" class="form-control" id="jabatan" name="jabatan"
                                                 placeholder="Job Title" value="{{ $data_karyawan['jabatan'] }}" readonly>
                                         </div>
                                         <div class="form-group">
@@ -122,7 +122,6 @@
                                                 <option value="1">Mine Permit</option>
                                             </select>
                                         </div>
-
                                         {{-- Conditional Simper and Mine Permit --}}
                                         <div id="simport-form" style="display: none;">
                                             <div class="form-group">
@@ -160,7 +159,7 @@
                                                     <div class="unit-group mb-3">
                                                         <div class="form-group">
                                                             <label for="unit_type">Choose License Type:</label>
-                                                            <select id="unit_type" name="unit_type"
+                                                            <select id="unit_type" name="unit_type[]"
                                                                 class="form-control select2" style="width: 100%;">
                                                                 <option value="">Select...</option>
                                                                 @foreach ($licenses as $license)
@@ -235,7 +234,7 @@
     <div class="unit-group mb-3">
          <div class="form-group">
                                             <label for="unit_type">Choose License Type:</label>
-                                            <select id="unit_type" name="unit_type" class="form-control select2">
+                                            <select id="unit_type" name="unit_type[]" class="form-control select2">
                                                 <option value="">Select...</option>
                                                 @foreach ($licenses as $license)
                                                     <option value="{{ $license->id_units }}">{{ $license->nama_unit }}

@@ -80,12 +80,14 @@ public function insert_request(Request $request)
     // ]);
 
     // Generate kode unik
-    $code = 'TRX-' . date('Ymd') . '-' . Str::random(6);
+    $code = 'BUMA-' . date('Ymd') . '-' . Str::random(6);
 
     // Menangkap semua input dari form
     $nik = $request->input('nik');
     $nama = $request->input('nama');
     $license_type = $request->input('license_type');
+    $jabatan = $request->input('jabatan');
+    $departement = $request->input('departement');
     
     // Mengatur jalur default jika file tidak ada
     $fotoPath = null;
@@ -116,6 +118,8 @@ public function insert_request(Request $request)
         'nik' => $nik,
         'kode' => $code,
         'nama' => $nama,
+        'jab' => $jabatan,
+        'dept' => $departement,
         'foto_path' => $fotoPath,
         'medical_path' => $medicalPath,
         'drivers_license_path' => $driversLicensePath,

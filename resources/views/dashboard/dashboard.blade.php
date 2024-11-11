@@ -136,7 +136,7 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $totaloutstanding }}</h3>
                                     <p>Total Outstanding</p>
                                 </div>
                                 <div class="icon">
@@ -150,7 +150,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $sheprosess }}</h3>
                                     <p>SHE Prosess</p>
                                 </div>
                                 <div class="icon">
@@ -164,7 +164,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $pjoprosess }}</h3>
                                     <p>PJO Prosess</p>
                                 </div>
                                 <div class="icon">
@@ -178,7 +178,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $becprosess }}</h3>
                                     <p>BEC Prosess</p>
                                 </div>
                                 <div class="icon">
@@ -192,7 +192,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $kttprosess }}</h3>
                                     <p>KTT Prosess</p>
                                 </div>
                                 <div class="icon">

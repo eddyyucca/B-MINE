@@ -15,6 +15,8 @@ class DataReqModel extends Model
         'nik', 
         'kode', 
         'nama', 
+        'jab', 
+        'dept', 
         'foto_path', 
         'medical_path', 
         'drivers_license_path', 

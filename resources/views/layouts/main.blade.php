@@ -5,18 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
-
-    <!-- Google Font: Source Sans Pro -->
-    {{-- <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- AdminLTE -->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
-    <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/sweetalert/sweetalert2.min.css') }}">
 
     <link rel="icon" type="image/x-icon" href="{{ asset('adminlte/img/logo-bmine.ico') }}">
     <style>
@@ -74,7 +72,7 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     {{-- loading screen --}}
     <div class="loading-screen" id="loading-screen">
-        <img src="{{ asset('adminlte/img/logo_buma_tabang.png') }}" alt="Logo" class="logo">
+        <img src="{{ asset('adminlte/img/logo-bmine.png') }}" alt="Logo" class="logo">
         <div class="progress-text" id="progress-text">0%</div>
         <div class="progress-bar">
             <div class="progress-bar-fill" id="progress-bar-fill"></div>
@@ -97,17 +95,60 @@
         @include('layouts.footer')
 
     </div>
-
     <!-- jQuery -->
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/jquery/jquery.js') }}"></script>
+    <!-- sweetalert -->
+
+    <script>
+        document.querySelectorAll('.confirmButton').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const href = this.getAttribute('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, do it!',
+                    cancelButtonText: 'Cancel',
+                    background: '#f0f0f0',
+                    backdrop: `rgba(0,0,0,0.4)`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="{{ asset('adminlte/sweetalert/sweetalert2.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('adminlte/js/adminlte.js') }}"></script>
-    <!-- Page specific script -->
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte/plugins/flot/jquery.flot.js') }}"></script>
+
+    <script src="{{ asset('adminlte/plugins/flot/plugins/jquery.flot.resize.js') }}"></script>
+
+    <script src="{{ asset('adminlte/plugins/flot/plugins/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/chart.js/chart.js') }}"></script>
 
     {{-- loading --}}
     <script>
@@ -130,6 +171,57 @@
                 }, 100);
             }
         };
+    </script>
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+                "buttons": [{
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible:not(.no-export)' // Mengecualikan kolom yang disembunyikan
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible:not(.no-export)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible:not(.no-export)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible:not(.no-export)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':visible:not(.no-export)'
+                        }
+                    },
+                    'colvis'
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
     </script>
     @yield('scripts')
 </body>
