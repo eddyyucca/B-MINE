@@ -112,6 +112,11 @@
                         <button type="button" class="btn btn-info" id="attachmentBtn">View Attachment</button>
                         <p id="attachmentNotAvailable" style="display: none;">Attachment tidak tersedia</p>
                     </div>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-danger" id="medicalBtn">Reject</button>
+                        <button type="button" class="btn btn-success" id="medicalBtn">Accept</button>
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
