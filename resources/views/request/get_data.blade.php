@@ -97,6 +97,44 @@
                                                     style="max-width: 300px; display: none;">
                                             </div>
                                         </div>
+                                        <div class="card card-secondary">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Access Minepermit</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <input type="checkbox" id="checkboxPrimary1">
+                                                            <label for="checkboxPrimary1">
+                                                                CHR BT
+                                                            </label>
+                                                        </div>
+                                                        |
+                                                        <div class="icheck-primary d-inline">
+                                                            <input type="checkbox" id="checkboxPrimary2">
+                                                            <label for="checkboxPrimary2">
+                                                                CHR FSB
+                                                            </label>
+                                                        </div>
+                                                        |
+                                                        <div class="icheck-primary d-inline">
+                                                            <input type="checkbox" id="checkboxPrimary3">
+                                                            <label for="checkboxPrimary3">
+                                                                PIT BT
+                                                            </label>
+                                                        </div>
+                                                        |
+                                                        <div class="icheck-primary d-inline">
+                                                            <input type="checkbox" id="checkboxPrimary4">
+                                                            <label for="checkboxPrimary4">
+                                                                PIT TA
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {{-- Medical certificate --}}
                                         <div class="form-group">
                                             <label for="medical_certificate">Medical Certificate</label>
@@ -114,7 +152,7 @@
                                         </div>
                                         {{-- License type --}}
                                         <div class="form-group">
-                                            <label for="license_type">Choose License Type:</label>
+                                            <label for="license_type">Choose Simper/MinerPermit:</label>
                                             <select id="license_type" name="license_type" class="form-control"
                                                 onchange="toggleFormElements()">
                                                 <option value="">Select...</option>
@@ -128,9 +166,11 @@
                                                 <label for="drivers_license">Driver's License</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="drivers_license"
-                                                            name="drivers_license" onchange="file_dl()">
-                                                        <label class="custom-file-label" for="drivers_license">Choose File
+                                                        <input type="file" class="custom-file-input"
+                                                            id="drivers_license" name="drivers_license"
+                                                            onchange="file_dl()">
+                                                        <label class="custom-file-label" for="drivers_license">Choose
+                                                            File
                                                             Driver's License</label>
                                                     </div>
                                                     <div class="input-group-append">
@@ -144,7 +184,8 @@
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" id="attachment"
                                                             name="attachment" onchange="file_a()">
-                                                        <label class="custom-file-label" for="attachment">Choose File
+                                                        <label class="custom-file-label" for="attachment">Choose
+                                                            File
                                                             Attachment</label>
                                                     </div>
                                                     <div class="input-group-append">
@@ -160,7 +201,7 @@
                                                         <div class="form-group">
                                                             <label for="unit_type">Choose License Type:</label>
                                                             <select id="unit_type" name="unit_type[]"
-                                                                class="form-control select2" style="width: 100%;">
+                                                                class="form-control select2bs4" style="width: 100%;">
                                                                 <option value="">Select...</option>
                                                                 @foreach ($licenses as $license)
                                                                     <option value="{{ $license->id_units }}">
@@ -231,17 +272,16 @@
         document.getElementById('add-unit').addEventListener('click', function() {
             const unitContainer = document.getElementById('dynamic-units');
             const newUnit = `
-    <div class="unit-group mb-3">
-         <div class="form-group">
-                                            <label for="unit_type">Choose License Type:</label>
-                                            <select id="unit_type" name="unit_type[]" class="form-control select2">
-                                                <option value="">Select...</option>
-                                                @foreach ($licenses as $license)
-                                                    <option value="{{ $license->id_units }}">{{ $license->nama_unit }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <div class="unit-group mb-3">
+                                       <div class="form-group">
+                <label for="unit_type">Choose License Type:</label>
+                <select id="unit_type${unitCount}" name="unit_type[]" class="form-control select2bs4" style="width: 100%;">
+                    <option value="">Select...</option>
+                    @foreach ($licenses as $license)
+                        <option value="{{ $license->id_units }}">{{ $license->nama_unit }}</option>
+                    @endforeach
+                </select>
+            </div>
 
         <!-- Checkboxes untuk P, R, T, I -->
         <div class="form-check form-check-inline">

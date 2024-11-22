@@ -1,5 +1,34 @@
 @extends('layouts.main')
+<style>
+    .modal-body {
+        display: flex;
+    }
 
+    .pdf-viewer,
+    .id-card {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .id-card img {
+        width: 150px;
+        /* Ukuran yang diinginkan */
+        height: auto;
+        /* Atur tinggi otomatis untuk mempertahankan rasio */
+    }
+
+    .pdf-viewer {
+        border-right: 1px solid #ccc;
+    }
+
+    /* search options */
+    .select2-container--default .select2-selection--single {
+        height: 38px;
+        /* Tinggi yang sesuai dengan input lainnya di Admin LTE */
+        border-radius: .25rem;
+        /* Sesuaikan radius border */
+    }
+</style>
 @section('content')
     {{-- content --}}
     <div class="content-header">
@@ -65,6 +94,17 @@
                                                     data-departement="{{ $dataReq->dept }}">
                                                     Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                 </button>
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary" onclick="showPopup(this)"
+                                                    data-photo="{{ $dataReq->foto_path ? asset(str_replace('public', 'storage/app/public', $dataReq->foto_path)) : '' }}"
+                                                    data-medical="{{ $dataReq->medical_path ? asset(str_replace('public', 'storage/app/public', $dataReq->medical_path)) : '' }}"
+                                                    data-license="{{ $dataReq->drivers_license_path ? asset(str_replace('public', 'storage/app/public', $dataReq->drivers_license_path)) : '' }}"
+                                                    data-attachment="{{ $dataReq->attachment_path ? asset(str_replace('public', 'storage/app/public', $dataReq->attachment_path)) : '' }}"
+                                                    data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
+                                                    data-jabatan="{{ $dataReq->jab }}"
+                                                    data-departement="{{ $dataReq->dept }}">
+                                                    Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -76,50 +116,50 @@
             </div>
         </div>
     </section>
-
+    <!-- Modal for displaying the attachment -->
     <!-- Modal -->
-    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profileModalLabel">Berkas Pengajuan</h5>
+                    <h5 class="modal-title" id="popupModalLabel">PDF Viewer & ID Card</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body text-center">
-                    <!-- Foto Karyawan -->
-                    <img id="employeePhoto" class="img-fluid" alt="Foto Karyawan"
-                        style="width: 150px; height: 150px; object-fit: cover; margin-top: 20px; border-radius: 10px;">
-                    <p id="photoNotAvailable" style="display: none;">Foto tidak tersedia</p>
-
-                    <!-- Informasi Profil -->
-                    <div class="mt-3">
-                        <p><strong>Nama:</strong> <span id="profileName"></span></p>
-                        <p><strong>NIK:</strong> <span id="profileNik"></span></p>
-                        <p><strong>Jabatan:</strong> <span id="profileJabatan"></span></p>
-                        <p><strong>Departement:</strong> <span id="profileDepartement"></span></p>
+                <div class="modal-body">
+                    <!-- Kolom PDF Viewer -->
+                    <div class="modal-body">
+                        <div class="pdf-viewer">
+                            <h5 class="text-center">PDF Viewer</h5>
+                            <iframe id="attachment1" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                            <iframe id="attachment2" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                            <iframe id="attachment3" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                        </div>
                     </div>
-
-                    <!-- Tombol untuk Melihat Dokumen PDF -->
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-info" id="medicalBtn">View Medical Certificate</button>
-                        <p id="medicalNotAvailable" style="display: none;">Medical Certificate tidak tersedia</p>
-
-                        <button type="button" class="btn btn-info" id="licenseBtn">View Driver's License</button>
-                        <p id="licenseNotAvailable" style="display: none;">Driver's License tidak tersedia</p>
-
-                        <button type="button" class="btn btn-info" id="attachmentBtn">View Attachment</button>
-                        <p id="attachmentNotAvailable" style="display: none;">Attachment tidak tersedia</p>
+                    <!-- Kolom ID Card -->
+                    <div class="id-card text-center" style="max-width: 200px;">
+                        <!-- Atur lebar maksimum sesuai kebutuhan -->
+                        <h5>ID Card</h5>
+                        <!-- Front Side -->
+                        <div id="idCardFront">
+                            <h6>Front Side</h6>
+                            <img src="https://via.placeholder.com/300x200?text=Front+ID+Card" alt="Front ID Card"
+                                class="img-fluid mb-3" style="width: 100%; height: auto;"> <!-- pas ukuran -->
+                        </div>
+                        <!-- Back Side -->
+                        <div id="idCardBack" style="display: none;">
+                            <h6>Back Side</h6>
+                            <img src="https://via.placeholder.com/300x200?text=Back+ID+Card" alt="Back ID Card"
+                                class="img-fluid mb-3" style="width: 100%; height: auto;"> <!-- pas ukuran -->
+                        </div>
+                        <!-- Button to Toggle Front/Back -->
+                        <button class="btn btn-secondary" onclick="toggleCard()">Flip Card</button>
                     </div>
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-danger" id="medicalBtn">Reject</button>
-                        <button type="button" class="btn btn-success" id="medicalBtn">Accept</button>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -148,8 +188,17 @@
         }
     </style>
 
-
     <script>
+        // search options
+        $(document).ready(function() {
+            $('#unit_type').select2({
+                placeholder: "Select...",
+                allowClear: true,
+                width: '100%' // Untuk menjadikan dropdown responsif
+            });
+        });
+
+
         $(document).ready(function() {
             $('#profileModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
@@ -210,6 +259,42 @@
 
         function viewDocument(doc) {
             window.open(doc, '_blank');
+        }
+
+        // Menampilkan modal popup
+        function showPopup(button) {
+            $('#popupModal').modal('show'); // Menampilkan modal
+
+            // Ambil data dari tombol
+            const medicalUrl = button.getAttribute('data-medical');
+            const licenseUrl = button.getAttribute('data-license');
+            const attachmentUrl = button.getAttribute('data-attachment');
+
+            // Set PDF URLs di iframe
+            if (medicalUrl) {
+                document.getElementById('attachment1').src = medicalUrl; // untuk tampilan medical
+            }
+
+            if (licenseUrl) {
+                document.getElementById('attachment2').src = licenseUrl; // untuk tampilan license
+            }
+
+            if (attachmentUrl) {
+                document.getElementById('attachment3').src = attachmentUrl; // untuk tampilan attachment
+            }
+        }
+
+        // Fungsi untuk membalik ID Card
+        function toggleCard() {
+            const front = document.getElementById('idCardFront');
+            const back = document.getElementById('idCardBack');
+            if (front.style.display === 'none') {
+                front.style.display = 'block';
+                back.style.display = 'none';
+            } else {
+                front.style.display = 'none';
+                back.style.display = 'block';
+            }
         }
     </script>
 @endsection

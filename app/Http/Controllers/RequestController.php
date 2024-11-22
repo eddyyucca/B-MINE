@@ -120,6 +120,7 @@ public function insert_request(Request $request)
         'nama' => $nama,
         'jab' => $jabatan,
         'dept' => $departement,
+        'status' => $license_type,
         'foto_path' => $fotoPath,
         'medical_path' => $medicalPath,
         'drivers_license_path' => $driversLicensePath,

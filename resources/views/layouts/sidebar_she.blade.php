@@ -14,7 +14,7 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center">
-                    <a href={{ url('/') }} class="d-block"><br>
+                    <a href={{ url('/') }} class="d-block">Eddy Adha Saputra <br>
                         <h6>Admin</h6>
                     </a>
                 </div>

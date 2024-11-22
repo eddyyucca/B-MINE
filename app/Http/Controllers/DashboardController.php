@@ -17,9 +17,11 @@ class DashboardController extends Controller
         $pjoprosess = DataReqModel::where('validasi_in', 2)->count();
         $becprosess = DataReqModel::where('validasi_in', 3)->count();
         $kttprosess = DataReqModel::where('validasi_in', 4)->count();
+        $minepermit_data = DataReqModel::where('status', 1)->count();
+        $simper_data = DataReqModel::where('status', 2)->count();
         $totaloutstanding = $sheprosess + $pjoprosess + $becprosess + $kttprosess;
-
-        return view('dashboard.dashboard', compact('minepermit', 'simper', 'sheprosess', 'pjoprosess', 'becprosess', 'kttprosess', 'totaloutstanding'));
+        // $userData = Session::get('logged_in_user');
+        return view('dashboard.dashboard', compact('minepermit', 'simper', 'sheprosess', 'pjoprosess', 'becprosess', 'kttprosess', 'totaloutstanding', 'simper_data', 'minepermit_data'));
 
     }
     public function dashboard_external()

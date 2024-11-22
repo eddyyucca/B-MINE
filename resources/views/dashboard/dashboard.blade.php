@@ -42,7 +42,7 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $simper_data }}</h3>
                                     <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
@@ -89,7 +89,7 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $minepermit_data }}</h3>
                                     <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
