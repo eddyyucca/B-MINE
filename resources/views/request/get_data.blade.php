@@ -105,28 +105,32 @@
                                                 <div class="row">
                                                     <div class="form-group clearfix">
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" id="checkboxPrimary1">
+                                                            <input type="checkbox" name="permissions[]"
+                                                                id="checkboxPrimary1">
                                                             <label for="checkboxPrimary1">
                                                                 CHR BT
                                                             </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" id="checkboxPrimary2">
+                                                            <input type="checkbox" name="permissions[]"
+                                                                id="checkboxPrimary2">
                                                             <label for="checkboxPrimary2">
                                                                 CHR FSB
                                                             </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" id="checkboxPrimary3">
+                                                            <input type="checkbox" name="permissions[]"
+                                                                id="checkboxPrimary3">
                                                             <label for="checkboxPrimary3">
                                                                 PIT BT
                                                             </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" id="checkboxPrimary4">
+                                                            <input type="checkbox" name="permissions[]"
+                                                                id="checkboxPrimary4">
                                                             <label for="checkboxPrimary4">
                                                                 PIT TA
                                                             </label>
@@ -190,6 +194,35 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">Upload</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="sio">SIO:</label>
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="checkbox" id="sio" name="sio" value="yes"
+                                                        onchange="toggleSIOInput()">
+                                                    <label for="sio">Yes</label>
+                                                </div>
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="checkbox" id="sio_no" name="sio" value="no"
+                                                        onchange="toggleSIOInput()">
+                                                    <label for="sio_no">No</label>
+                                                </div>
+                                            </div>
+                                            <div id="sio-input" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="sio_file">Upload SIO File:</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input"
+                                                                id="sio_file" name="sio_file" onchange="fileSIO()">
+                                                            <label class="custom-file-label" for="sio_file">Choose File
+                                                                SIO</label>
+                                                        </div>
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">Upload</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,6 +402,7 @@
             label.innerHTML = fileName;
         }
 
+
         // Toggle form elements for license types
         function toggleFormElements() {
             const licenseType = document.getElementById('license_type').value;
@@ -385,6 +419,26 @@
                 simperForm.style.display = 'none';
                 minepermitForm.style.display = 'none';
             }
+        }
+
+        function toggleSIOInput() {
+            const sioYes = document.getElementById('sio').checked;
+            const sioNo = document.getElementById('sio_no').checked;
+            const sioInput = document.getElementById('sio-input');
+
+            if (sioYes) {
+                sioInput.style.display = 'block';
+            } else {
+                sioInput.style.display = 'none';
+            }
+        }
+
+        function fileSIO() {
+            const fileInput = document.getElementById('sio_file');
+            const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
+            const label = fileInput.nextElementSibling;
+
+            label.innerHTML = fileName ? fileName : 'Choose File SIO';
         }
     </script>
 @endsection

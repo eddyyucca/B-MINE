@@ -80,7 +80,7 @@ public function insert_request(Request $request)
     // ]);
 
     // Generate kode unik
-    $code = 'BUMA-' . date('Ymd') . '-' . Str::random(6);
+    $code = 'BUMA-' . date('Ymdhis') . '-' . Str::random(6);
 
     // Menangkap semua input dari form
     $nik = $request->input('nik');
@@ -88,14 +88,30 @@ public function insert_request(Request $request)
     $license_type = $request->input('license_type');
     $jabatan = $request->input('jabatan');
     $departement = $request->input('departement');
-    
+    $sio = $request->input('sio');
+    $permissions = $request->input('permissions', []);
     // Mengatur jalur default jika file tidak ada
     $fotoPath = null;
     $medicalPath = null;
     $driversLicensePath = null;
     $attachmentPath = null;
     $validasi_in = "1";
+$permissions = $request->input('permissions', []); // Ambil data permissions
+    
+    // Inisialisasi array untuk menyimpan hasil
+    $permissionsArray = [
+        'CHR BT' => 'no', // Default ke "no"
+        'CHR FSB' => 'no',
+        'PIT BT' => 'no',
+        'PIT TA' => 'no',
+    ];
 
+    // Set nilai "yes" untuk permission yang terpilih
+    foreach ($permissions as $key => $value) {
+        if (array_key_exists($key, $permissionsArray)) {
+            $permissionsArray[$key] = 'yes'; // Set ke "yes" jika checkbox tercentang
+        }
+    }
     // Menangkap file foto dan sertifikat kesehatan jika ada
     if ($request->hasFile('foto_view')) {
         $fotoPath = $request->file('foto_view')->store('public/fotos');
@@ -112,6 +128,9 @@ public function insert_request(Request $request)
     if ($request->hasFile('attachment')) {
         $attachmentPath = $request->file('attachment')->store('public/attachments');
     }
+    if ($request->hasFile('sio_file')) {
+        $sio_filePath = $request->file('sio_file')->store('public/sio_files');
+    }
 
     // Menyimpan data utama ke DataReqModel
     $dataReq = DataReqModel::create([
@@ -125,7 +144,11 @@ public function insert_request(Request $request)
         'medical_path' => $medicalPath,
         'drivers_license_path' => $driversLicensePath,
         'attachment_path' => $attachmentPath,
+        'sio_path' => $sio_filePath,
         'validasi_in' => $validasi_in,
+        'status' => "1",
+        'sio_status' => $sio,
+        'access' => json_encode($permissionsArray),
     ]);
 
 // Jika license_type adalah 2, lakukan perulangan untuk menyimpan data units

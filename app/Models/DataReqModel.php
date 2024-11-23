@@ -21,7 +21,11 @@ class DataReqModel extends Model
         'medical_path', 
         'drivers_license_path', 
         'attachment_path',
-        'validasi_in'
+        'sio_path',
+        'validasi_in',
+        'sio_status',
+        'status',
+        'access'
     ];
 
     // Jika tabel tidak memiliki timestamps (created_at, updated_at)
