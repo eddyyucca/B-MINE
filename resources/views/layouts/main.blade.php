@@ -170,7 +170,10 @@
     {{-- cetak pdf --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-
+    {{-- qrcode --}}
+    <script src="{{ asset('adminlte/js/qrcode/jscode.js') }}"></script>
+    <script src="{{ asset('adminlte/js/qrcode/JsBarcode.all.min.js') }}"></script>
+    <script src="{{ asset('adminlte/js/qrcode/jquery.qrcode.min.js') }}"></script>
     {{-- loading --}}
     <script>
         document.onreadystatechange = function() {
