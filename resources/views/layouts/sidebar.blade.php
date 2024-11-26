@@ -14,8 +14,8 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center">
-                    <a href={{ url('/') }} class="d-block"><br>
-                        <h6>Admin</h6>
+                    <a href={{ url('/') }} class="d-block"> {{ session('logged_in_user')['nama'] }} <br>
+                        <h6>{{ session('logged_in_user')['level'] }}</h6>
                     </a>
                 </div>
 
@@ -43,12 +43,6 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href={{ url('/dashboard_external') }} class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard External</p>
-                    </a>
-                </li> --}}
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-arrow-alt-circle-up"> </i>
@@ -79,26 +73,44 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href={{ url('/personal_tak') }} class="nav-link">
+                    {{-- @if ($loggedInUser['level'] === 'admin') --}}
+                    <a href="{{ url('/personal_task') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Personal Task</p>
+                        <p>Personal Task Admin</p>
+                    </a>
+                    <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Personal Task SHE</p>
+                    </a>
+                    <a href="{{ url('/personal_task_bec') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Personal Task BEC</p>
+                    </a>
+                    <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Personal Task KTT</p>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href={{ url('/login') }} class="nav-link">
-                        <i class="nav-icon fas fa-sign-in-alt"></i>
-                        <p>Login / Logout</p>
-                    </a>
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="nav-link"
+                            style="background: none; border: none; color: white; padding: 0; text-align: left; width: 100%;">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </button>
+                    </form>
                 </li>
-            </ul>
-            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
-                <li class="nav-item">
-                    <a href="{{ url('/about') }}" class="nav-link">
-                        <i class="nav-icon fas fa-info-circle"></i>
-                        <p>About</p>
-                    </a>
-                </li>
-            </ul>
+                {{-- </ul> --}}
+                <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
+                    <li class="nav-item">
+                        <a href="{{ url('/about') }}" class="nav-link">
+                            <i class="nav-icon fas fa-info-circle"></i>
+                            <p>About</p>
+                        </a>
+                    </li>
+                </ul>
         </nav>
     </div>
 </aside>

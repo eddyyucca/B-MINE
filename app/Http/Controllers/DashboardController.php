@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\DashboardModel;
 use App\Models\DataReqModel;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
-{
+class DashboardController extends Controller {
     public function index()
-    {
+    {  
+        $loggedInUser = Session::get('logged_in_user');
+        $userName = $loggedInUser['nama'] ?? 'Guest';
+        $userLevel = $loggedInUser['level'] ?? 'User';
+
         $minepermit = DashboardModel::countAccess1();
         $simper = DashboardModel::countAccess2();
         $sheprosess = DataReqModel::where('validasi_in', 1)->count();
@@ -20,9 +27,7 @@ class DashboardController extends Controller
         $minepermit_data = DataReqModel::where('status', 1)->count();
         $simper_data = DataReqModel::where('status', 2)->count();
         $totaloutstanding = $sheprosess + $pjoprosess + $becprosess + $kttprosess;
-        // $userData = Session::get('logged_in_user');
         return view('dashboard.dashboard', compact('minepermit', 'simper', 'sheprosess', 'pjoprosess', 'becprosess', 'kttprosess', 'totaloutstanding', 'simper_data', 'minepermit_data'));
-
     }
     public function dashboard_external()
     {

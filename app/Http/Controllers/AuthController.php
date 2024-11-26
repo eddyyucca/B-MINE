@@ -46,11 +46,9 @@ class AuthController extends Controller {
                 $request->session()->regenerate();
 
                 // Arahkan pengguna sesuai dengan level akun
-                if ($level === 'admin') {
+                if ($level == true) {
                     return redirect('/dashboard')->with('success', 'Login berhasil sebagai Admin');
-                } elseif ($level === 'user') {
-                    return redirect('/dashboard')->with('success', 'Login berhasil sebagai User');
-                } else {
+                } else{
                     return redirect()->back()->with('error', 'Tidak ada level akun yang cocok.');
                 }
             } else {

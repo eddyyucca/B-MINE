@@ -7,17 +7,25 @@ use App\Models\UnitModel;
 use App\Models\DataReqModel;
 use App\Models\UnitUser;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Session;
 class RequestController extends Controller {
+         protected $loggedInUser;
+
+    public function __construct() {
+        // Ambil data pengguna dari session
+        $this->loggedInUser = Session::get('logged_in_user');
+    }
     public function index() {
-        return view('request.request');
+        $loggedInUser = $this->loggedInUser;
+        return view('request.request' ,compact('loggedInUser'));
     }
 
     public function not_found() {
-        return view('request.not_found');
+        return view('request.not_found',compact('loggedInUser'));
     }
 
     public function get_data_nik(Request $request) {
+         $loggedInUser = $this->loggedInUser;
         // Tangkap data yang dikirim dari form
         $nik=$request->input('nik');
 
@@ -78,7 +86,7 @@ public function insert_request(Request $request)
     //     'drivers_license' => 'nullable|mimes:pdf,jpg,png|max:15360',
     //     'attachment' => 'nullable|mimes:pdf,jpg,png|max:15360',
     // ]);
-
+ $loggedInUser = $this->loggedInUser;
     // Generate kode unik
     $code = 'BUMA-' . date('Ymdhis') . '-' . Str::random(6);
 
@@ -178,6 +186,7 @@ if ($license_type == "2") {
 
 
     public function karyawanfolder() {
+         $loggedInUser = $this->loggedInUser;
         // Ambil token API dari file .env
         $token=env('BMINE_API_TOKEN');
 
@@ -217,7 +226,7 @@ if ($license_type == "2") {
         $employees=DataReqModel::all();
 
         // Mengirimkan data karyawan ke view
-        return view('request.validasi', compact('employees'));
+        return view('request.validasi', compact('employees', 'loggedInUser'));
     }
 
 

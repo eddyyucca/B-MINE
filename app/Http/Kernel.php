@@ -16,7 +16,6 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // Middleware untuk menangani trusted proxies
         \App\Http\Middleware\TrustProxies::class,
-        // Middleware untuk menangani laravel maintenance mode
         \Illuminate\Http\Middleware\HandlePrecognitiveRequests::class,
         \Fruitcake\Cors\HandleCors::class, // Untuk mengizinkan CORS
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class, // Untuk maintenance mode
@@ -32,6 +31,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            \App\Http\Middleware\EnsureUserIsLoggedIn::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
           // Middleware lainnya
+        'ensureUserIsLoggedIn' => \App\Http\Middleware\EnsureUserIsLoggedIn::class,
         'auth.user' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
