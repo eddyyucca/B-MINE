@@ -73,25 +73,38 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    {{-- @if ($loggedInUser['level'] === 'admin') --}}
-                    <a href="{{ url('/personal_task') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Personal Task Admin</p>
-                    </a>
-                    <a href="{{ url('/personal_task_she') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Personal Task SHE</p>
-                    </a>
-                    <a href="{{ url('/personal_task_bec') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Personal Task BEC</p>
-                    </a>
-                    <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-tie"></i>
-                        <p>Personal Task KTT</p>
-                    </a>
+                    @if (session('logged_in_user')['level'] === 'admin')
+                        <a href="{{ url('/personal_task') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task Admin</p>
+                        </a>
+                    @elseif (session('logged_in_user')['level'] === 'admin_section')
+                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task Section</p>
+                        </a>
+                    @elseif (session('logged_in_user')['level'] === 'she')
+                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task SHE</p>
+                        </a>
+                    @elseif (session('logged_in_user')['level'] === 'pjo')
+                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task PJO</p>
+                        </a>
+                    @elseif (session('logged_in_user')['level'] === 'bec')
+                        <a href="{{ url('/personal_task_bec') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task BEC</p>
+                        </a>
+                    @elseif (session('logged_in_user')['level'] === 'ktt')
+                        <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user-tie"></i>
+                            <p>Personal Task KTT</p>
+                        </a>
                 </li>
-
+                @endif
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf
@@ -102,15 +115,15 @@
                         </button>
                     </form>
                 </li>
-                {{-- </ul> --}}
-                <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 20px;">
-                    <li class="nav-item">
-                        <a href="{{ url('/about') }}" class="nav-link">
-                            <i class="nav-icon fas fa-info-circle"></i>
-                            <p>About</p>
-                        </a>
-                    </li>
-                </ul>
+            </ul>
+            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 10px;">
+                <li class="nav-item">
+                    <a href="{{ url('/about') }}" class="nav-link">
+                        <i class="nav-icon fas fa-info-circle"></i>
+                        <p>About</p>
+                    </a>
+                </li>
+            </ul>
         </nav>
     </div>
 </aside>
