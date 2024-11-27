@@ -89,7 +89,7 @@
                 <form action="{{ route('auth') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="NIK/Email" name="nik" required>
+                        <input type="text" class="form-control" placeholder="NIK/Email" name="identifier" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
