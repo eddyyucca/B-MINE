@@ -9,23 +9,19 @@ use App\Models\UnitUser;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 class RequestController extends Controller {
-         protected $loggedInUser;
 
-    public function __construct() {
-        // Ambil data pengguna dari session
-        $this->loggedInUser = Session::get('logged_in_user');
-    }
     public function index() {
-        $loggedInUser = $this->loggedInUser;
-        return view('request.request' ,compact('loggedInUser'));
+        $name_page  = "B'Mine - Request";
+        return view('request.request' ,compact('name_page'));
     }
 
     public function not_found() {
-        return view('request.not_found',compact('loggedInUser'));
+        $name_page  = "B'Mine - Date Employee";
+        return view('request.not_found',compact('name_page'));
     }
 
     public function get_data_nik(Request $request) {
-         $loggedInUser = $this->loggedInUser;
+        $name_page  = "B'Mine - Date Employee";
         // Tangkap data yang dikirim dari form
         $nik=$request->input('nik');
 
@@ -55,7 +51,7 @@ class RequestController extends Controller {
                 $licenses=UnitModel::all(); // Mengambil semua data dari tabel units
                 // Kirimkan data ke view
                 return view('request.get_data', [ 'data_karyawan'=> $data,
-                    'licenses'=> $licenses]);
+                    'licenses'=> $licenses],compact('name_page'));
             }
 
             else {

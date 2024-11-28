@@ -14,8 +14,7 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center">
-                    <a href={{ url('/') }} class="d-block"> {{ session('logged_in_user')['nama'] }} <br>
-                        <h6>{{ session('logged_in_user')['level'] }}</h6>
+                    <a href={{ url('/') }} class="d-block"><b>{{ session('logged_in_user')['nama'] }}</b>
                     </a>
                 </div>
 
@@ -45,7 +44,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-arrow-alt-circle-up"> </i>
+                        <i class="fas fa-arrow-alt-circle-up"></i>
                         <p>
                             Admin Task
                             <i class="right fas fa-angle-left"></i>
@@ -105,23 +104,30 @@
                         </a>
                 </li>
                 @endif
+
+
                 <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="nav-link"
-                            style="background: none; border: none; color: white; padding: 0; text-align: left; width: 100%;">
-                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                            <p>Logout</p>
-                        </button>
-                    </form>
+                    <a href={{ url('/comingsoon') }} class="nav-link">
+                        <i class="fas fa-cogs"></i>
+                        <p>Setting</p>
+                    </a>
                 </li>
-            </ul>
-            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 10px;">
                 <li class="nav-item">
                     <a href="{{ url('/about') }}" class="nav-link">
                         <i class="nav-icon fas fa-info-circle"></i>
                         <p>About</p>
                     </a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 10px;">
+                <li class="nav-item">
+                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="nav-link">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </nav>

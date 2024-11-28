@@ -5,48 +5,36 @@ use App\Models\DataReqModel;
 use Illuminate\Support\Facades\Session;
 
 class PersonalTaskController extends Controller {
-        protected $loggedInUser;
+        protected $name_page;
 
     public function __construct() {
         // Ambil data pengguna dari session
-        $this->loggedInUser = Session::get('logged_in_user');
+        $this->name_page = Session::get('logged_in_user');
     }
     public function index() {
-        if (!$this->loggedInUser) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-    $loggedInUser = $this->loggedInUser;
+    $name_page = "B'Mine - Personal Task";
         // Ambil data hanya yang memiliki validasi_in = 1
     $dataReqs = DataReqModel::where('status', 1)->get();
-        return view('personal_task.data_req_view', compact('dataReqs','loggedInUser'));
+        return view('personal_task.data_req_view', compact('dataReqs','name_page'));
     }
 
     public function personal_task_she() {
-        if (!$this->loggedInUser) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-    $loggedInUser = $this->loggedInUser;
-        // Ambil data hanya yang memiliki status = 1
+        $name_page  = "B'Mine - Dashboard";
+          // Ambil data hanya yang memiliki status = 1
     $dataReqs = DataReqModel::where('validasi_in', 2)->get();
-        return view('personal_task.data_req_view', compact('dataReqs','loggedInUser'));
+        return view('personal_task.data_req_view', compact('dataReqs','name_page'));
     }
     public function personal_task_bec() {
-        if (!$this->loggedInUser) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-    $loggedInUser = $this->loggedInUser;
-        // Ambil data hanya yang memiliki status = 1
+        $name_page  = "B'Mine - Dashboard";
+          // Ambil data hanya yang memiliki status = 1
     $dataReqs = DataReqModel::where('validasi_in', 3)->get();
-        return view('personal_task.data_req_view', compact('dataReqs','loggedInUser'));
+        return view('personal_task.data_req_view', compact('dataReqs','name_page'));
     }
     public function personal_task_ktt() {
-        if (!$this->loggedInUser) {
-            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-    $loggedInUser = $this->loggedInUser;
-        // Ambil data hanya yang memiliki status = 1
+        $name_page  = "B'Mine - Dashboard";
+          // Ambil data hanya yang memiliki status = 1
     $dataReqs = DataReqModel::where('validasi_in', 5)->get();
-        return view('personal_task.data_req_view', compact('dataReqs','loggedInUser'));
+        return view('personal_task.data_req_view', compact('dataReqs','name_page'));
     }
 
     public function viewData($kode) {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>{{ $name_page }}</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- DataTables -->
@@ -87,20 +87,6 @@
 
         <!-- Sidebar -->
         @include('layouts.sidebar')
-
-        {{-- @if ($level == 'admin')
-            @include('layouts.sidebar')
-        @elseif ($level == 'admin_section')
-            @include('layouts.sidebar')
-        @elseif ($level == 'she')
-            @include('layouts.sidebar')
-        @elseif ($level == 'pjo')
-            @include('layouts.sidebar')
-        @elseif ($level == 'bec')
-            @include('layouts.sidebar')
-        @elseif ($level == 'ktt')
-            @include('layouts.sidebar')
-        @endif --}}
         <!-- Content Wrapper -->
         <div class="content-wrapper">
             @yield('content')

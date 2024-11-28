@@ -9,11 +9,9 @@ use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\PersonalTaskController;
 use App\Http\Middleware\EnsureUserIsLoggedIn;
 
-// dashboard
-Route::get('/', [AuthController::class, 'login'])->name('login');
-
 // Tambahkan middleware ke grup rute
 Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
     Route::get('/personal_task', [PersonalTaskController::class, 'index'])->name('personal_task');

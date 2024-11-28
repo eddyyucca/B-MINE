@@ -42,11 +42,11 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>22</h3>
-                                    <p>Total Pengajuan</p>
+                                    <h3>{{ $simper_data }}</h3>
+                                    <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="far fa-calendar-check"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -60,14 +60,12 @@
                                     <p>Total Outstanding</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-clock"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-
-
                         <div class="col-sm-12">
                             <h1 class="m-2"><i class="fas fa-chart-line"></i> <b>Mine Permit</b>
                             </h1>
@@ -76,11 +74,11 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>22</h3>
-                                    <p>Pengajuan Total</p>
+                                    <h3>{{ $minepermit_data }}</h3>
+                                    <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="far fa-calendar-check"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -94,23 +92,22 @@
                                     <p>Total Outstanding</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-clock"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
 
-
                         <div class="col-sm-12">
-                            <h1 class="m-2"><i class="fas fa-chart-line"></i> <b>Total Outstanding</b>
+                            <h1 class="m-2"><i class="fas fa-chart-line"></i> <b>Outstanding Process</b>
                             </h1>
                         </div><!-- /.col -->
                         <div class="col-md-4">
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $totaloutstanding }}</h3>
                                     <p>Total Outstanding</p>
                                 </div>
                                 <div class="icon">
@@ -124,8 +121,8 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
-                                    <p>BEC Proses</p>
+                                    <h3>{{ $becprosess }}</h3>
+                                    <p>BEC Prosess</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-chart-bar"></i>
@@ -138,7 +135,7 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>22</h3>
+                                    <h3>{{ $kttprosess }}</h3>
                                     <p>KTT Prosess</p>
                                 </div>
                                 <div class="icon">
@@ -178,63 +175,9 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>NIK</th>
-                                        <th>Nama</th>
-                                        <th>Perusahaan</th>
-                                        <th>Jabatan</th>
-                                        <th>Section</th>
-                                        <th class="no-export">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1234567890</td>
-                                        <td>Ahmad Fauzi</td>
-                                        <td>Buma</td>
-                                        <td>Manager</td>
-                                        <td>Finance</td>
-                                        <td align="center" class="no-export">
-                                            <button id="openPdfButton" class="btn btn-primary"><i
-                                                    class="far fa-eye"></i></button>
-                                            <a href="" class="btn btn-success"> <i class="fas fa-check"></i></a>
-                                            <a href="" class="btn btn-danger"> <i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>9876543210</td>
-                                        <td>Siti Aisyah</td>
-                                        <td>Buma</td>
-                                        <td>Supervisor</td>
-                                        <td>HRD</td>
-                                        <td align="center" class="no-export">
-                                            <button id="openPdfButton" class="btn btn-primary"><i
-                                                    class="far fa-eye"></i></button>
-                                            <a href="" class="btn btn-success"> <i class="fas fa-check"></i></a>
-                                            <a href="" class="btn btn-danger"> <i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>5678901234</td>
-                                        <td>Budi Santoso</td>
-                                        <td>PT. Sukses Selalu</td>
-                                        <td>Staff</td>
-                                        <td>IT</td>
-                                        <td align="center" class="no-export">
-                                            <button id="openPdfButton" class="btn btn-primary"><i
-                                                    class="far fa-eye"></i></button>
-                                            <a href="" class="btn btn-success"> <i class="fas fa-check"></i></a>
-                                            <a href="" class="btn btn-danger"> <i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="chart">
+                                <canvas id="simperMinePermitChart" width="auto" height="auto"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -245,16 +188,66 @@
 
 @section('scripts')
     <script>
-        document.getElementById('openPdfButton').addEventListener('click', function() {
-            var pdfUrl = '{{ asset('storage/data/view_data.pdf') }}'; // Path ke PDF yang akan dibuka
-            window.open(pdfUrl, '_blank'); // Membuka di tab baru
-        });
-    </script>
-    <script>
         //--------------
-        //- DONAT CHART -
+        //- AREA CHART -
         //--------------
 
+        // Get context with jQuery - using jQuery's .get() method.
+        var ctx = document.getElementById('simperMinePermitChart').getContext('2d');
+
+        var simperMinePermitChart = new Chart(ctx, {
+            type: 'line', // Menggunakan line chart untuk menampilkan trend
+            data: {
+                labels: [
+                    'January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ], // Label bulan dalam setahun
+                datasets: [{
+                        label: 'Pengajuan SIMPER', // Label untuk SIMPER
+                        data: [70, 26, 33, 32, 99, 45, 65, 9, 87, 33, 54, 66,
+                            90
+                        ], // Data pengajuan SIMPER bulanan
+                        borderColor: '#3498db', // Warna biru untuk SIMPER
+                        fill: false, // Garis tanpa fill
+                        tension: 0.1 // Smooth curve di antara titik
+                    },
+                    {
+                        label: 'Pengajuan Mine Permit', // Label untuk Mine Permit
+                        data: [32, 44, 55, 33, 43, 54, 65, 22, 22, 33, 44,
+                            5
+                        ], // Data pengajuan Mine Permit bulanan
+                        borderColor: '#00a65a', // Warna hijau untuk Mine Permit
+                        fill: true, // Garis tanpa fill
+                        tension: 0.1 // Smooth curve di antara titik
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { // Konfigurasi untuk sumbu X (bulan)
+                        title: {
+                            display: true,
+                            text: 'Bulan' // Label sumbu X
+                        }
+                    },
+                    y: { // Konfigurasi untuk sumbu Y (jumlah pengajuan)
+                        beginAtZero: true, // Memulai sumbu Y dari nol
+                        title: {
+                            display: true,
+                            text: 'Jumlah Pengajuan' // Label sumbu Y
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true, // Tampilkan label legend
+                    }
+                }
+            }
+        });
+
+        // donat
         var donutChartCanvas = $('#myDonutChart').get(0).getContext('2d')
         var donutData = {
             labels: [
@@ -262,7 +255,9 @@
                 'Mine Permit',
             ],
             datasets: [{
-                data: [200, 200], // Ganti dengan data SIMPER dan Mine Permit Anda
+                data: [{{ $simper }},
+                    {{ $minepermit }}
+                ], // Ganti dengan data SIMPER dan Mine Permit Anda
                 backgroundColor: ['#3498db', '#00a65a'], // Warna untuk SIMPER dan Mine Permit
             }]
         }
