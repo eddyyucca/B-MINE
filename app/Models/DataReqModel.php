@@ -17,6 +17,7 @@ class DataReqModel extends Model
         'nama', 
         'jab', 
         'dept', 
+        'date_req', 
         'foto_path', 
         'medical_path', 
         'drivers_license_path', 

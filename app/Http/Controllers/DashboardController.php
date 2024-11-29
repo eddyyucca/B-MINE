@@ -43,4 +43,8 @@ class DashboardController extends Controller {
          $name_page  = "B'Mine - Dashboard";
         return view('dashboard.about', compact('name_page'));
     }
+      public function reset_password(Request $request) {
+        $name_page  = "B'Mine - Dashboard";
+        return view('setting.reset_password', compact('name_page'));
+    }
 }

@@ -42,27 +42,30 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                @if (session('logged_in_user')['level'] === 'bec' || session('logged_in_user')['level'] === 'ktt')
+                @else
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-arrow-alt-circle-up"></i>
+                            <p>
+                                Admin Task
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('/request') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Request</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-arrow-alt-circle-up"></i>
-                        <p>
-                            Admin Task
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('/request') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Request</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href={{ url('/comingsoon') }} class="nav-link">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>Admin Task</p>
+                    <a href={{ url('/history') }} class="nav-link">
+                        <i class="fas fa-undo-alt"></i>
+                        <p>History</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -107,7 +110,7 @@
 
 
                 <li class="nav-item">
-                    <a href={{ url('/comingsoon') }} class="nav-link">
+                    <a href={{ url('/reset_password') }} class="nav-link">
                         <i class="fas fa-cogs"></i>
                         <p>Setting</p>
                     </a>

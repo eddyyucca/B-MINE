@@ -91,6 +91,7 @@ public function insert_request(Request $request)
     $nama = $request->input('nama');
     $license_type = $request->input('license_type');
     $jabatan = $request->input('jabatan');
+    $date_req = date('Y-m-d');
     $departement = $request->input('departement');
     $sio = $request->input('sio');
     $permissions = $request->input('permissions', []);
