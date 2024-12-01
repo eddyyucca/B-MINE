@@ -17,15 +17,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/about', [DashboardController::class, 'about'])->name('about');
     Route::get('/personal_task', [PersonalTaskController::class, 'index'])->name('personal_task');
+// });
 
-// Auth
-Route::get('/login', [AuthController::class,'login'])->name('login');
-Route::get('/logout', [AuthController::class,'logout'])->name('logout');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/auth', [AuthController::class,'auth'])->name('auth');
-Route::get('/auth', function () {
-    return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
-});
 // setting
 Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');
 
@@ -44,7 +37,11 @@ Route::get('/comingsoon', function () {
      $name_page  = "B'Mine - Dashboard";
     return view('comingsoon.comingsoon', compact('name_page'));
 });
-
+Route::get('/idcard', function () {
+     $name_page  = "B'Mine - Dashboard";
+    return view('layouts.idcard', compact('name_page'));
+});
+Route::get('karyawan/{id}/idcard-pdf', [PersonalTaskController::class, 'generateIdCard']);
 // personal task
 // Route::get('/personal_task', [PersonalTaskController::class, 'index'])->name('personal_tak');
 Route::get('/personal_task_she', [PersonalTaskController::class, 'personal_task_she'])->name('personal_task_she');
@@ -63,3 +60,12 @@ Route::get('/approve_data_ktt/{kode}', [PersonalTaskController::class, 'approveD
     Route::get('/karyawanfolder', [RequestController::class,'karyawanfolder'])->name('karyawanfolder');
 
     });
+
+    // Auth
+Route::get('/login', [AuthController::class,'login'])->name('login');
+Route::get('/logout', [AuthController::class,'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/auth', [AuthController::class,'auth'])->name('auth');
+// Route::get('/auth', function () {
+//     return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+

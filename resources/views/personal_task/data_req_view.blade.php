@@ -1,5 +1,11 @@
 @extends('layouts.main')
-
+<script>
+    function openPdf(nik) {
+        const url = '{{ url('karyawan') }}/' + nik + '/idcard-pdf';
+        const popup = window.open(url, 'ID Card', 'width=600,height=400'); // Buka popup
+        popup.focus(); // Fokus pada popup
+    }
+</script>
 
 <style>
     .modal-body {
@@ -149,18 +155,7 @@
                                                     data-access="{{ $dataReq->access }}">
                                                     Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                 </button>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('approveDataSHE', ['kode' => $dataReq->kode]) }}">Approve
-                                                    Data
-                                                    SHE</a>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('approveDataBEC', ['kode' => $dataReq->kode]) }}">Approve
-                                                    Data
-                                                    BEC</a>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('approveDataKTT', ['kode' => $dataReq->kode]) }}">Approve
-                                                    Data
-                                                    KTT</a>
+                                                <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button>
                                             </td>
                                         </tr>
                                     @endforeach

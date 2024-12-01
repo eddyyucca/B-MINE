@@ -153,6 +153,7 @@ $permissions = $request->input('permissions', []); // Ambil data permissions
         'validasi_in' => $validasi_in,
         'status' => "1",
         'sio_status' => $sio,
+        'date_req' => date('Y-m-d'),
         'access' => json_encode($permissionsArray),
     ]);
 

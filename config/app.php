@@ -122,8 +122,12 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+// 'providers' => [
+//     // Provider lain...
+//     // Barryvdh\DomPDF\ServiceProvider::class, // Hapus atau komentari ini
+// ],
     'aliases' => [
+    'PDF' => Barryvdh\DomPDF\Facade::class,
     'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
     'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
