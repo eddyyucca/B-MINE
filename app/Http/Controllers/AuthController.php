@@ -20,7 +20,6 @@ class AuthController extends Controller {
         'identifier' => 'required', // Bisa NIK atau email
         'password' => 'required',
     ]);
-
     // Ambil token API dari file .env
     $token = env('BMINE_API_TOKEN');
 
@@ -32,7 +31,7 @@ class AuthController extends Controller {
         // Jika identifier adalah NIK, gunakan API eksternal
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->get('https://rest-api-peoplesync.bmine.id/karyawan/' . $request->identifier);
+        ])->get('https://restapi.bmineapp.com/public/karyawan/' . $request->identifier);
 
         if ($response->successful()) {
             $user = $response->json();

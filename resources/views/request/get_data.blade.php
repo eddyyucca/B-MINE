@@ -154,14 +154,29 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="attachment">Attachment</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="attachment"
+                                                        name="attachment" onchange="file_a()">
+                                                    <label class="custom-file-label" for="attachment">Choose
+                                                        File
+                                                        Attachment</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Upload</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         {{-- License type --}}
                                         <div class="form-group">
                                             <label for="license_type">Choose Simper/MinerPermit:</label>
                                             <select id="license_type" name="license_type" class="form-control"
                                                 onchange="toggleFormElements()">
                                                 <option value="">Select...</option>
-                                                <option value="2">Simper & Mine Permit</option>
                                                 <option value="1">Mine Permit</option>
+                                                <option value="2">Simper & Mine Permit</option>
                                             </select>
                                         </div>
                                         {{-- Conditional Simper and Mine Permit --}}
@@ -183,32 +198,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="attachment">Attachment</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="attachment"
-                                                            name="attachment" onchange="file_a()">
-                                                        <label class="custom-file-label" for="attachment">Choose
-                                                            File
-                                                            Attachment</label>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
                                                 <label for="sio">SIO:</label>
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="checkbox" id="sio" name="sio" value="yes"
-                                                        onchange="toggleSIOInput()">
-                                                    <label for="sio">Yes</label>
-                                                </div>
-                                                <div class="icheck-primary d-inline">
-                                                    <input type="checkbox" id="sio_no" name="sio" value="no"
-                                                        onchange="toggleSIOInput()">
-                                                    <label for="sio_no">No</label>
-                                                </div>
+                                                <select id="sio" name="sio" class="form-control"
+                                                    onchange="toggleSIOInput()">
+                                                    <option value="">Pilih...</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
                                             </div>
                                             <div id="sio-input" style="display: none;">
                                                 <div class="form-group">
@@ -422,11 +418,10 @@
         }
 
         function toggleSIOInput() {
-            const sioYes = document.getElementById('sio').checked;
-            const sioNo = document.getElementById('sio_no').checked;
+            const sioSelect = document.getElementById('sio');
             const sioInput = document.getElementById('sio-input');
 
-            if (sioYes) {
+            if (sioSelect.value === 'yes') {
                 sioInput.style.display = 'block';
             } else {
                 sioInput.style.display = 'none';
@@ -436,7 +431,7 @@
         function fileSIO() {
             const fileInput = document.getElementById('sio_file');
             const fileName = fileInput.files[0] ? fileInput.files[0].name : '';
-            const label = fileInput.nextElementSibling;
+            const label = document.querySelector(`label[for='${fileInput.id}']`);
 
             label.innerHTML = fileName ? fileName : 'Choose File SIO';
         }

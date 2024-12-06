@@ -46,7 +46,7 @@
                                     <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -60,7 +60,7 @@
                                     <p>1 Months to Expired</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-calendar-week"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -74,7 +74,7 @@
                                     <p>2 Months to Expired</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -93,7 +93,7 @@
                                     <p>Total Submission</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -107,7 +107,7 @@
                                     <p>1 Months to Expired</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-calendar-week"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -121,7 +121,7 @@
                                     <p>2 Months to Expired</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -140,7 +140,7 @@
                                     <p>Total Outstanding</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -154,7 +154,7 @@
                                     <p>SHE Prosess</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -168,7 +168,7 @@
                                     <p>PJO Prosess</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -182,7 +182,7 @@
                                     <p>BEC Prosess</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -196,7 +196,7 @@
                                     <p>KTT Prosess</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-chart-bar"></i>
+                                    <i class="fas fa-share-square"></i>
                                 </div>
                                 <a href="" class="small-box-footer">View Data <i
                                         class="fas fa-arrow-circle-right"></i></a>
