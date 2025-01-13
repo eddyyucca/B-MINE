@@ -20,51 +20,59 @@ class RequestController extends Controller {
         return view('request.not_found',compact('name_page'));
     }
 
-    public function get_data_nik(Request $request) {
-        $name_page  = "B'Mine - Date Employee";
-        // Tangkap data yang dikirim dari form
-        $nik=$request->input('nik');
+   public function get_data_nik(Request $request) {
+    $name_page = "B'Mine - Date Employee";
+    // Tangkap data yang dikirim dari form
+    $nik = $request->input('nik');
 
-        // Cek apakah NIK diisi
-        if (empty($nik)) {
-            return redirect()->back()->withErrors(['error'=> 'NIK is required.']);
-        }
-
-        // Ambil token API dari file .env
-        $token=env('BMINE_API_TOKEN');
-
-        try {
-            // Request ke API dengan token
-            $response=Http::withHeaders([ 'Authorization'=> 'Bearer '. $token,
-                    ])->get('https://rest-api-peoplesync.bmine.id/karyawan/'. $nik);
-
-            // Periksa apakah response berhasil (status code 200)
-            if ($response->successful()) {
-                $data=$response->json();
-
-                // Cek apakah data kosong
-                if (empty($data)) {
-                    return redirect()->back()->withErrors(['error'=> 'No data found for the provided NIK.']);
-                }
-
-                // Ambil data units dari model Unit
-                $licenses=UnitModel::all(); // Mengambil semua data dari tabel units
-                // Kirimkan data ke view
-                return view('request.get_data', [ 'data_karyawan'=> $data,
-                    'licenses'=> $licenses],compact('name_page'));
-            }
-
-            else {
-                // Jika response gagal, tampilkan pesan error
-                return redirect()->back()->withErrors(['error'=> 'Failed to fetch data from API.']);
-            }
-        }
-
-        catch (\Exception $e) {
-            // Jika terjadi error saat koneksi ke API
-            return redirect()->back()->withErrors(['error'=> 'An error occurred while fetching data.']);
-        }
+    // Cek apakah NIK diisi
+    if (empty($nik)) {
+        return redirect()->back()->withErrors(['error' => 'NIK is required.']);
     }
+
+    // Ambil token API dari file .env
+    $token = env('BMINE_API_TOKEN');
+
+    try {
+        // Request ke API dengan token menggunakan cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://10.10.17.155/rest_api/karyawan/' . $nik);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $token,
+        ]);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            // Jika terjadi kesalahan pada cURL
+            $error_msg = curl_error($ch);
+            curl_close($ch);
+            return redirect()->back()->withErrors(['error' => 'NIK tidak ditemukan atau API error: ' . $error_msg]);
+        }
+
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+
+        // Periksa apakah response berhasil (status code 200)
+        if (!empty($data)) {
+            // Ambil data units dari model Unit
+            $licenses = UnitModel::all(); // Mengambil semua data dari tabel units
+            // Kirimkan data ke view
+            return view('request.get_data', [
+                'data_karyawan' => $data,
+                'licenses' => $licenses
+            ], compact('name_page'));
+        } else {
+            // Jika data kosong
+            return redirect()->back()->withErrors(['error' => 'No data found for the provided NIK.']);
+        }
+    } catch (\Exception $e) {
+        // Jika terjadi error saat koneksi ke API
+        return redirect()->back()->withErrors(['error' => 'An error occurred while fetching data.']);
+    }
+}
 
 
 public function insert_request(Request $request)

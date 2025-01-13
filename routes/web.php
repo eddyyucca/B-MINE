@@ -65,7 +65,7 @@ Route::get('/approve_data_ktt/{kode}', [PersonalTaskController::class, 'approveD
 Route::get('/login', [AuthController::class,'login'])->name('login');
 Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/auth', [AuthController::class,'auth'])->name('auth');
+Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
 // Route::get('/auth', function () {
 //     return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
 
