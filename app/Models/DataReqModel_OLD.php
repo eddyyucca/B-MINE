@@ -12,21 +12,21 @@ class DataReqModel extends Model
     protected $table = 'data_req';  // Nama tabel di database
 
     protected $fillable = [
-        'nik',
-        'kode',
-        'nama',
-        'jab',
-        'dept',
-        'date_req',
-        'foto_path',
-        'medical_path',
-        'drivers_license_path',
+        'nik', 
+        'kode', 
+        'nama', 
+        'jab', 
+        'dept', 
+        'date_req', 
+        'foto_path', 
+        'medical_path', 
+        'drivers_license_path', 
         'attachment_path',
         'sio_path',
         'validasi_in',
         'sio_status',
         'status',
-        'access' => 'array'
+        'access'
     ];
 
     // Jika tabel tidak memiliki timestamps (created_at, updated_at)

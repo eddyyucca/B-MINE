@@ -32,7 +32,7 @@ class AuthController extends Controller {
         $identifier = $request->identifier;
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'http://10.10.17.155/rest_api/karyawan/' . $identifier);
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:8088/rest_api/karyawan/' . $identifier);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $token,

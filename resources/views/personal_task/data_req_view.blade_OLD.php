@@ -22,26 +22,21 @@
 
     .profile-info {
         text-align: center;
-        padding: 15px;
-        width: 100%;
-    }
-
-    .photo-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin: 10px 0;
+        /* Menyusun teks di tengah */
+        margin-top: 0px;
+        /* Jarak atas untuk menyesuaikan posisi lebih tinggi */
+        /* Atau bisa mengatur padding-top */
     }
 
     .profile-photo {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        /* Atur ukuran foto profil */
+        height: 80px;
+        /* Atur ukuran foto profil */
         border-radius: 5px;
-        object-fit: cover;
-        display: block;
-        margin: 0 auto;
-        border: 2px solid #ddd;
+        /* Sudut tidak lancip */
+        margin-bottom: 10px;
+        /* Jarak antara foto dan teks */
     }
 
     .data-container {
@@ -92,48 +87,6 @@
         /* Tentukan tinggi */
         border: none;
         /* Hapus border default */
-    }
-
-    .pdf-viewer {
-        max-height: 90vh;
-        overflow-y: auto;
-        padding: 20px;
-    }
-
-    .document-section {
-        margin-bottom: 20px;
-    }
-
-    .document-section h5 {
-        margin-bottom: 10px;
-    }
-
-    .document-section.mb-4 {
-        margin-bottom: 5rem !important;
-        /* Menambah jarak antar card */
-    }
-
-    .card {
-        border: 7px solid #d1d3e2;
-        /* Border lebih tebal */
-        box-shadow: 0 1.15rem 2.75rem 0 rgba(58, 59, 69, 0.15);
-        /* Menambah shadow */
-    }
-
-
-    .card-header {
-        border-bottom: 2px solid #d1d3e2;
-        /* Border bawah header lebih tebal */
-        padding: 1rem;
-        /* Padding header lebih besar */
-    }
-
-    .pdf-embed {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin: 0 auto;
-        display: block;
     }
 </style>
 @section('content')
@@ -192,14 +145,14 @@
                                             <td align="center" class="no-export">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" onclick="showPopup(this)"
-                                                    data-photo="{{ $dataReq->foto_path }}"
-                                                    data-medical="{{ $dataReq->medical_path }}"
-                                                    data-license="{{ $dataReq->drivers_license_path }}"
-                                                    data-attachment="{{ $dataReq->attachment_path }}"
-                                                    data-sio="{{ $dataReq->sio_path }}" data-name="{{ $dataReq->nama }}"
-                                                    data-nik="{{ $dataReq->nik }}" data-jabatan="{{ $dataReq->jab }}"
+                                                    data-photo="{{ $dataReq->foto_path ? asset(str_replace('public', 'storage/app/public', $dataReq->foto_path)) : '' }}"
+                                                    data-medical="{{ $dataReq->medical_path ? asset(str_replace('public', 'storage/app/public', $dataReq->medical_path)) : '' }}"
+                                                    data-license="{{ $dataReq->drivers_license_path ? asset(str_replace('public', 'storage/app/public', $dataReq->drivers_license_path)) : '' }}"
+                                                    data-attachment="{{ $dataReq->attachment_path ? asset(str_replace('public', 'storage/app/public', $dataReq->attachment_path)) : '' }}"
+                                                    data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
+                                                    data-jabatan="{{ $dataReq->jab }}"
                                                     data-departement="{{ $dataReq->dept }}"
-                                                    data-access="{{ json_encode($dataReq->access) }}">
+                                                    data-access="{{ $dataReq->access }}">
                                                     Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                 </button>
                                                 <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button>
@@ -229,53 +182,18 @@
                     <!-- Kolom PDF Viewer -->
                     <div class="modal-body">
                         <div class="pdf-viewer">
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Medical Certificate</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment1" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Driver's License</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment2" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Attachment</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment3" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">SIO Attachment</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment4" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
+                            <h5 class="text-center">Medical Certificate</h5>
+                            <iframe id="attachment1" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                            <h5 class="text-center">Driver's License</h5>
+                            <iframe id="attachment2" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                            <h5 class="text-center">Attachment</h5>
+                            <iframe id="attachment3" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
+                            <h5 class="text-center">SIO Attachment</h5>
+                            <iframe id="attachment3" src="" style="width: 70%; height: 500px;"
+                                frameborder="0"></iframe>
                         </div>
                     </div>
                     <!-- Kolom ID Card -->
@@ -283,9 +201,7 @@
                         <div id="idCardFront" class="id-card">
                             <div class="profile-info">
                                 <h6>SIMPER & MINE PERMIT</h6>
-                                <div class="photo-container">
-                                    <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo">
-                                </div>
+                                <img id="profilePhoto" src="" alt="Profile Photo" class="profile-photo">
                                 <h6 id="profileName"></h6>
                                 <p id="profileJabatan"></p>
                             </div>
@@ -296,19 +212,19 @@
                                         style="width: 100%; font-size: 12px; border-collapse: collapse;">
                                         <tr>
                                             <td>CHR BT:</td>
-                                            <td style="text-align: center;"><span id="chrBT1"></span></td>
+                                            <td><span id="chrBT1"></span></td>
                                         </tr>
                                         <tr>
                                             <td>CHR FSB:</td>
-                                            <td style="text-align: center;"><span id="chrFSB1"></span></td>
+                                            <td><span id="chrFSB1"></span></td>
                                         </tr>
                                         <tr>
                                             <td>PIT BT:</td>
-                                            <td style="text-align: center;"><span id="pitBT1"></span></td>
+                                            <td><span id="pitBT1"></span></td>
                                         </tr>
                                         <tr>
                                             <td>PIT TA:</td>
-                                            <td style="text-align: center;"><span id="pitTA1"></span></td>
+                                            <td><span id="pitTA1"></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -387,106 +303,75 @@
 
         // Menampilkan modal popup
         function showPopup(button) {
-            $('#popupModal').modal('show');
-
+            $('#popupModal').modal('show'); // Menampilkan modal
+            // Ambil data dari tombol
             const photoPath = button.getAttribute('data-photo');
             const medicalUrl = button.getAttribute('data-medical');
             const licenseUrl = button.getAttribute('data-license');
             const attachmentUrl = button.getAttribute('data-attachment');
-            const sioUrl = button.getAttribute('data-sio');
             const name = button.getAttribute('data-name');
             const nik = button.getAttribute('data-nik');
             const jabatan = button.getAttribute('data-jabatan');
             const departement = button.getAttribute('data-departement');
-            const access = JSON.parse(button.getAttribute('data-access'));
+            const access = button.getAttribute('data-access');
 
-            // Debug log
-            console.log('Full Photo Path:', photoPath);
-            console.log('Full Medical URL:', medicalUrl);
-            console.log('Full License URL:', licenseUrl);
-            console.log('Full Attachment URL:', attachmentUrl);
-            console.log('Full SIO URL:', sioUrl);
+            // Debugging: Log setiap variabel untuk memeriksa nilainya
+            console.log('Photo Path:', photoPath);
+            console.log('Medical URL:', medicalUrl);
+            console.log('License URL:', licenseUrl);
+            console.log('Attachment URL:', attachmentUrl);
+            console.log('Name:', name);
+            console.log('NIK:', nik);
+            console.log('Jabatan:', jabatan);
+            console.log('Departement:', departement);
+            console.log('Access:', access);
 
-            // Set foto profil dengan error handling
-            const profilePhoto = document.getElementById('profilePhoto');
-            if (photoPath) {
-                profilePhoto.onload = function() {
-                    console.log('Photo loaded successfully');
-                    this.style.display = 'block';
-                };
-                profilePhoto.onerror = function() {
-                    console.error('Error loading photo:', photoPath);
-                    this.style.display = 'none';
-                };
-                profilePhoto.src = photoPath;
-            } else {
-                profilePhoto.style.display = 'none';
+            // Set foto profil ID Card
+            document.getElementById('profilePhoto').src = photoPath; // Set foto ke elemen gambar
+
+            // Set nama, NIK, jabatan, dan departemen
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileJabatan').textContent = jabatan;
+            document.getElementById('profileNik').textContent = nik;
+
+            // Set PDF URLs di iframe jika diperlukan
+            if (medicalUrl) {
+                document.getElementById('attachment1').src = medicalUrl;
             }
 
-            // Set informasi
-            document.getElementById('profileName').textContent = name || '';
-            document.getElementById('profileJabatan').textContent = jabatan || '';
-
-            // Set PDFs dengan error handling
-            function setPDF(elementId, url) {
-                const element = document.getElementById(elementId);
-                const container = element.parentElement;
-
-                if (url) {
-                    // Cek file terlebih dahulu
-                    fetch(url)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('File not found');
-                            }
-                            // Jika file ada, tampilkan PDF
-                            element.style.display = 'block';
-                            element.src = url;
-
-                            // Hapus pesan error jika ada
-                            const existingMessage = container.querySelector('.no-file-message');
-                            if (existingMessage) {
-                                existingMessage.remove();
-                            }
-                        })
-                        .catch(error => {
-                            // Jika file tidak ada atau error, tampilkan pesan
-                            element.style.display = 'none';
-                            let message = container.querySelector('.no-file-message');
-                            if (!message) {
-                                message = document.createElement('div');
-                                message.className = 'no-file-message';
-                                message.innerHTML =
-                                    '<p class="text-danger text-center fw-bold" style="margin: 20px 0; font-size: 16px;">File kosong Harap Di Masukan</p>';
-                                container.appendChild(message);
-                            }
-                        });
-                } else {
-                    // Jika url kosong, tampilkan pesan
-                    element.style.display = 'none';
-                    let message = container.querySelector('.no-file-message');
-                    if (!message) {
-                        message = document.createElement('div');
-                        message.className = 'no-file-message';
-                        message.innerHTML =
-                            '<p class="text-danger text-center fw-bold" style="margin: 20px 0; font-size: 16px;">File Kosong Harap Di Masukan </p>';
-                        container.appendChild(message);
-                    }
-                }
+            if (licenseUrl) {
+                document.getElementById('attachment2').src = licenseUrl;
             }
 
-            setPDF('attachment1', medicalUrl);
-            setPDF('attachment2', licenseUrl);
-            setPDF('attachment3', attachmentUrl);
-            setPDF('attachment4', sioUrl);
-
-            // Set nilai access
-            document.getElementById('chrBT1').textContent = access['CHR BT'] || 'no';
-            document.getElementById('chrFSB1').textContent = access['CHR FSB'] || 'no';
-            document.getElementById('pitBT1').textContent = access['PIT BT'] || 'no';
-            document.getElementById('pitTA1').textContent = access['PIT TA'] || 'no';
+            if (attachmentUrl) {
+                document.getElementById('attachment3').src = attachmentUrl;
+            }
         }
 
+        // access
+        // Data JSON untuk dua data box
+        const dataA = [access]; // Membuat array yang berisi nilai access
+
+        console.log(dataA); // Menampilkan array dataA
+        const dataB = {
+            "code": "BUMA-20241123-X6LYyg" // Data code
+        };
+        $('#qrcode').qrcode({
+            text: dataB.code, // Data yang akan digunakan untuk QR Code
+            width: 100, // Lebar QR Code
+            height: 100 // Tinggi QR Code
+        });
+        // Menempatkan data ke dalam elemen HTML untuk Data Box A
+        document.getElementById('chrBT1').textContent = dataA["CHR BT"];
+        document.getElementById('chrFSB1').textContent = dataA["CHR FSB"];
+        document.getElementById('pitBT1').textContent = dataA["PIT BT"];
+        document.getElementById('pitTA1').textContent = dataA["PIT TA"];
+
+        // Menempatkan data ke dalam elemen HTML untuk Data Box B
+        document.getElementById('chrBT2').textContent = dataB["CHR BT"];
+        document.getElementById('chrFSB2').textContent = dataB["CHR FSB"];
+        document.getElementById('pitBT2').textContent = dataB["PIT BT"];
+        document.getElementById('pitTA2').textContent = dataB["PIT TA"];
         // Fungsi untuk membalik ID Card
         function toggleCard() {
             const front = document.getElementById('idCardFront');

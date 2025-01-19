@@ -36,7 +36,7 @@ class RequestController extends Controller {
     try {
         // Request ke API dengan token menggunakan cURL
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://10.10.17.155/rest_api/karyawan/' . $nik);
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:8088/rest_api/karyawan/' . $nik);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Authorization: Bearer ' . $token,
@@ -110,7 +110,7 @@ public function insert_request(Request $request)
     $attachmentPath = null;
     $validasi_in = "1";
 $permissions = $request->input('permissions', []); // Ambil data permissions
-    
+
     // Inisialisasi array untuk menyimpan hasil
     $permissionsArray = [
         'CHR BT' => 'no', // Default ke "no"
