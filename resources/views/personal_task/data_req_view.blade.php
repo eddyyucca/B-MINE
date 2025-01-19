@@ -315,6 +315,7 @@
                                 <div id="qrcode"></div> <!-- Tempat untuk menampilkan QR Code -->
                             </div>
                             <div class="container">
+                                <h5>Unit</h5><br>
                                 <table class="table table-bordered table-hover"
                                     style="width: 100%; font-size: 12px; border-collapse: collapse;">
                                     <thead>
