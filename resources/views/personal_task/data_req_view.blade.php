@@ -346,7 +346,7 @@
                         <div class="container">
                             <div class="data-container">
                                 <!-- Tambahkan data attribute ke button untuk kode -->
-                                <h5>Units Kode: <span id="displayKode"></span></h5><br>
+                                <h5>Units</h5><br>
                                 <table class="table table-bordered table-hover"
                                     style="width: 100%; font-size: 12px; border-collapse: collapse;">
                                     <thead>
@@ -491,7 +491,7 @@
             const units = JSON.parse(button.getAttribute('data-units')); // Tambahkan ini
 
             // Update kode display
-            document.getElementById('displayKode').textContent = kode;
+            // document.getElementById('displayKode').textContent = kode;
 
             // Update unit table
             const unitTableBody = document.getElementById('unitTableBody');
