@@ -312,35 +312,6 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div id="qrcode"></div> <!-- Tempat untuk menampilkan QR Code -->
-                            </div>
-                            <div class="container">
-                                <h5>Unit</h5><br>
-                                <table class="table table-bordered table-hover"
-                                    style="width: 100%; font-size: 12px; border-collapse: collapse;">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>UNIT Type</th>
-                                            <th>P</th>
-                                            <th>R</th>
-                                            <th>T</th>
-                                            <th>I</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($dataReqs as $index => $dataReq)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>sasasa {{ $index + 1 }}</td>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $index + 1 }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                                <!-- Tempat untuk menampilkan QR Code -->
                             </div>
                             <div id="qrcode" style="margin-top: 10px;"></div>
                         </div>

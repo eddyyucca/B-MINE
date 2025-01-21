@@ -51,7 +51,6 @@ class AuthController extends Controller {
 
         $user = json_decode($response, true);
     }
-
     if ($user) {
         // Verifikasi password MD5
         if (md5($request->password) === $user['password']) {
