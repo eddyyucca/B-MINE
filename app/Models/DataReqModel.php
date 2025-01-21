@@ -7,28 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 
 class DataReqModel extends Model
 {
-     use HasFactory;
+   use HasFactory;
 
-    protected $table = 'data_req';  // Nama tabel di database
+   protected $table = 'data_req';  // Nama tabel di database
 
-    protected $fillable = [
-        'nik',
-        'kode',
-        'nama',
-        'jab',
-        'dept',
-        'date_req',
-        'foto_path',
-        'medical_path',
-        'drivers_license_path',
-        'attachment_path',
-        'sio_path',
-        'validasi_in',
-        'sio_status',
-        'status',
-        'access' => 'array'
-    ];
+   protected $fillable = [
+       'nik',
+       'kode',
+       'nama',
+       'jab',
+       'dept',
+       'date_req',
+       'foto_path',
+       'medical_path',
+       'drivers_license_path',
+       'attachment_path',
+       'sio_path',
+       'validasi_in',
+       'sio_status',
+       'status',
+       'access'
+   ];
 
-    // Jika tabel tidak memiliki timestamps (created_at, updated_at)
-      public $timestamps = false;
+   protected $casts = [
+       'access' => 'array'
+   ];
+
+   public $timestamps = false;
+
+   public function unitUsers()
+   {
+       return $this->hasMany(UnitUser::class, 'id_uur', 'kode'); // Relasi: kode -> id_uur
+   }
 }

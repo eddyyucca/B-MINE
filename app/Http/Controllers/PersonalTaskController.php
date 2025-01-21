@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DataReqModel;
+use App\Models\UnitModel;
+use App\Models\UnitUser;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use Illuminate\Support\Facades\Log;
 
 class PersonalTaskController extends Controller {
 
-    // Mengelola data dengan parameter untuk validasi_in
-    // Edit controller
     public function personalTask(Request $request, $status = null) {
         $name_page = "B'Mine - Personal Task";
         $query = DataReqModel::query();
@@ -20,7 +21,8 @@ class PersonalTaskController extends Controller {
             $query->where('validasi_in', $status);
         }
 
-        $dataReqs = $query->paginate(10);
+        // Load all relationships
+        $dataReqs = DataReqModel::with(['unitUsers.unitData'])->paginate(10);
 
         foreach ($dataReqs as $req) {
             // Decode access data
@@ -28,6 +30,7 @@ class PersonalTaskController extends Controller {
                 $req->access = json_decode($req->access, true);
             }
 
+            // Set default access jika kosong
             if (!$req->access) {
                 $req->access = [
                     'CHR BT' => 'no',
@@ -37,26 +40,50 @@ class PersonalTaskController extends Controller {
                 ];
             }
 
-            // Set path file dengan format yang benar
-            if ($req->foto_path) {
-                $req->foto_path = url('storage/app/public/fotos/' . basename($req->foto_path));
-            }
+            // Set path file
+            $paths = ['foto_path', 'medical_path', 'drivers_license_path', 'attachment_path'];
+            $folders = [
+                'foto_path' => 'fotos',
+                'medical_path' => 'medical_certificates',
+                'drivers_license_path' => 'drivers_licenses',
+                'attachment_path' => 'attachments'
+            ];
 
-            if ($req->medical_path) {
-                $req->medical_path = url('storage/app/public/medical_certificates/' . basename($req->medical_path));
-            }
-
-            if ($req->drivers_license_path) {
-                $req->drivers_license_path = url('storage/app/public/drivers_licenses/' . basename($req->drivers_license_path));
-            }
-
-            if ($req->attachment_path) {
-                $req->attachment_path = url('storage/app/public/attachments/' . basename($req->attachment_path));
+            foreach ($paths as $path) {
+                if ($req->$path) {
+                    $folder = $folders[$path];
+                    $req->$path = url("storage/app/public/$folder/" . basename($req->$path));
+                }
             }
         }
 
         return view('personal_task.data_req_view', compact('dataReqs', 'name_page'));
     }
+     // Melihat detail data berdasarkan kode unik
+     public function viewData($kode) {
+        \Log::info('Kode yang diterima:', ['kode' => $kode]);
+
+        try {
+            $unitUsers = UnitUser::with('unitData')->where('id_uur', $kode)->get();
+
+            \Log::info('Data unit:', $unitUsers->toArray());
+
+            return response()->json([
+                'success' => true,
+                'units' => $unitUsers
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in viewData:', ['error' => $e->getMessage()]);
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
     // Persetujuan data dengan parameter tipe validasi
     public function approveData($kode, $type) {
         $validasiInMap = [
@@ -66,7 +93,6 @@ class PersonalTaskController extends Controller {
             'ktt' => 5,
         ];
 
-        // Validasi tipe approval
         if (!isset($validasiInMap[$type])) {
             return redirect()->back()->with('error', 'Invalid approval type.');
         }
@@ -82,27 +108,17 @@ class PersonalTaskController extends Controller {
         }
     }
 
-    // Melihat detail data berdasarkan kode unik
-    public function viewData($kode) {
-        try {
-            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-            return view('dataReq.view', compact('dataReq'));
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data not found: ' . $e->getMessage());
-        }
-    }
+
+
 
     // Generate ID Card dalam format PDF
     public function generateIdCard($nik) {
         try {
-            // Mengambil data karyawan berdasarkan NIK
             $karyawan = DataReqModel::where('nik', $nik)->firstOrFail();
 
-            // Persiapan data untuk PDF
             $fotoBase64 = url('storage/app/public/fotos/' . basename($karyawan->foto_path));
             $bg = url('adminlte/idcard/depan.jpg');
 
-            // Generate PDF dengan Blade view
             $pdf = PDF::loadView('layouts.idcard', [
                 'karyawan' => $karyawan,
                 'fotoBase64' => $fotoBase64,
@@ -117,6 +133,6 @@ class PersonalTaskController extends Controller {
 
     // Fungsi default untuk dashboard utama
     public function index() {
-        return $this->personalTask(request(), null); // Menampilkan semua data tanpa filter
+        return $this->personalTask(request(), null);
     }
 }
