@@ -12,11 +12,31 @@ class UnitUser extends Model
     protected $table = 'user_unit';  // Nama tabel di database
 
     protected $fillable = [
-        'unit', 
-        'type_unit', 
-        'id_uur', 
+        'unit',
+        'type_unit',
+        'id_uur',
     ];
 
-    // Jika tabel tidak memiliki timestamps (created_at, updated_at)
-      public $timestamps = false;
+    // Nonaktifkan timestamps
+    public $timestamps = false;
+
+    // Relasi ke model UnitModel (bukan Unit)
+    public function unitData() {
+        // Gunakan UnitModel::class
+        return $this->belongsTo(UnitModel::class, 'unit', 'id_units');
+    }
+
+    // Relasi ke DataReq
+    public function dataReq()
+    {
+        return $this->belongsTo(DataReqModel::class, 'id_uur', 'kode');
+    }
+
+    // Cast type_unit sebagai array
+    protected $casts = [
+        'type_unit' => 'array'
+    ];
+
+    // Primary Key jika berbeda dari 'id'
+    protected $primaryKey = 'id_user_unit';
 }

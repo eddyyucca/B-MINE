@@ -15,7 +15,7 @@
     .pdf-viewer,
     .id-card {
         flex: 1;
-        padding: 10px;
+        /* padding: 10px; */
     }
 
     .id-card {}
@@ -35,8 +35,8 @@
     }
 
     .profile-photo {
-        width: 120px;
-        height: 120px;
+        width: 155px;
+        height: 155px;
         border-radius: 5px;
         object-fit: cover;
         display: block;
@@ -135,6 +135,79 @@
         margin: 0 auto;
         display: block;
     }
+
+    .custom-checkbox {
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 16px;
+        user-select: none;
+    }
+
+    .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .custom-control-label::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    /* Style untuk Accept */
+    #acceptCheck+.custom-control-label::before {
+        border-color: #28a745;
+    }
+
+    #acceptCheck:checked+.custom-control-label::before {
+        background-color: #28a745;
+    }
+
+    /* Style untuk Reject */
+    #rejectCheck+.custom-control-label::before {
+        border-color: #dc3545;
+    }
+
+    #rejectCheck:checked+.custom-control-label::before {
+        background-color: #dc3545;
+    }
+
+    /* Checkmark */
+    /* .custom-control-label::after {
+        content: '';
+        position: absolute;
+        left: 9px;
+        top: 5px;
+        width: 7px;
+        height: 13px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+        display: none;
+    } */
+
+    .custom-checkbox input:checked+.custom-control-label::after {
+        display: block;
+    }
+
+    /* Label colors */
+    #acceptCheck:checked+.custom-control-label {
+        color: #28a745;
+    }
+
+    #rejectCheck:checked+.custom-control-label {
+        color: #dc3545;
+    }
 </style>
 @section('content')
     {{-- content --}}
@@ -199,10 +272,12 @@
                                                     data-sio="{{ $dataReq->sio_path }}" data-name="{{ $dataReq->nama }}"
                                                     data-nik="{{ $dataReq->nik }}" data-jabatan="{{ $dataReq->jab }}"
                                                     data-departement="{{ $dataReq->dept }}"
+                                                    data-kode="{{ $dataReq->kode }}"
+                                                    data-units="{{ json_encode($dataReq->unitUsers) }}"
                                                     data-access="{{ json_encode($dataReq->access) }}">
                                                     Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button>
+                                                {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -225,60 +300,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <!-- Kolom PDF Viewer -->
-                    <div class="modal-body">
-                        <div class="pdf-viewer">
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Medical Certificate</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment1" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Driver's License</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment2" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">Attachment</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment3" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="document-section mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="text-center mb-0">SIO Attachment</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <embed id="attachment4" src="" type="application/pdf"
-                                            style="width: 100%; height: 1000px;" class="pdf-embed">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Kolom ID Card -->
+                <!-- Kolom ID Card -->
+                <div style="display: flex; gap: 5px;">
+                    <!-- Profile, Access, dan Unit Card -->
                     <div class="id-card text-center" style="max-width: 242px;">
                         <div id="idCardFront" class="id-card">
                             <div class="profile-info">
@@ -289,41 +313,134 @@
                                 <h6 id="profileName"></h6>
                                 <p id="profileJabatan"></p>
                             </div>
-                            <div class="container">
-                                <div class="data-container">
-                                    <h5>Access</h5><br>
-                                    <table class="table table-bordered table-hover"
-                                        style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                        </div>
+                    </div>
+
+                    <div class="id-card text-center mt-3" style="max-width: 242px;">
+                        <div class="container">
+                            <div class="data-container">
+                                <h5>Access</h5><br>
+                                <table class="table table-bordered table-hover"
+                                    style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                    <tr>
+                                        <td>CHR BT:</td>
+                                        <td style="text-align: center;"><span id="chrBT1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CHR FSB:</td>
+                                        <td style="text-align: center;"><span id="chrFSB1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIT BT:</td>
+                                        <td style="text-align: center;"><span id="pitBT1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIT TA:</td>
+                                        <td style="text-align: center;"><span id="pitTA1"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="id-card text-center mt-3" style="max-width: 600px;">
+                        <div class="container">
+                            <div class="data-container">
+                                <!-- Tambahkan data attribute ke button untuk kode -->
+                                <h5>Units</h5><br>
+                                <table class="table table-bordered table-hover"
+                                    style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                    <thead>
                                         <tr>
-                                            <td>CHR BT:</td>
-                                            <td style="text-align: center;"><span id="chrBT1"></span></td>
+                                            <th class="text-center" style="width: 5%">No</th>
+                                            <th>UNIT Type</th>
+                                            <th class="text-center" style="width: 10%">P</th>
+                                            <th class="text-center" style="width: 10%">R</th>
+                                            <th class="text-center" style="width: 10%">T</th>
+                                            <th class="text-center" style="width: 10%">I</th>
                                         </tr>
-                                        <tr>
-                                            <td>CHR FSB:</td>
-                                            <td style="text-align: center;"><span id="chrFSB1"></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>PIT BT:</td>
-                                            <td style="text-align: center;"><span id="pitBT1"></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>PIT TA:</td>
-                                            <td style="text-align: center;"><span id="pitTA1"></span></td>
-                                        </tr>
-                                    </table>
+                                    </thead>
+                                    <tbody id="unitTableBody">
+                                        <!-- Data will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom PDF Viewer -->
+                <div class="modal-body">
+                    <div class="pdf-viewer">
+                        <div class="document-section mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="text-center mb-0">Medical Certificate</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <embed id="attachment1" src="" type="application/pdf"
+                                        style="width: 100%; height: 1000px;" class="pdf-embed">
                                 </div>
                             </div>
-                            <div id="qrcode" style="margin-top: 10px;"></div>
                         </div>
-                        {{-- <button class="btn btn-success" data-nik="profileNik" data-route="she" id="approveButton">Accept
-                            SHE</button>
-                        <button class="btn btn-warning" data-nik="profileNik" data-route="bec"
-                            id="approveButtonBEC">Accept
-                            BEC</button>
-                        <button class="btn btn-info" data-nik="profileNik" data-route="ktt" id="approveButtonKTT">Accept
-                            KTT</button>
 
-                        <button class="btn btn-secondary">Reject</button> --}}
+                        <div class="document-section mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="text-center mb-0">Driver's License</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <embed id="attachment2" src="" type="application/pdf"
+                                        style="width: 100%; height: 1000px;" class="pdf-embed">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="document-section mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="text-center mb-0">Attachment</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <embed id="attachment3" src="" type="application/pdf"
+                                        style="width: 100%; height: 1000px;" class="pdf-embed">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="document-section mb-2">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="text-center mb-0">SIO Attachment</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <embed id="attachment4" src="" type="application/pdf"
+                                        style="width: 100%; height: 1000px;" class="pdf-embed">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="container">
+                            <div class="text-start">
+                                <h5 class="mb-3 mt-2">Approval</h5>
+                                <div class="demo-space-x d-flex justify-content-start gap-2">
+                                    <!-- Accept Checkbox -->
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="acceptCheck" class="custom-control-input">
+                                        <label class="custom-control-label" for="acceptCheck">
+                                            Accept
+                                        </label>
+                                    </div>
+
+                                    <!-- Reject Checkbox -->
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="rejectCheck" class="custom-control-input">
+                                        <label class="custom-control-label" for="rejectCheck">
+                                            Reject
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -360,7 +477,6 @@
         // Menampilkan modal popup
         function showPopup(button) {
             $('#popupModal').modal('show');
-
             const photoPath = button.getAttribute('data-photo');
             const medicalUrl = button.getAttribute('data-medical');
             const licenseUrl = button.getAttribute('data-license');
@@ -371,13 +487,39 @@
             const jabatan = button.getAttribute('data-jabatan');
             const departement = button.getAttribute('data-departement');
             const access = JSON.parse(button.getAttribute('data-access'));
+            const kode = button.getAttribute('data-kode'); // Tambahkan ini
+            const units = JSON.parse(button.getAttribute('data-units')); // Tambahkan ini
 
-            // Debug log
-            console.log('Full Photo Path:', photoPath);
-            console.log('Full Medical URL:', medicalUrl);
-            console.log('Full License URL:', licenseUrl);
-            console.log('Full Attachment URL:', attachmentUrl);
-            console.log('Full SIO URL:', sioUrl);
+            // Update kode display
+            // document.getElementById('displayKode').textContent = kode;
+
+            // Update unit table
+            const unitTableBody = document.getElementById('unitTableBody');
+            unitTableBody.innerHTML = ''; // Clear existing content
+
+
+            if (units && units.length > 0) {
+                units.forEach((unit, index) => {
+                    if (unit.id_uur === kode) { // Filter hanya unit yang sesuai dengan kode
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td>${unit.unit_data ? unit.unit_data.nama_unit : 'N/A'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('P') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('R') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('T') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('I') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                `;
+                        unitTableBody.appendChild(row);
+                    }
+                });
+            }
+
+            if (unitTableBody.children.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="6" class="text-center">No units found for this user</td>';
+                unitTableBody.appendChild(row);
+            }
 
             // Set foto profil dengan error handling
             const profilePhoto = document.getElementById('profilePhoto');
@@ -496,6 +638,22 @@
 
                 window.location.href = url; // Arahkan ke URL yang dibentuk
             });
+        });
+
+        // Memastikan hanya satu checkbox yang bisa dicentang
+        const acceptCheck = document.getElementById('acceptCheck');
+        const rejectCheck = document.getElementById('rejectCheck');
+
+        acceptCheck.addEventListener('change', function() {
+            if (this.checked) {
+                rejectCheck.checked = false;
+            }
+        });
+
+        rejectCheck.addEventListener('change', function() {
+            if (this.checked) {
+                acceptCheck.checked = false;
+            }
         });
     </script>
 @endsection

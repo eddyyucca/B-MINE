@@ -22,6 +22,12 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
     // Personal Task Route dengan status sebagai parameter opsional
     Route::get('/personal_task/{status?}', [PersonalTaskController::class, 'personalTask'])->name('personal_task');
 
+    // Route::get('/get-unit-data/{kode}', [PersonalTaskController::class, 'getUnitData']);
+
+    Route::get('/data/view/{kode}', [PersonalTaskController::class, 'viewData'])->name('data.view');
+
+
+
     // Reset Password Route
     Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');
 
@@ -54,7 +60,7 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
     Route::get('karyawan/{id}/idcard-pdf', [PersonalTaskController::class, 'generateIdCard']);
 
     // View data route
-    Route::get('/view_data/{kode}', [PersonalTaskController::class, 'viewData'])->name('viewData');
+    // Route::get('/view_data/{kode}', [PersonalTaskController::class, 'viewData'])->name('viewData');
 
     // Approve data routes
     Route::get('/approve_data/{kode}', [PersonalTaskController::class, 'approveData'])->name('approveData');

@@ -7,14 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitModel extends Model
 {
-   use HasFactory;
+    use HasFactory;
 
-    // Jika nama tabel berbeda dari nama model (misal: 'units')
+    // Definisi nama tabel
     protected $table = 'units';
 
-    // Jika tabel tidak memiliki kolom 'created_at' dan 'updated_at'
+    // Tentukan primary key yang benar
+    protected $primaryKey = 'id_units';
+
+    // Nonaktifkan timestamps
     public $timestamps = false;
 
-    // Jika ada kolom lain yang tidak ingin dimasukkan secara mass assignment
-    protected $guarded = []; // or you can list specific fields ['id', 'name']
+    // Izinkan mass assignment untuk semua kolom
+    protected $guarded = [];
+
+    // Relasi ke UserUnit - sesuaikan foreign key
+    public function userUnits()
+    {
+        return $this->hasMany(UserUnit::class, 'unit', 'id_units');
+    }
+
+    // Definisikan kolom yang bisa diisi
+    protected $fillable = [
+        'id_units',
+        'nama_unit',
+        // tambahkan kolom lain yang ada di tabel units
+    ];
 }
