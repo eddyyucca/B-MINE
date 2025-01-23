@@ -35,6 +35,10 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
     // History routes
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
 
+    //Reset Password
+    Route::get('/reset_password', [HistoryController::class, 'index'])->name('history');
+    Route::post('/karyawan/reset-password', [AuthController::class, 'resetPassword'])->name('process-reset-password');
+
     // Other routes
     Route::get('/search_nik', function () {  return redirect('/not_found'); })->name('search_nik');
     Route::get('/comingsoon', function () {

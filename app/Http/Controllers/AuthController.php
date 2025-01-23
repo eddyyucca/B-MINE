@@ -13,8 +13,9 @@ class AuthController extends Controller {
         return view('auth.login');
     }
 
-    public function auth(Request $request) {
-         // Validasi input NIK/email dan password
+  public function auth(Request $request)
+{
+    // Validasi input NIK/email dan password
     $request->validate([
         'identifier' => 'required', // Bisa NIK atau email
         'password' => 'required',
@@ -23,44 +24,35 @@ class AuthController extends Controller {
     // Ambil token API dari file .env
     $token = env('BMINE_API_TOKEN');
 
-    // Cek apakah identifier adalah email atau NIK
-    if (filter_var($request->identifier, FILTER_VALIDATE_EMAIL)) {
-        // Jika identifier adalah email, gunakan database user_external
-        $user = UserModel::where('email', $request->identifier)->first();
-    } else {
-        // Jika identifier adalah NIK, gunakan API eksternal
-        $identifier = $request->identifier;
-        $ch = curl_init();
+    $user = null; // Default user
 
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:8088/rest_api/karyawan/' . $identifier);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $token,
-        ]);
+    try {
+        // Cek apakah identifier adalah email atau NIK
+        if (filter_var($request->identifier, FILTER_VALIDATE_EMAIL)) {
+            // Jika identifier adalah email, gunakan database user_external
+            $user = UserModel::where('email', $request->identifier)->first();
+        } else {
+            // Jika identifier adalah NIK, gunakan API eksternal
+            $identifier = $request->identifier;
+            $response = Http::withToken($token)
+                ->timeout(10) // Timeout untuk mencegah permintaan lama
+                ->get('http://localhost:8088/rest_api/karyawan/' . $identifier);
+  
+            if ($response->successful()) {
+                $user = $response->json();
+            } else {
+                return redirect()->back()->with('error', 'NIK tidak ditemukan atau API error: ' . $response->status());
+            }
 
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            // Jika terjadi kesalahan pada cURL
-            $error_msg = curl_error($ch);
-            curl_close($ch);
-            return redirect()->back()->with('error', 'NIK tidak ditemukan atau API error: ' . $error_msg);
         }
-
-        curl_close($ch);
-
-        $user = json_decode($response, true);
-    }
-    if ($user) {
-        // Verifikasi password MD5
-        if (md5($request->password) === $user['password']) {
+        // Verifikasi user dan password
+        if ($user && md5($request->password) === ($user['password'] ?? $user->password)) {
             // Cek level akun pengguna
-            $level = $user['level'];
-
+            $level = $user['level'] ?? null;
             // Simpan data pengguna ke dalam sesi
             Session::put('logged_in_user', [
                 'identifier' => $request->identifier,
-                'nama' => $user['nama'],
+                'nama' => $user['nama'] ?? $user->name,
                 'level' => $level,
             ]);
 
@@ -68,7 +60,7 @@ class AuthController extends Controller {
             $request->session()->regenerate();
 
             // Arahkan pengguna sesuai dengan level akun
-            if ($level == true) {
+            if ($level) {
                 return redirect('/dashboard')->with('success', 'Login berhasil sebagai Admin');
             } else {
                 return redirect()->back()->with('error', 'Tidak ada level akun yang cocok.');
@@ -76,8 +68,9 @@ class AuthController extends Controller {
         } else {
             return redirect()->back()->with('error', 'Password salah.');
         }
-    } else {
-        return redirect()->back()->with('error', 'Pengguna tidak ditemukan.');
+    } catch (Exception $e) {
+        // Tangani exception
+        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
 }
 
@@ -90,5 +83,36 @@ class AuthController extends Controller {
         $request->session()->regenerateToken();
 
         return redirect('/login')->with('success', 'Anda telah logout.');
+    }
+
+     public function resetPassword(Request $request)
+    {
+        // Validasi input NIK
+        $request->validate([
+            'nik' => 'required|string', // Pastikan NIK wajib diisi dan berupa string
+        ]);
+        // Ambil NIK dari request
+        $nik = $request->input('nik');
+
+        try {
+            // Ambil token API dari .env
+            $token = env('BMINE_API_TOKEN');
+
+            // Kirim permintaan ke REST API
+            $response = Http::withToken($token)
+                ->timeout(10)
+                ->put("http://localhost:8088/rest_api/karyawan/{$nik}/reset-password");
+            // Periksa apakah permintaan berhasil
+            if ($response->successful()) {
+                return redirect()->back()->with('success', 'Password berhasil direset.');
+                // echo "Password berhasil direset.";
+            } else {
+                return redirect()->back()->with('error', 'Gagal mereset password: ' . $response->status());
+            // echo "Gagal mereset password: " . $response->status();
+            }
+        } catch (\Exception $e) {
+            // Tangani error lainnya
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

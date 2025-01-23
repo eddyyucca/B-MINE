@@ -108,12 +108,30 @@
                 </li>
                 @endif
 
-
+                {{-- reset password --}}
                 <li class="nav-item">
-                    <a href={{ url('/reset_password') }} class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="fas fa-cogs"></i>
-                        <p>Setting</p>
+                        <p>
+                            Setting
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <form action="{{ url('/karyawan/reset-password') }}" method="POST" class="nav-link">
+                                @csrf
+                                <!-- Input Hidden untuk NIK -->
+                                <input type="hidden" name="nik"
+                                    value="{{ session('logged_in_user')['identifier'] }}">
+                                <button type="submit" class="btn btn-link nav-link"
+                                    style="border: none; background: none; padding: 0; margin: 0;">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Reset Password</p>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/about') }}" class="nav-link">
