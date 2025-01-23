@@ -76,35 +76,29 @@
                 </li>
                 <li class="nav-item">
                     @if (session('logged_in_user')['level'] === 'admin')
-                        <a href="{{ url('/personal_task') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task Admin</p>
-                        </a>
-                    @elseif (session('logged_in_user')['level'] === 'admin_section')
-                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task Section</p>
-                        </a>
-                    @elseif (session('logged_in_user')['level'] === 'she')
-                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task SHE</p>
-                        </a>
-                    @elseif (session('logged_in_user')['level'] === 'pjo')
-                        <a href="{{ url('/personal_task_she') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task PJO</p>
-                        </a>
-                    @elseif (session('logged_in_user')['level'] === 'bec')
-                        <a href="{{ url('/personal_task_bec') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task BEC</p>
-                        </a>
-                    @elseif (session('logged_in_user')['level'] === 'ktt')
-                        <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
-                            <i class="nav-icon fas fa-user-tie"></i>
-                            <p>Personal Task KTT</p>
-                        </a>
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>Personal Task SHE</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_pjo') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Personal Task PJO</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_bec') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>Personal Task BEC</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-check"></i>
+                        <p>Personal Task KTT</p>
+                    </a>
                 </li>
                 @endif
 

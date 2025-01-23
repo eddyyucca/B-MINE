@@ -233,7 +233,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Personal Task</h3>
+                            <h3 class="card-title">Personal Task KTT</h3>
                         </div>
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-hover">
@@ -247,40 +247,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($dataReqs as $index => $dataReq)
+                                    @if ($dataReqs->isEmpty())
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $dataReq->nik }}</td>
-                                            <td>{{ $dataReq->nama }}</td>
-                                            <td>
-                                                @if ($dataReq->validasi_in == 1)
-                                                    Simper & MinePermit
-                                                @elseif ($dataReq->validasi_in == 2)
-                                                    MinePermit
-                                                @else
-                                                    {{-- Jika ada nilai lain atau untuk penanganan default --}}
-                                                    -
-                                                @endif
-                                            </td>
-                                            <td align="center" class="no-export">
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-primary" onclick="showPopup(this)"
-                                                    data-photo="{{ $dataReq->foto_path }}"
-                                                    data-medical="{{ $dataReq->medical_path }}"
-                                                    data-license="{{ $dataReq->drivers_license_path }}"
-                                                    data-attachment="{{ $dataReq->attachment_path }}"
-                                                    data-sio="{{ $dataReq->sio_path }}" data-name="{{ $dataReq->nama }}"
-                                                    data-nik="{{ $dataReq->nik }}" data-jabatan="{{ $dataReq->jab }}"
-                                                    data-departement="{{ $dataReq->dept }}"
-                                                    data-kode="{{ $dataReq->kode }}"
-                                                    data-units="{{ json_encode($dataReq->unitUsers) }}"
-                                                    data-access="{{ json_encode($dataReq->access) }}">
-                                                    Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
-                                                </button>
-                                                {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
-                                            </td>
+                                            <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach ($dataReqs as $index => $dataReq)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $dataReq->nik }}</td>
+                                                <td>{{ $dataReq->nama }}</td>
+                                                <td>
+                                                    @if ($dataReq->validasi_in == 1)
+                                                        Simper & MinePermit
+                                                    @elseif ($dataReq->validasi_in == 2)
+                                                        MinePermit
+                                                    @else
+                                                        {{-- Jika ada nilai lain atau untuk penanganan default --}}
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td align="center" class="no-export">
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-primary" onclick="showPopup(this)"
+                                                        data-photo="{{ $dataReq->foto_path }}"
+                                                        data-medical="{{ $dataReq->medical_path }}"
+                                                        data-license="{{ $dataReq->drivers_license_path }}"
+                                                        data-attachment="{{ $dataReq->attachment_path }}"
+                                                        data-sio="{{ $dataReq->sio_path }}" data-name="{{ $dataReq->nama }}"
+                                                        data-nik="{{ $dataReq->nik }}" data-jabatan="{{ $dataReq->jab }}"
+                                                        data-departement="{{ $dataReq->dept }}"
+                                                        data-kode="{{ $dataReq->kode }}"
+                                                        data-units="{{ json_encode($dataReq->unitUsers) }}"
+                                                        data-access="{{ json_encode($dataReq->access) }}">
+                                                        Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -419,28 +425,22 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="container">
-                            <div class="text-start">
-                                <h5 class="mb-3 mt-2">Approval</h5>
-                                <div class="demo-space-x d-flex justify-content-start gap-2">
-                                    <!-- Accept Checkbox -->
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="acceptCheck" class="custom-control-input">
-                                        <label class="custom-control-label" for="acceptCheck">
-                                            Accept
-                                        </label>
-                                    </div>
-
-                                    <!-- Reject Checkbox -->
-                                    <div class="custom-checkbox">
-                                        <input type="checkbox" id="rejectCheck" class="custom-control-input">
-                                        <label class="custom-control-label" for="rejectCheck">
-                                            Reject
-                                        </label>
+                        @if (!$dataReqs->isEmpty())
+                            <div class="container">
+                                <div class="text-start">
+                                    <h5 class="mb-3 mt-2">Approval</h5>
+                                    <div style="display: flex; gap: 20px;">
+                                        <button type="button" class="btn btn-success"
+                                            onclick="approveRequest('accept')">
+                                            <i class="fas fa-check"></i> Accept
+                                        </button>
+                                        <button type="button" class="btn btn-danger" onclick="approveRequest('reject')">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -490,8 +490,8 @@
             const kode = button.getAttribute('data-kode'); // Tambahkan ini
             const units = JSON.parse(button.getAttribute('data-units')); // Tambahkan ini
 
-            // Update kode display
-            // document.getElementById('displayKode').textContent = kode;
+            // Tambahkan kode aktif ke modal
+            $('#popupModal').attr('data-active-kode', kode);
 
             // Update unit table
             const unitTableBody = document.getElementById('unitTableBody');
@@ -623,37 +623,39 @@
                 let url;
                 switch (routeType) {
                     case 'she':
-                        url = `{{ route('approveDataSHE', ['kode' => ':kode']) }}`.replace(':kode', nik);
+                        url = `{{ route('approveDataShe', ['kode' => ':kode']) }}`.replace(':kode', nik);
+                        break;
+                    case 'pjo':
+                        url = `{{ route('approveDataPjo', ['kode' => ':kode']) }}`.replace(':kode', nik);
                         break;
                     case 'bec':
-                        url = `{{ route('approveDataBEC', ['kode' => ':kode']) }}`.replace(':kode', nik);
+                        url = `{{ route('approveDataBec', ['kode' => ':kode']) }}`.replace(':kode', nik);
                         break;
                     case 'ktt':
-                        url = `{{ route('approveDataKTT', ['kode' => ':kode']) }}`.replace(':kode', nik);
+                        url = `{{ route('approveDataKtt', ['kode' => ':kode']) }}`.replace(':kode', nik);
                         break;
                     default:
                         console.error('Invalid route type.');
                         return;
                 }
 
+
                 window.location.href = url; // Arahkan ke URL yang dibentuk
             });
         });
 
-        // Memastikan hanya satu checkbox yang bisa dicentang
-        const acceptCheck = document.getElementById('acceptCheck');
-        const rejectCheck = document.getElementById('rejectCheck');
 
-        acceptCheck.addEventListener('change', function() {
-            if (this.checked) {
-                rejectCheck.checked = false;
-            }
-        });
+        function approveRequest(action) {
+            const activeKode = $('#popupModal').attr('data-active-kode');
 
-        rejectCheck.addEventListener('change', function() {
-            if (this.checked) {
-                acceptCheck.checked = false;
+            if (!activeKode) {
+                console.error('No active kode found');
+                return;
             }
-        });
+
+            let route = "{{ route('approveDataKtt', '') }}"; // Default route
+
+            window.location.href = route + "/" + activeKode;
+        }
     </script>
 @endsection
