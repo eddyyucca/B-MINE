@@ -60,8 +60,8 @@ class PersonalTaskController extends Controller {
     public function becTask() {
         $name_page = "B'Mine - Personal Task BEC";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-            ->where('status', 3)
-            ->paginate(10);
+        ->whereIn('status', [3, 4])
+        ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
         if ($dataReqs->isEmpty()) {
@@ -188,9 +188,9 @@ class PersonalTaskController extends Controller {
             $dataReq->status = 4; // Move to next stage
             $dataReq->save();
 
-            return redirect()->route('ktt.task')->with('success', 'Request approved successfully');
+            return redirect()->route('bec.task')->with('success', 'Request approved successfully');
         } catch (\Exception $e) {
-            return redirect()->route('ktt.task')->with('error', 'Failed to approve request');
+            return redirect()->route('bec.task')->with('error', 'Failed to approve request');
         }
     }
     public function approveDataKtt($kode) {
