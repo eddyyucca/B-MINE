@@ -256,7 +256,9 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $dataReq->nik }}</td>
-                                                <td>{{ $dataReq->nama }}</td>
+                                                <td
+                                                    class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
+                                                    {{ $dataReq->nama }}</td>
                                                 <td>
                                                     @if ($dataReq->validasi_in == 1)
                                                         Simper & MinePermit
@@ -274,8 +276,9 @@
                                                         data-medical="{{ $dataReq->medical_path }}"
                                                         data-license="{{ $dataReq->drivers_license_path }}"
                                                         data-attachment="{{ $dataReq->attachment_path }}"
-                                                        data-sio="{{ $dataReq->sio_path }}" data-name="{{ $dataReq->nama }}"
-                                                        data-nik="{{ $dataReq->nik }}" data-jabatan="{{ $dataReq->jab }}"
+                                                        data-sio="{{ $dataReq->sio_path }}"
+                                                        data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
+                                                        data-jabatan="{{ $dataReq->jab }}"
                                                         data-departement="{{ $dataReq->dept }}"
                                                         data-kode="{{ $dataReq->kode }}"
                                                         data-units="{{ json_encode($dataReq->unitUsers) }}"

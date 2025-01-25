@@ -91,18 +91,12 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Rejected Tasks";
 
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-            ->whereNotNull('reject_history')
-            ->where('reject_history', '!=', '[]')
             ->paginate(10);
-
-        if ($dataReqs->isEmpty()) {
-            $dataReqs = collect();
-        }
 
         $this->processData($dataReqs);
 
         return view('personal_task.data_req_rejected', compact('dataReqs', 'name_page'));
-    }
+     }
 
    private function processData($dataReqs) {
        foreach ($dataReqs as $req) {
@@ -166,32 +160,6 @@ class PersonalTaskController extends Controller {
        }
    }
 
-//    public function approveData($kode, $type) {
-//        $validasiInMap = [
-//            'she' => 2,
-//            'pjo' => 3,
-//            'bec' => 4,
-//            'ktt' => 5,
-//        ];
-
-//        if (!isset($validasiInMap[$type])) {
-//            return redirect()->back()->with('error', 'Invalid approval type.');
-//        }
-
-//        try {
-//            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-//            $dataReq->validasi_in = $validasiInMap[$type];
-//            $dataReq->save();
-
-//            return redirect()->route('personal_task', ['status' => $validasiInMap[$type]])
-//                ->with('success', 'Data has been approved successfully.');
-//        } catch (\Exception $e) {
-//            return redirect()->back()
-//                ->with('error', 'Failed to approve data: ' . $e->getMessage());
-//        }
-//    }
-
-
     public function approveDataShe($kode) {
         try {
             $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
@@ -236,6 +204,7 @@ class PersonalTaskController extends Controller {
             return redirect()->route('ktt.task')->with('error', 'Failed to approve request');
         }
     }
+
 
    public function generateIdCard($nik) {
        try {

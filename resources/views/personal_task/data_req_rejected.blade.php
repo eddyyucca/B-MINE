@@ -43,6 +43,7 @@
                                         <th>Rejected By</th>
                                         <th>Reason</th>
                                         <th>Rejection Date</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
