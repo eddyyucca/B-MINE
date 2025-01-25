@@ -87,6 +87,23 @@ class PersonalTaskController extends Controller {
         return view('personal_task.data_req_ktt', compact('dataReqs', 'name_page'));
     }
 
+    public function rejectTask() {
+        $name_page = "B'Mine - Rejected Tasks";
+
+        $dataReqs = DataReqModel::with(['unitUsers.unitData'])
+            ->whereNotNull('reject_history')
+            ->where('reject_history', '!=', '[]')
+            ->paginate(10);
+
+        if ($dataReqs->isEmpty()) {
+            $dataReqs = collect();
+        }
+
+        $this->processData($dataReqs);
+
+        return view('personal_task.data_req_rejected', compact('dataReqs', 'name_page'));
+    }
+
    private function processData($dataReqs) {
        foreach ($dataReqs as $req) {
            if (is_string($req->access)) {
@@ -239,6 +256,62 @@ class PersonalTaskController extends Controller {
                ->with('error', 'Failed to generate ID card: ' . $e->getMessage());
        }
    }
+
+    private function getPreviousStage($currentStage) {
+        $stageMap = [
+            2 => 1,  // SHE back to initial
+            3 => 2,  // PJO back to SHE
+            4 => 3,  // BEC back to PJO
+            5 => 4   // KTT back to BEC
+        ];
+
+        return $stageMap[$currentStage] ?? 1;
+    }
+
+    public function rejectRequest(Request $request, $stage, $kode) {
+        $request->validate([
+            'reason' => 'required|string|max:500'
+        ]);
+
+        $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+        $rejectHistory = json_decode($dataReq->reject_history, true) ?? [];
+
+        $rejectHistory[$stage] = [
+            'reason' => $request->reason,
+            'timestamp' => now()->toDateTimeString()
+        ];
+
+        $dataReq->reject_history = json_encode($rejectHistory);
+        $dataReq->status = $this->getPreviousStage($stage);
+        $dataReq->save();
+
+        return $this->redirectAfterReject($stage);
+    }
+
+    private function redirectAfterReject($currentStage) {
+        $routeMap = [
+            2 => 'she.task',   // If rejected from SHE
+            3 => 'pjo.task',   // If rejected from PJO
+            4 => 'bec.task',   // If rejected from BEC
+            5 => 'ktt.task'    // If rejected from KTT
+        ];
+
+        $route = $routeMap[$currentStage] ?? 'she.task';
+        return redirect()->route($route)
+            ->with('error', 'Request rejected and sent back to previous stage');
+    }
+
+    public function clearRejectHistory($kode) {
+        try {
+            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+            $dataReq->reject_history = null;
+            $dataReq->save();
+
+            return redirect()->back()->with('success', 'Rejection history cleared successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to clear rejection history');
+        }
+    }
 
    public function index() {
        return $this->personalTask(request(), null);

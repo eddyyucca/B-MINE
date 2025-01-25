@@ -446,6 +446,31 @@
             </div>
         </div>
     </div>
+    <!-- Modal Reject Reason -->
+    <div class="modal fade" id="rejectReasonModal" tabindex="-1" role="dialog"
+        aria-labelledby="rejectReasonModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectReasonModalLabel">Alasan Penolakan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="rejectForm" method="POST">
+                    @csrf
+                    <input type="hidden" name="kode" id="rejectKode">
+                    <div class="form-group">
+                        <textarea class="form-control" id="rejectReason" name="reason" rows="6" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Kirim</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -653,9 +678,26 @@
                 return;
             }
 
-            let route = "{{ route('approveDataPjo', '') }}"; // Default route
+            if (action === 'reject') {
+                $('#rejectKode').val(activeKode);
+                // Set action based on current page/role
+                const currentPage = window.location.pathname;
+                let rejectUrl;
 
-            window.location.href = route + "/" + activeKode;
+                if (currentPage.includes('she')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/2/${activeKode}`;
+                } else if (currentPage.includes('pjo')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/3/${activeKode}`;
+                } else if (currentPage.includes('bec')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/4/${activeKode}`;
+                }
+
+                $('#rejectForm').attr('action', rejectUrl);
+                $('#rejectReasonModal').modal('show');
+            } else {
+                let route = "{{ route('approveDataPjo', '') }}";
+                window.location.href = route + "/" + activeKode;
+            }
         }
     </script>
 @endsection

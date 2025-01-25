@@ -23,6 +23,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/personal_task_pjo', [PersonalTaskController::class, 'pjoTask'])->name('pjo.task');
    Route::get('/personal_task_bec', [PersonalTaskController::class, 'becTask'])->name('bec.task');
    Route::get('/personal_task_ktt', [PersonalTaskController::class, 'kttTask'])->name('ktt.task');
+   Route::get('/personal_task_rejected', [PersonalTaskController::class, 'rejectTask'])->name('reject.task');
+   Route::post('/reject-request/{stage}/{kode}', [PersonalTaskController::class, 'rejectRequest'])->name('reject.request');
    Route::get('/view-data/{kode}', [PersonalTaskController::class, 'viewData'])->name('view.data');
    Route::get('/data/view/{kode}', [PersonalTaskController::class, 'viewData'])->name('data.view');
 
@@ -63,6 +65,9 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/approve_data_pjo/{kode}', [PersonalTaskController::class, 'approveDataPjo'])->name('approveDataPjo');
    Route::get('/approve_data_bec/{kode}', [PersonalTaskController::class, 'approveDataBec'])->name('approveDataBec');
    Route::get('/approve_data_ktt/{kode}', [PersonalTaskController::class, 'approveDataKtt'])->name('approveDataKtt');
+
+   Route::post('/reject-request/{kode}', [PersonalTaskController::class, 'rejectRequest'])->name('reject.request');
+   Route::put('/clear-reject-history/{kode}', [PersonalTaskController::class, 'clearRejectHistory'])->name('clear.reject.history');
 
    // QR Code
    Route::get('/qrcode', [QrcodeController::class,'index'])->name('qrcode');
