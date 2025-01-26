@@ -260,6 +260,11 @@
                                                                 name="options[0][]" value="I" id="checkboxI">
                                                             <label class="form-check-label" for="checkboxI">I</label>
                                                         </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="options[0][]" value="O" id="checkboxI">
+                                                            <label class="form-check-label" for="checkboxI">O</label>
+                                                        </div>
 
                                                         <!-- Tombol untuk menghapus unit -->
                                                         <div class="input-group-append">
@@ -328,6 +333,10 @@
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="options[${unitCount}][]" value="I">
             <label class="form-check-label">I</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="options[${unitCount}][]" value="O">
+            <label class="form-check-label">O</label>
         </div>
 
         <!-- Tombol untuk menghapus unit -->

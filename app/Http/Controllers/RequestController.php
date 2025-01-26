@@ -89,8 +89,8 @@ public function insert_request(Request $request)
     //     'medical_certificate' => 'nullable|mimes:pdf,jpg,png|max:15360',
     //     'drivers_license' => 'nullable|mimes:pdf,jpg,png|max:15360',
     //     'attachment' => 'nullable|mimes:pdf,jpg,png|max:15360',
-    // ]);
- $loggedInUser = $this->loggedInUser;
+    // ]); $loggedInUser = $this->loggedInUser;
+
     // Generate kode unik
     $code = 'BUMA-' . date('Ymdhis') . '-' . Str::random(6);
 
@@ -192,7 +192,6 @@ if ($license_type == "2") {
 
 
     public function karyawanfolder() {
-         $loggedInUser = $this->loggedInUser;
         // Ambil token API dari file .env
         $token=env('BMINE_API_TOKEN');
 

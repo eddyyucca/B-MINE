@@ -357,6 +357,7 @@
                                             <th class="text-center" style="width: 10%">R</th>
                                             <th class="text-center" style="width: 10%">T</th>
                                             <th class="text-center" style="width: 10%">I</th>
+                                            <th class="text-center" style="width: 10%">O</th>
                                         </tr>
                                     </thead>
                                     <tbody id="unitTableBody">
@@ -509,6 +510,7 @@
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('R') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('T') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('I') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('O') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                 `;
                         unitTableBody.appendChild(row);
                     }
