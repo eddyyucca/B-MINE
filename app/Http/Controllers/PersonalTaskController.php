@@ -4,28 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DataReqModel;
+use App\Models\DataRejectModel;
 use App\Models\UnitModel;
 use App\Models\UnitUser;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Log;
 
 class PersonalTaskController extends Controller {
 
-   public function personalTask(Request $request, $status = null) {
-       $name_page = "B'Mine - Personal Task";
-       $dataReqs = DataReqModel::with(['unitUsers.unitData']);
+    public function personalTask(Request $request, $status = null) {
+        $name_page = "B'Mine - Personal Task";
+        $dataReqs = DataReqModel::with(['unitUsers.unitData']);
 
-       if ($status !== null) {
-           $dataReqs->where('validasi_in', $status);
-       }
+        if ($status !== null) {
+            $dataReqs->where('validasi_in', $status);
+        }
 
-       $dataReqs = $dataReqs->paginate(10);
-       $this->processData($dataReqs);
+        $dataReqs = $dataReqs->paginate(10);
+        $this->processData($dataReqs);
 
-       return view('personal_task.data_req_view', compact('dataReqs', 'name_page'));
-   }
+        return view('personal_task.data_req_view', compact('dataReqs', 'name_page'));
+    }
 
     public function sheTask() {
         $name_page = "B'Mine - Personal Task SHE";
@@ -87,78 +89,69 @@ class PersonalTaskController extends Controller {
         return view('personal_task.data_req_ktt', compact('dataReqs', 'name_page'));
     }
 
-    public function rejectTask() {
-        $name_page = "B'Mine - Rejected Tasks";
 
-        $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-            ->paginate(10);
 
-        $this->processData($dataReqs);
+    private function processData($dataReqs) {
+        foreach ($dataReqs as $req) {
+            if (is_string($req->access)) {
+                $req->access = json_decode($req->access, true);
+            }
 
-        return view('personal_task.data_req_rejected', compact('dataReqs', 'name_page'));
-     }
+            if (!$req->access) {
+                $req->access = [
+                    'CHR BT' => 'no',
+                    'CHR FSB' => 'no',
+                    'PIT BT' => 'no',
+                    'PIT TA' => 'no'
+                ];
+            }
 
-   private function processData($dataReqs) {
-       foreach ($dataReqs as $req) {
-           if (is_string($req->access)) {
-               $req->access = json_decode($req->access, true);
-           }
+            $paths = ['foto_path', 'medical_path', 'drivers_license_path', 'attachment_path'];
+            $folders = [
+                'foto_path' => 'fotos',
+                'medical_path' => 'medical_certificates',
+                'drivers_license_path' => 'drivers_licenses',
+                'attachment_path' => 'attachments'
+            ];
 
-           if (!$req->access) {
-               $req->access = [
-                   'CHR BT' => 'no',
-                   'CHR FSB' => 'no',
-                   'PIT BT' => 'no',
-                   'PIT TA' => 'no'
-               ];
-           }
+            foreach ($paths as $path) {
+                if ($req->$path) {
+                    $folder = $folders[$path];
+                    $req->$path = url("storage/app/public/$folder/" . basename($req->$path));
+                }
+            }
+        }
+    }
 
-           $paths = ['foto_path', 'medical_path', 'drivers_license_path', 'attachment_path'];
-           $folders = [
-               'foto_path' => 'fotos',
-               'medical_path' => 'medical_certificates',
-               'drivers_license_path' => 'drivers_licenses',
-               'attachment_path' => 'attachments'
-           ];
+    public function viewData($kode) {
+        try {
+            $unitUsers = UnitUser::with('unitData')
+                ->where('id_uur', $kode)
+                ->get();
 
-           foreach ($paths as $path) {
-               if ($req->$path) {
-                   $folder = $folders[$path];
-                   $req->$path = url("storage/app/public/$folder/" . basename($req->$path));
-               }
-           }
-       }
-   }
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'units' => $unitUsers
+                ]);
+            }
 
-   public function viewData($kode) {
-       try {
-           $unitUsers = UnitUser::with('unitData')
-               ->where('id_uur', $kode)
-               ->get();
+            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+            return view('data_req.view', compact('dataReq', 'unitUsers'));
 
-           if (request()->ajax()) {
-               return response()->json([
-                   'success' => true,
-                   'units' => $unitUsers
-               ]);
-           }
+        } catch (\Exception $e) {
+            Log::error('Error in viewData:', ['error' => $e->getMessage()]);
 
-           $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-           return view('data_req.view', compact('dataReq', 'unitUsers'));
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
 
-       } catch (\Exception $e) {
-           Log::error('Error in viewData:', ['error' => $e->getMessage()]);
-
-           if (request()->ajax()) {
-               return response()->json([
-                   'success' => false,
-                   'message' => $e->getMessage()
-               ], 500);
-           }
-
-           return redirect()->back()->with('error', 'Data not found');
-       }
-   }
+            return redirect()->back()->with('error', 'Data not found');
+        }
+    }
 
     public function approveDataShe($kode) {
         try {
@@ -206,25 +199,25 @@ class PersonalTaskController extends Controller {
     }
 
 
-   public function generateIdCard($nik) {
-       try {
-           $karyawan = DataReqModel::where('nik', $nik)->firstOrFail();
+    public function generateIdCard($nik) {
+        try {
+            $karyawan = DataReqModel::where('nik', $nik)->firstOrFail();
 
-           $fotoBase64 = url('storage/app/public/fotos/' . basename($karyawan->foto_path));
-           $bg = url('adminlte/idcard/depan.jpg');
+            $fotoBase64 = url('storage/app/public/fotos/' . basename($karyawan->foto_path));
+            $bg = url('adminlte/idcard/depan.jpg');
 
-           $pdf = PDF::loadView('layouts.idcard', [
-               'karyawan' => $karyawan,
-               'fotoBase64' => $fotoBase64,
-               'bg' => $bg,
-           ]);
+            $pdf = PDF::loadView('layouts.idcard', [
+                'karyawan' => $karyawan,
+                'fotoBase64' => $fotoBase64,
+                'bg' => $bg,
+            ]);
 
-           return $pdf->stream('id_card_' . $karyawan->nik . '.pdf');
-       } catch (\Exception $e) {
-           return redirect()->back()
-               ->with('error', 'Failed to generate ID card: ' . $e->getMessage());
-       }
-   }
+            return $pdf->stream('id_card_' . $karyawan->nik . '.pdf');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to generate ID card: ' . $e->getMessage());
+        }
+    }
 
     private function getPreviousStage($currentStage) {
         $stageMap = [
@@ -242,19 +235,67 @@ class PersonalTaskController extends Controller {
             'reason' => 'required|string|max:500'
         ]);
 
-        $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-        $rejectHistory = json_decode($dataReq->reject_history, true) ?? [];
+        DB::beginTransaction();
+        try {
+            // 1. Get data from data_req
+            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
 
-        $rejectHistory[$stage] = [
-            'reason' => $request->reason,
-            'timestamp' => now()->toDateTimeString()
-        ];
+            // 2. Log process untuk debugging
+            Log::info('Rejecting request', [
+                'kode' => $kode,
+                'stage' => $stage,
+                'current_data' => $dataReq->toArray()
+            ]);
 
-        $dataReq->reject_history = json_encode($rejectHistory);
-        $dataReq->status = $this->getPreviousStage($stage);
-        $dataReq->save();
+            // 3. Create reject history dengan format yang benar
+            $rejectHistory = [
+                (string)$stage => [
+                    'reason' => $request->reason,
+                    'timestamp' => now()->toDateTimeString()
+                ]
+            ];
 
-        return $this->redirectAfterReject($stage);
+            // 4. Insert ke data_reject dengan error checking
+            $dataReject = DataRejectModel::create([
+                'kode' => $dataReq->kode,
+                'nik' => $dataReq->nik,
+                'nama' => $dataReq->nama,
+                'jab' => $dataReq->jab,
+                'dept' => $dataReq->dept,
+                'reject_history' => $rejectHistory
+            ]);
+
+            if (!$dataReject) {
+                throw new \Exception('Failed to create reject record');
+            }
+
+            // 5. Delete dari data_req dengan konfirmasi
+            $deleteResult = $dataReq->delete();
+
+            if (!$deleteResult) {
+                throw new \Exception('Failed to delete original request');
+            }
+
+            // 6. Log success
+            Log::info('Request rejected successfully', [
+                'kode' => $kode,
+                'reject_id' => $dataReject->id_reject
+            ]);
+
+            DB::commit();
+            return $this->redirectAfterReject($stage);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Reject request failed', [
+                'error' => $e->getMessage(),
+                'kode' => $kode,
+                'stage' => $stage
+            ]);
+
+            return redirect()->back()
+                ->with('error', 'Failed to reject request: ' . $e->getMessage());
+        }
     }
 
     private function redirectAfterReject($currentStage) {
@@ -272,17 +313,25 @@ class PersonalTaskController extends Controller {
 
     public function clearRejectHistory($kode) {
         try {
-            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-            $dataReq->reject_history = null;
-            $dataReq->save();
+            $dataReject = DataRejectModel::where('kode', $kode)->firstOrFail();
+            $dataReject->delete();
 
-            return redirect()->back()->with('success', 'Rejection history cleared successfully');
+            return redirect()->back()->with('success', 'Rejection data deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to clear rejection history');
+            return redirect()->back()->with('error', 'Failed to delete rejection data');
         }
     }
 
-   public function index() {
-       return $this->personalTask(request(), null);
-   }
+    public function rejectTask() {
+        $name_page = "B'Mine - Rejected Tasks";
+
+        $dataReqs = DataRejectModel::orderBy('id', 'desc')  // menggunakan id untuk pengurutan
+            ->paginate(10);
+
+        return view('personal_task.data_req_rejected', compact('dataReqs', 'name_page'));
+    }
+
+    public function index() {
+        return $this->personalTask(request(), null);
+    }
 }

@@ -54,7 +54,7 @@
                                     @else
                                         @foreach ($dataReqs as $index => $dataReq)
                                             @php
-                                                $rejectHistory = json_decode($dataReq->reject_history, true) ?: [];
+                                                $rejectHistory = $dataReq->reject_history ?: []; // Hapus json_decode
                                             @endphp
 
                                             @if (!empty($rejectHistory))

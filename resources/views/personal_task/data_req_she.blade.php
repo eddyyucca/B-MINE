@@ -464,11 +464,14 @@
                     @csrf
                     <input type="hidden" name="kode" id="rejectKode">
                     <div class="form-group">
-                        <textarea class="form-control" id="rejectReason" name="reason" rows="6" required></textarea>
+                        <textarea class="form-control" id="rejectReason" name="reason" rows="10" required></textarea>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger">Kirim</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
                     </div>
                 </form>
             </div>
@@ -683,9 +686,10 @@
 
             if (action === 'reject') {
                 $('#rejectKode').val(activeKode);
-                // Set action based on current page/role
+
+                // Set action berdasarkan halaman saat ini
                 const currentPage = window.location.pathname;
-                let rejectUrl;
+                let rejectUrl = `{{ route('reject.request', '') }}/${activeKode}`;
 
                 if (currentPage.includes('she')) {
                     rejectUrl = `{{ route('reject.request', '') }}/2/${activeKode}`;
@@ -695,10 +699,22 @@
                     rejectUrl = `{{ route('reject.request', '') }}/4/${activeKode}`;
                 }
 
+                // Set form action dan tampilkan modal
                 $('#rejectForm').attr('action', rejectUrl);
                 $('#rejectReasonModal').modal('show');
             } else {
-                let route = "{{ route('approveDataShe', '') }}";
+                // Handle approval based on current page
+                let route;
+                const currentPage = window.location.pathname;
+
+                if (currentPage.includes('she')) {
+                    route = "{{ route('approveDataShe', '') }}";
+                } else if (currentPage.includes('pjo')) {
+                    route = "{{ route('approveDataPjo', '') }}";
+                } else if (currentPage.includes('bec')) {
+                    route = "{{ route('approveDataBec', '') }}";
+                }
+
                 window.location.href = route + "/" + activeKode;
             }
         }
