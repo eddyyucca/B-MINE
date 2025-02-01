@@ -106,6 +106,34 @@
                         <p>Personal Task rejected</p>
                     </a>
                 </li>
+            @elseif (session('logged_in_user')['level'] === 'she')
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_she') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>Personal Task SHE</p>
+                    </a>
+                </li>
+            @elseif (session('logged_in_user')['level'] === 'pjo')
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_pjo') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Personal Task PJO</p>
+                    </a>
+                </li>
+            @elseif (session('logged_in_user')['level'] === 'bec')
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_bec') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>Personal Task BEC</p>
+                    </a>
+                </li>
+            @elseif (session('logged_in_user')['level'] === 'ktt')
+                <li class="nav-item">
+                    <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-check"></i>
+                        <p>Personal Task KTT</p>
+                    </a>
+                </li>
                 @endif
 
                 {{-- reset password --}}
