@@ -275,8 +275,8 @@
                                                         data-photo="{{ $dataReq->foto_path }}"
                                                         data-medical="{{ $dataReq->medical_path }}"
                                                         data-license="{{ $dataReq->drivers_license_path }}"
+                                                        data-sio="http://localhost:8088/bmine/storage/app/{{ $dataReq->sio_path }}"
                                                         data-attachment="{{ $dataReq->attachment_path }}"
-                                                        data-sio="{{ $dataReq->sio_path }}"
                                                         data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
                                                         data-jabatan="{{ $dataReq->jab }}"
                                                         data-departement="{{ $dataReq->dept }}"
@@ -669,8 +669,6 @@
                         console.error('Invalid route type.');
                         return;
                 }
-
-
                 window.location.href = url; // Arahkan ke URL yang dibentuk
             });
         });

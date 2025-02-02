@@ -89,8 +89,6 @@ class PersonalTaskController extends Controller {
         return view('personal_task.data_req_ktt', compact('dataReqs', 'name_page'));
     }
 
-
-
     private function processData($dataReqs) {
         foreach ($dataReqs as $req) {
             if (is_string($req->access)) {

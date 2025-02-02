@@ -109,20 +109,20 @@ public function insert_request(Request $request)
     $driversLicensePath = null;
     $attachmentPath = null;
     $validasi_in = "1";
-$permissions = $request->input('permissions', []); // Ambil data permissions
+    $permissions = $request->input('permissions', []); // Ambil data permissions
 
-    // Inisialisasi array untuk menyimpan hasil
+    // Inisialisasi array untuk menyimpan hasil dengan default 'no'
     $permissionsArray = [
-        'CHR BT' => 'no', // Default ke "no"
-        'CHR FSB' => 'no',
-        'PIT BT' => 'no',
-        'PIT TA' => 'no',
+        'CHR BT' => $permissions['CHR BT'] ?? 'no',
+        'CHR FSB' => $permissions['CHR FSB'] ?? 'no',
+        'PIT BT' => $permissions['PIT BT'] ?? 'no',
+        'PIT TA' => $permissions['PIT TA'] ?? 'no',
     ];
 
-    // Set nilai "yes" untuk permission yang terpilih
-    foreach ($permissions as $key => $value) {
-        if (array_key_exists($key, $permissionsArray)) {
-            $permissionsArray[$key] = 'yes'; // Set ke "yes" jika checkbox tercentang
+    // Set nilai "yes" untuk permission yang ada di input
+    foreach ($permissions as $permission) {
+        if (array_key_exists($permission, $permissionsArray)) {
+            $permissionsArray[$permission] = 'yes';
         }
     }
     // Menangkap file foto dan sertifikat kesehatan jika ada

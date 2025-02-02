@@ -105,35 +105,33 @@
                                                 <div class="row">
                                                     <div class="form-group clearfix">
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" name="permissions[]"
-                                                                id="checkboxPrimary1">
-                                                            <label for="checkboxPrimary1">
-                                                                CHR BT
-                                                            </label>
+                                                            <input type="hidden" name="permissions[CHR BT]" value="no">
+                                                            <input type="checkbox" name="permissions[CHR BT]"
+                                                                id="checkboxCHRBT" value="yes">
+                                                            <label for="checkboxCHRBT"> CHR BT </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" name="permissions[]"
-                                                                id="checkboxPrimary2">
-                                                            <label for="checkboxPrimary2">
-                                                                CHR FSB
-                                                            </label>
+                                                            <input type="hidden" name="permissions[CHR FSB]"
+                                                                value="no">
+                                                            <input type="checkbox" name="permissions[CHR FSB]"
+                                                                id="checkboxCHRFSB" value="yes">
+                                                            <label for="checkboxCHRFSB"> CHR FSB </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" name="permissions[]"
-                                                                id="checkboxPrimary3">
-                                                            <label for="checkboxPrimary3">
-                                                                PIT BT
-                                                            </label>
+                                                            <input type="hidden" name="permissions[PIT BT]" value="no">
+                                                            <input type="checkbox" name="permissions[PIT BT]"
+                                                                id="checkboxPITBT" value="yes">
+                                                            <label for="checkboxPITBT"> PIT BT </label>
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="checkbox" name="permissions[]"
-                                                                id="checkboxPrimary4">
-                                                            <label for="checkboxPrimary4">
-                                                                PIT TA
-                                                            </label>
+                                                            <input type="hidden" name="permissions[PIT TA]"
+                                                                value="no">
+                                                            <input type="checkbox" name="permissions[PIT TA]"
+                                                                id="checkboxPITTA" value="yes">
+                                                            <label for="checkboxPITTA"> PIT TA </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,8 +142,9 @@
                                             <label for="medical_certificate">Medical Certificate</label>
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="medical_certificate"
-                                                        name="medical_certificate" onchange="file_mc()">
+                                                    <input type="file" class="custom-file-input"
+                                                        id="medical_certificate" name="medical_certificate"
+                                                        onchange="file_mc()">
                                                     <label class="custom-file-label" for="medical_certificate">Choose
                                                         File Medical Certificate</label>
                                                 </div>
