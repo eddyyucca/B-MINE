@@ -366,6 +366,7 @@
                                             <th class="text-center" style="width: 10%">R</th>
                                             <th class="text-center" style="width: 10%">T</th>
                                             <th class="text-center" style="width: 10%">I</th>
+                                            <th class="text-center" style="width: 10%">O</th>
                                         </tr>
                                     </thead>
                                     <tbody id="unitTableBody">
