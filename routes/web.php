@@ -9,6 +9,7 @@ use App\Http\Controllers\ApprovelController;
 use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\PersonalTaskController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\OutstandingController;
 
 Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    // Dashboard
@@ -40,6 +41,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
 
     // History routes
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
+    // Outstanding routes
+    Route::get('/outstanding', [OutstandingController::class, 'index'])->name('outstanding');
 
    // Static Pages
    Route::get('/search_nik', function () {

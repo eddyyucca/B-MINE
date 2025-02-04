@@ -144,7 +144,7 @@
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input"
                                                         id="medical_certificate" name="medical_certificate"
-                                                        onchange="file_mc()">
+                                                        accept=".pdf" onchange="file_mc()">
                                                     <label class="custom-file-label" for="medical_certificate">Choose
                                                         File Medical Certificate</label>
                                                 </div>
@@ -158,7 +158,7 @@
                                             <div class="input-group">
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="attachment"
-                                                        name="attachment" onchange="file_a()">
+                                                        name="attachment" accept=".pdf" onchange="file_a()">
                                                     <label class="custom-file-label" for="attachment">Choose
                                                         File
                                                         Attachment</label>
@@ -185,7 +185,7 @@
                                                 <div class="input-group">
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input"
-                                                            id="drivers_license" name="drivers_license"
+                                                            id="drivers_license" name="drivers_license" accept=".pdf"
                                                             onchange="file_dl()">
                                                         <label class="custom-file-label" for="drivers_license">Choose
                                                             File
@@ -211,7 +211,8 @@
                                                     <div class="input-group">
                                                         <div class="custom-file">
                                                             <input type="file" class="custom-file-input"
-                                                                id="sio_file" name="sio_file" onchange="fileSIO()">
+                                                                id="sio_file" name="sio_file" accept=".pdf"
+                                                                onchange="fileSIO()">
                                                             <label class="custom-file-label" for="sio_file">Choose File
                                                                 SIO</label>
                                                         </div>
@@ -282,9 +283,10 @@
                                             <p>Fields for Minepermit will be added here.</p>
                                         </div>
 
-                                        <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        <div class="card-footer bg-transparent">
+                                            <button type="submit" class="btn btn-primary float-right">Submit</button>
                                         </div>
+
                                     </form>
                                 @else
                                     <p>No data found for submission. Please check the input.</p>

@@ -69,6 +69,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href={{ url('/outstanding') }} class="nav-link">
+                        <i class="fas fa-tasks"></i>
+                        <p>Outstanding</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href={{ url('/') }} class="nav-link">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Complete Submission</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href={{ url('/comingsoon') }} class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Performance</p>
