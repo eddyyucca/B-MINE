@@ -27,7 +27,10 @@ class DataReqModel extends Model
         'sio_status',
         'status',
         'access',
-        'reject_history'
+        'reject_history',
+        'locked_by',
+        'locked_by_name',
+        'locked_at'
     ];
 
     protected $casts = [
