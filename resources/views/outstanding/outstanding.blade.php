@@ -45,15 +45,13 @@
                                                  class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
                                                  {{ $dataReq->nama }}</td>
                                              <td>
-                                                 @if ($dataReq->validasi_in == 1)
+                                                 @if ($dataReq->status == 1)
                                                      SHE Proccess
-                                                 @elseif ($dataReq->validasi_in == 2)
-                                                     SHE Proccess
-                                                 @elseif ($dataReq->validasi_in == 3)
+                                                 @elseif ($dataReq->status == 2)
                                                      PJO Proccess
-                                                 @elseif ($dataReq->validasi_in == 4)
+                                                 @elseif ($dataReq->status == 3)
                                                      BEC Proccess
-                                                 @elseif ($dataReq->validasi_in == 5)
+                                                 @elseif ($dataReq->status == 4)
                                                      KTT Proccess
                                                  @endif
                                              </td>
