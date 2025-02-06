@@ -45,7 +45,6 @@
                 {{-- Optional header content --}}
             </div>
         </div>
-
         <section class="content">
             <div class="container-fluid">
                 <div class="row">

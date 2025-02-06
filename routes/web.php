@@ -76,8 +76,15 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/qrcode', [QrcodeController::class,'index'])->name('qrcode');
    Route::get('/generatePDF', [QrcodeController::class,'generatePDF'])->name('generatePDF');
    Route::get('/karyawanfolder', [RequestController::class,'karyawanfolder'])->name('karyawanfolder');
-});
 
+   // lock file
+// Route::post('/check-document-lock', [PersonalTaskController::class, 'checkDocumentLock'])->name('check.document.lock');
+// Route::post('/release-document-lock', [PersonalTaskController::class, 'releaseDocumentLock'])->name('release.document.lock');
+Route::post('/check-document-lock', [PersonalTaskController::class, 'checkDocumentLock'])
+      ->name('check.document.lock');
+  Route::post('/release-document-lock', [PersonalTaskController::class, 'releaseDocumentLock'])
+      ->name('release.document.lock');
+});
 // Authentication
 Route::get('/login', [AuthController::class,'login'])->name('login');
 Route::get('/logout', [AuthController::class,'logout'])->name('logout');

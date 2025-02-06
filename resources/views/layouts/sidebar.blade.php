@@ -17,7 +17,6 @@
                     <a href={{ url('/') }} class="d-block"><b>{{ session('logged_in_user')['nama'] }}</b>
                     </a>
                 </div>
-
             </div>
         </div>
         {{-- search --}}
