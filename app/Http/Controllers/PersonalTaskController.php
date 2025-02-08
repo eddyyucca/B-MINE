@@ -346,7 +346,7 @@ class PersonalTaskController extends Controller {
         ->format('svg')
         ->style('round')
         ->backgroundColor(255,255,255)
-        ->generate(url("/scan/{$dataReq->kode}"));
+        ->generate(url("/verifikasi/{$dataReq->kode}"));
 
         // Generate URL lengkap untuk foto menggunakan logika yang sama dengan processData
         $paths = ['foto_path'];
