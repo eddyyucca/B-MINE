@@ -8,8 +8,9 @@ class OutstandingController extends Controller
 {
        public function index(){
          $name_page  = "B'Mine - Dashboard";
+         $dep_req = session('logged_in_user')['departement'];
           $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-            // ->where('status', 1)
+            ->where('dep_req', $dep_req)
             ->paginate(10);
         return view('outstanding.outstanding', compact('name_page', 'dataReqs'));
        }

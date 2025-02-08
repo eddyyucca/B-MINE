@@ -49,11 +49,13 @@ class AuthController extends Controller {
         if ($user && md5($request->password) === ($user['password'] ?? $user->password)) {
             // Cek level akun pengguna
             $level = $user['level'] ?? null;
+            $departement = $user['departement'] ?? null;
             // Simpan data pengguna ke dalam sesi
             Session::put('logged_in_user', [
                 'identifier' => $request->identifier,
                 'nama' => $user['nama'] ?? $user->name,
                 'level' => $level,
+                'departement' => $departement,
             ]);
 
             // Regenerasi sesi

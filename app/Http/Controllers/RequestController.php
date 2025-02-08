@@ -103,6 +103,7 @@ public function insert_request(Request $request)
     $departement = $request->input('departement');
     $sio = $request->input('sio');
     $permissions = $request->input('permissions', []);
+    $dep_req = $request->input('dep_req');
     // Mengatur jalur default jika file tidak ada
     $fotoPath = null;
     $medicalPath = null;

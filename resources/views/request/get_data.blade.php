@@ -81,6 +81,17 @@
                                                 placeholder="Departement" value="{{ $data_karyawan['departement'] }}"
                                                 readonly>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="dep_req">Departement Request</label>
+                                            <input type="text" class="form-control" id="dep_req" name="dep_req"
+                                                placeholder="Departement Request"
+                                                value="{{ session('logged_in_user')['departement'] }}" readonly>
+                                        </div>
+                                        <!-- Pesan error jika departemen tidak sama -->
+                                        @if ($data_karyawan['departement'] !== session('logged_in_user')['departement'])
+                                            <p class="text-danger mt-2">Request tidak dapat dilanjutkan, departemen berbeda.
+                                            </p>
+                                        @endif
                                         {{-- Upload photo --}}
                                         <div class="form-group">
                                             <label for="foto_view">Upload Photo</label>
@@ -119,7 +130,8 @@
                                                         </div>
                                                         |
                                                         <div class="icheck-primary d-inline">
-                                                            <input type="hidden" name="permissions[PIT BT]" value="no">
+                                                            <input type="hidden" name="permissions[PIT BT]"
+                                                                value="no">
                                                             <input type="checkbox" name="permissions[PIT BT]"
                                                                 id="checkboxPITBT" value="yes">
                                                             <label for="checkboxPITBT"> PIT BT </label>

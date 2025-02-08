@@ -211,7 +211,7 @@
 </style>
 @section('content')
     {{-- content --}}
-    {{-- <div class="content-header">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -225,11 +225,82 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
-
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Personal Task KTT</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NIK</th>
+                                        <th>Name</th>
+                                        <th>Request</th>
+                                        <th class="no-export">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($dataReqs->isEmpty())
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
+                                        </tr>
+                                    @else
+                                        @foreach ($dataReqs as $index => $dataReq)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $dataReq->nik }}</td>
+                                                <td
+                                                    class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
+                                                    {{ $dataReq->nama }}</td>
+                                                <td>
+                                                    @if ($dataReq->validasi_in == 1)
+                                                        Simper & MinePermit
+                                                    @elseif ($dataReq->validasi_in == 2)
+                                                        MinePermit
+                                                    @else
+                                                        {{-- Jika ada nilai lain atau untuk penanganan default --}}
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td align="center" class="no-export">
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-primary" onclick="showPopup(this)"
+                                                        data-photo="{{ $dataReq->foto_path }}"
+                                                        data-medical="{{ $dataReq->medical_path }}"
+                                                        data-license="{{ $dataReq->drivers_license_path }}"
+                                                        data-attachment="{{ $dataReq->attachment_path }}"
+                                                        data-sio="{{ $dataReq->sio_path }}"
+                                                        data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
+                                                        data-jabatan="{{ $dataReq->jab }}"
+                                                        data-departement="{{ $dataReq->dept }}"
+                                                        data-kode="{{ $dataReq->kode }}"
+                                                        data-units="{{ json_encode($dataReq->unitUsers) }}"
+                                                        data-access="{{ json_encode($dataReq->access) }}">
+                                                        Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Modal -->
-    <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+    <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -379,6 +450,34 @@
             </div>
         </div>
     </div>
+    <!-- Modal Reject Reason -->
+    <div class="modal fade" id="rejectReasonModal" tabindex="-1" role="dialog"
+        aria-labelledby="rejectReasonModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectReasonModalLabel">Alasan Penolakan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="rejectForm" method="POST">
+                    @csrf
+                    <input type="hidden" name="kode" id="rejectKode">
+                    <div class="form-group">
+                        <textarea class="form-control" id="rejectReason" name="reason" rows="10" required></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -442,7 +541,6 @@
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('R') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('T') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('I') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
-                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('O') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                 `;
                         unitTableBody.appendChild(row);
                     }
@@ -587,9 +685,39 @@
                 return;
             }
 
-            let route = "{{ route('approveDataKtt', '') }}"; // Default route
+            if (action === 'reject') {
+                $('#rejectKode').val(activeKode);
 
-            window.location.href = route + "/" + activeKode;
+                // Set action berdasarkan halaman saat ini
+                const currentPage = window.location.pathname;
+                let rejectUrl = `{{ route('reject.request', '') }}/${activeKode}`;
+
+                if (currentPage.includes('she')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/2/${activeKode}`;
+                } else if (currentPage.includes('pjo')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/3/${activeKode}`;
+                } else if (currentPage.includes('bec')) {
+                    rejectUrl = `{{ route('reject.request', '') }}/4/${activeKode}`;
+                }
+
+                // Set form action dan tampilkan modal
+                $('#rejectForm').attr('action', rejectUrl);
+                $('#rejectReasonModal').modal('show');
+            } else {
+                // Handle approval based on current page
+                let route;
+                const currentPage = window.location.pathname;
+
+                if (currentPage.includes('she')) {
+                    route = "{{ route('approveDataShe', '') }}";
+                } else if (currentPage.includes('pjo')) {
+                    route = "{{ route('approveDataPjo', '') }}";
+                } else if (currentPage.includes('bec')) {
+                    route = "{{ route('approveDataBec', '') }}";
+                }
+
+                window.location.href = route + "/" + activeKode;
+            }
         }
     </script>
 @endsection

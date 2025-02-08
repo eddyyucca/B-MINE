@@ -22,6 +22,7 @@ class DataReqModel extends Model
         'medical_path',
         'drivers_license_path',
         'attachment_path',
+        'dep_req',
         'sio_path',
         'validasi_in',
         'sio_status',

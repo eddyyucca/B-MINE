@@ -14,10 +14,14 @@
             </div>
             <div class="info">
                 <div class="d-flex justify-content-center">
-                    <a href={{ url('/') }} class="d-block"><b>{{ session('logged_in_user')['nama'] }}</b>
+                    <a href="{{ url('/') }}" class="d-block">
+                        <b>{{ session('logged_in_user')['nama'] }}</b>
+                        <br>
+                        <small class="text-muted">{{ session('logged_in_user')['departement'] }}</small>
                     </a>
                 </div>
             </div>
+
         </div>
         {{-- search --}}
         <div class="form-inline">
