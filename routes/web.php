@@ -76,7 +76,15 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/qrcode', [QrcodeController::class,'index'])->name('qrcode');
    Route::get('/generatePDF', [QrcodeController::class,'generatePDF'])->name('generatePDF');
    Route::get('/karyawanfolder', [RequestController::class,'karyawanfolder'])->name('karyawanfolder');
+
+
+   // PRINT ID CARD
+   Route::get('/generate-idcard/{kode}', [PersonalTaskController::class, 'generateIdCard']);
+
 });
+
+// Public route untuk QR code scan
+Route::get('/scan/{kode}', [PersonalTaskController::class, 'viewQRData'])->name('scan.qr');
 
 // Authentication
 Route::get('/login', [AuthController::class,'login'])->name('login');

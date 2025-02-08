@@ -289,7 +289,8 @@
 
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-success text-white">Depan</button>
+                                                    <button class="btn btn-success text-white"
+                                                        onclick="openPrintPage('{{ $dataReq->kode }}')">Depan</button>
                                                     <button class="btn btn-success text-white">Belakang</button>
                                                 </td>
                                             </tr>
@@ -722,6 +723,13 @@
 
                 window.location.href = route + "/" + activeKode;
             }
+        }
+
+        function openPrintPage(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcard') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
         }
     </script>
 @endsection

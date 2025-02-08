@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PersonalTaskController extends Controller {
 
@@ -197,26 +198,6 @@ class PersonalTaskController extends Controller {
     }
 
 
-    public function generateIdCard($nik) {
-        try {
-            $karyawan = DataReqModel::where('nik', $nik)->firstOrFail();
-
-            $fotoBase64 = url('storage/app/public/fotos/' . basename($karyawan->foto_path));
-            $bg = url('adminlte/idcard/depan.jpg');
-
-            $pdf = PDF::loadView('layouts.idcard', [
-                'karyawan' => $karyawan,
-                'fotoBase64' => $fotoBase64,
-                'bg' => $bg,
-            ]);
-
-            return $pdf->stream('id_card_' . $karyawan->nik . '.pdf');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Failed to generate ID card: ' . $e->getMessage());
-        }
-    }
-
     private function getPreviousStage($currentStage) {
         $stageMap = [
             2 => 1,  // SHE back to initial
@@ -328,6 +309,97 @@ class PersonalTaskController extends Controller {
 
         return view('personal_task.data_req_rejected', compact('dataReqs', 'name_page'));
     }
+
+
+
+    // public function generateIdCard($nik) {
+    //     try {
+    //         $karyawan = DataReqModel::where('nik', $nik)->firstOrFail();
+
+    //         $fotoBase64 = url('storage/app/public/fotos/' . basename($karyawan->foto_path));
+    //         $bg = url('adminlte/idcard/depan.jpg');
+
+    //         $pdf = PDF::loadView('layouts.idcard', [
+    //             'karyawan' => $karyawan,
+    //             'fotoBase64' => $fotoBase64,
+    //             'bg' => $bg,
+    //         ]);
+
+    //         return $pdf->stream('id_card_' . $karyawan->nik . '.pdf');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()
+    //             ->with('error', 'Failed to generate ID card: ' . $e->getMessage());
+    //     }
+    // }
+
+    public function generateIdCard($kode)
+    {
+        // Ambil data pegawai berdasarkan kode
+        $dataReq = DataReqModel::where('kode', $kode)->first();
+        // Jika data tidak ditemukan
+        if (!$dataReq) {
+            abort(404, 'Data tidak ditemukan');
+        }
+
+         // Generate QR code
+        $qrcode = QrCode::size(150)
+        ->format('svg')
+        ->style('round')
+        ->backgroundColor(255,255,255)
+        ->generate(url("/scan/{$dataReq->kode}"));
+
+        // Generate URL lengkap untuk foto menggunakan logika yang sama dengan processData
+        $paths = ['foto_path'];
+        $folders = [
+            'foto_path' => 'fotos'
+        ];
+
+        foreach ($paths as $path) {
+            if ($dataReq->$path) {
+                $folder = $folders[$path];
+                $dataReq->$path = url("storage/app/public/$folder/" . basename($dataReq->$path));
+            }
+        }
+
+        // Mengambil akses sebagai array
+        if (is_string($dataReq->access)) {
+            $access = json_decode($dataReq->access, true);
+        } else {
+            $access = $dataReq->access;
+        }
+
+        // Mengambil data unit
+        $units = $dataReq->unitUsers;
+
+
+        return view('idcard.print', [
+            'dataReq' => $dataReq,
+            'access' => $access,
+            'units' => $units,
+            'qrcode' => $qrcode
+        ]);
+    }
+
+    public function scanQR($kode)
+    {
+        $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+
+        // Process foto path
+        if ($dataReq->foto_path) {
+            $folder = 'fotos';
+            $dataReq->foto_path = url("storage/app/public/$folder/" . basename($dataReq->foto_path));
+        }
+
+        // Process access data
+        if (is_string($dataReq->access)) {
+            $access = json_decode($dataReq->access, true);
+        } else {
+            $access = $dataReq->access;
+        }
+
+        return view('view_qr', compact('dataReq', 'access'));
+    }
+
 
     public function index() {
         return $this->personalTask(request(), null);
