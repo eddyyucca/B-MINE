@@ -244,6 +244,7 @@
                                         <th>Name</th>
                                         <th>Request</th>
                                         <th class="no-export">Actions</th>
+                                        <th class="no-export">Cetak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -285,7 +286,11 @@
                                                         data-access="{{ json_encode($dataReq->access) }}">
                                                         Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                     </button>
-                                                    {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
+
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-success text-white">Depan</button>
+                                                    <button class="btn btn-success text-white">Belakang</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -541,6 +546,7 @@
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('R') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('T') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('I') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('O') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                 `;
                         unitTableBody.appendChild(row);
                     }
