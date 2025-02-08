@@ -290,8 +290,10 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-success text-white"
-                                                        onclick="openPrintPage('{{ $dataReq->kode }}')">Depan</button>
-                                                    <button class="btn btn-success text-white">Belakang</button>
+                                                        onclick="openPrintPageFront('{{ $dataReq->kode }}')">Depan</button>
+                                                    <button class="btn btn-success text-white"
+                                                        onclick="openPrintPageBack('{{ $dataReq->kode }}')">Belakang</button>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -725,9 +727,16 @@
             }
         }
 
-        function openPrintPage(kode) {
+        function openPrintPageFront(kode) {
             // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
-            const url = '{{ url('generate-idcard') }}/' + kode;
+            const url = '{{ url('generate-idcardFront') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
+        }
+
+        function openPrintPageBack(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcardBack') }}/' + kode;
             const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
             popup.focus();
         }

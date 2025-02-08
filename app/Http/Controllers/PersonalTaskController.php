@@ -332,7 +332,7 @@ class PersonalTaskController extends Controller {
     //     }
     // }
 
-    public function generateIdCard($kode)
+    public function generateIdCardFront($kode)
     {
         // Ambil data pegawai berdasarkan kode
         $dataReq = DataReqModel::where('kode', $kode)->first();
@@ -372,7 +372,46 @@ class PersonalTaskController extends Controller {
         $units = $dataReq->unitUsers;
 
 
-        return view('idcard.print', [
+        return view('idcard.print_front', [
+            'dataReq' => $dataReq,
+            'access' => $access,
+            'units' => $units,
+            'qrcode' => $qrcode
+        ]);
+    }
+
+    public function generateIdCardBack($kode)
+    {
+        $dataReq = DataReqModel::where('kode', $kode)->first();
+
+        if (!$dataReq) {
+            abort(404, 'Data tidak ditemukan');
+        }
+
+      // Mengambil data unit dengan relasi
+        $units = $dataReq->unitUsers()->with('unitData')->get();
+
+        // Jika units kosong, buat collection kosong agar bisa di-chunk
+        if ($units->isEmpty()) {
+            $units = collect([]);
+        }
+
+        // Generate QR code
+        $qrcode = QrCode::size(150)
+            ->format('svg')
+            ->style('round')
+            ->backgroundColor(255,255,255)
+            ->generate(url("/verifikasi/{$dataReq->kode}"));
+
+        // Proses foto
+        if ($dataReq->foto_path) {
+            $dataReq->foto_path = url("storage/app/public/fotos/" . basename($dataReq->foto_path));
+        }
+
+        // Proses access
+        $access = is_string($dataReq->access) ? json_decode($dataReq->access, true) : $dataReq->access;
+
+        return view('idcard.print_back', [
             'dataReq' => $dataReq,
             'access' => $access,
             'units' => $units,

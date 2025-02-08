@@ -79,7 +79,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
 
 
    // PRINT ID CARD
-   Route::get('/generate-idcard/{kode}', [PersonalTaskController::class, 'generateIdCard']);
+   Route::get('/generate-idcardFront/{kode}', [PersonalTaskController::class, 'generateIdCardFront']);
+   Route::get('/generate-idcardBack/{kode}', [PersonalTaskController::class, 'generateIdCardBack']);
 
 });
 
