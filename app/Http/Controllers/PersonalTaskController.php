@@ -436,7 +436,7 @@ class PersonalTaskController extends Controller {
             $access = $dataReq->access;
         }
 
-        return view('view_qr', compact('dataReq', 'access'));
+        return view('verifikasi.view_qr', compact('dataReq', 'access'));
     }
 
 

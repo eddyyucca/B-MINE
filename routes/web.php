@@ -85,7 +85,7 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
 });
 
 // Public route untuk QR code scan
-Route::get('/scan/{kode}', [PersonalTaskController::class, 'viewQRData'])->name('scan.qr');
+Route::get('/verifikasi/{kode}', [PersonalTaskController::class, 'scanQR'])->name('scan.qr');
 
 // Authentication
 Route::get('/login', [AuthController::class,'login'])->name('login');
