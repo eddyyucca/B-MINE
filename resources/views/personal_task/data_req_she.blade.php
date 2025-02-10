@@ -244,6 +244,7 @@
                                         <th>Name</th>
                                         <th>Request</th>
                                         <th class="no-export">Actions</th>
+                                        <th class="no-export">Cetak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -285,7 +286,14 @@
                                                         data-access="{{ json_encode($dataReq->access) }}">
                                                         Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                     </button>
-                                                    {{-- <button onclick="openPdf({{ $dataReq->nik }})">Lihat ID Card PDF</button> --}}
+
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-success text-white"
+                                                        onclick="openPrintPageFront('{{ $dataReq->kode }}')">Depan</button>
+                                                    <button class="btn btn-success text-white"
+                                                        onclick="openPrintPageBack('{{ $dataReq->kode }}')">Belakang</button>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -541,6 +549,7 @@
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('R') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('T') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                     <td class="text-center">${unit.type_unit && unit.type_unit.includes('I') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
+                    <td class="text-center">${unit.type_unit && unit.type_unit.includes('O') ? '<i class="fas fa-check text-success"></i>' : '-'}</td>
                 `;
                         unitTableBody.appendChild(row);
                     }
@@ -716,6 +725,20 @@
 
                 window.location.href = route + "/" + activeKode;
             }
+        }
+
+        function openPrintPageFront(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcardFront') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
+        }
+
+        function openPrintPageBack(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcardBack') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
         }
     </script>
 @endsection
