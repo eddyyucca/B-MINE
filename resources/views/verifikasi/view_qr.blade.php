@@ -98,7 +98,19 @@
     <div class="profile-container">
         <img src="{{ $dataReq->foto_path }}" alt="Profile Photo" class="profile-photo">
         <div class="info-kode">
-            <div>{{ $dataReq->kode }}</div>
+            <div>Code : {{ $dataReq->kode }}</div>
+        </div>
+        <div class="info-kode">
+            <?php
+            $date_req = $dataReq->date_req;
+            $date = new DateTime($date_req);
+            $date->modify('+1 year');
+            $expired_date = $date->format('Y-m-d');
+            
+            // atau
+            $date->modify('+12 months');
+            $expired_date = $date->format('Y-m-d'); ?>
+            <div>expired : {{ $expired_date }}</div>
         </div>
         <div class="info-section">
             <div class="info-row">

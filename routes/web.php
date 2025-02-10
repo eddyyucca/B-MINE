@@ -72,11 +72,19 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::post('/reject-request/{kode}', [PersonalTaskController::class, 'rejectRequest'])->name('reject.request');
    Route::put('/clear-reject-history/{kode}', [PersonalTaskController::class, 'clearRejectHistory'])->name('clear.reject.history');
 
+    // PRINT ID CARD
+   Route::get('/generate-idcardFront/{kode}', [PersonalTaskController::class, 'generateIdCardFront']);
+   Route::get('/generate-idcardBack/{kode}', [PersonalTaskController::class, 'generateIdCardBack']);
+
+
    // QR Code
    Route::get('/qrcode', [QrcodeController::class,'index'])->name('qrcode');
    Route::get('/generatePDF', [QrcodeController::class,'generatePDF'])->name('generatePDF');
    Route::get('/karyawanfolder', [RequestController::class,'karyawanfolder'])->name('karyawanfolder');
 });
+
+// Public route untuk QR code scan
+Route::get('/verifikasi/{kode}', [PersonalTaskController::class, 'scanQR'])->name('scan.qr');
 
 // Authentication
 Route::get('/login', [AuthController::class,'login'])->name('login');

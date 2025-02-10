@@ -142,6 +142,7 @@
 </head>
 
 <body>
+    dd($dataReq);
     <div class="id-card">
         <h3 class="mb-3">
             @if ($dataReq->validasi_in == 1)
@@ -190,7 +191,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         window.print();
