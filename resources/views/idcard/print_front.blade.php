@@ -4,147 +4,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ID Card</title>
+    <title>ID Card CR-80 Vertical</title>
     <style>
-        /* Desain ID Card */
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            background: #f0f0f0;
         }
 
         .id-card {
-            width: 350px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            width: 54mm;
+            height: 85.6mm;
+            background: white;
+            padding: 2mm;
+            border: 0.2mm solid #ccc;
+            border-radius: 2mm;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            font-size: 7pt;
+            font-weight: bold;
+            margin-bottom: 1mm;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .profile-photo {
-            width: 155px;
-            height: 155px;
-            border-radius: 5px;
+            width: 25mm;
+            height: 30mm;
             object-fit: cover;
-            display: block;
-            margin: 0 auto;
-            border: 2px solid #ddd;
+            border: 0.2mm solid #ddd;
+            border-radius: 1mm;
+            margin: 1mm 0;
         }
 
-        .name,
-        .position {
-            margin-top: 10px;
-            font-size: 18px;
+        .name {
+            font-size: 8pt;
+            font-weight: bold;
+            margin-top: 1mm;
             text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
+        .position {
+            font-size: 7pt;
+            margin-top: 0.5mm;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 1mm;
+        }
+
+        /* Layout untuk access dan QR code berdampingan */
         .access-container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
             width: 100%;
-            margin-top: 20px;
-            gap: 15px;
+            margin-top: 1mm;
+            gap: 1mm;
         }
 
-        .access-table,
-        .qrcode {
+        .access-table {
             width: 48%;
-            border: 1px solid #ddd;
-            /* Menambahkan border tipis */
-            padding: 10px;
-            /* Menambahkan padding */
-            border-radius: 5px;
-            /* Optional: membuat sudut border sedikit melengkung */
         }
 
         .access-table h4,
         .qrcode h4 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            margin-top: 0;
+            font-size: 6pt;
+            margin-bottom: 0.5mm;
             text-align: center;
-            /* Membuat text center */
+            font-weight: bold;
         }
 
         .access-table table {
             width: 100%;
-            /* Membuat tabel mengisi container */
-            margin: 0 auto;
-            /* Center tabel */
+            font-size: 6pt;
+            border-collapse: collapse;
         }
 
         .access-table td {
-            padding: 5px;
-            font-size: 14px;
-            text-align: left;
-            /* Align text di tabel */
+            padding: 0.3mm 0.5mm;
+            line-height: 1.2;
+            white-space: nowrap;
         }
 
-        /* Style khusus untuk QR code */
         .qrcode {
+            width: 17mm;
+            height: 17mm;
+            margin-top: 1mm;
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .qrcode svg {
-            width: 140px;
-            height: 159px;
+            width: 17mm;
+            height: 17mm;
+            margin-top: 1mm;
         }
 
-        /* CSS untuk tampilan print */
+        .access-table td:last-child {
+            text-align: center;
+        }
+
         @media print {
-            body {
+            @page {
+                size: 54mm 85.6mm;
                 margin: 0;
             }
 
+            body {
+                margin: 0;
+                padding: 0;
+                background: none;
+            }
+
             .id-card {
-                page-break-before: always;
+                border: none;
+                box-shadow: none;
+                margin: 0;
+                padding: 2mm;
+                page-break-after: always;
             }
 
-            /* Pastikan tabel tampil dengan baik */
-            /* .access-table {
-                border: 1px solid #000;
-                border-collapse: collapse;
-                width: 100%;
-            } */
-
-            .access-table td,
-            .access-table th {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: center;
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
-            .access-table th {
-                background-color: #f2f2f2;
-                font-weight: bold;
-            }
-
-            .access-table {
-                align-items: center;
-            }
-
-            .qrcode {
-                /* margin-top: 20px; */
-                text-align: center;
+            .qrcode svg {
+                width: 17mm;
+                height: 17mm;
             }
         }
     </style>
 </head>
 
 <body>
-    dd($dataReq);
     <div class="id-card">
-        <h3 class="mb-3">
+        <div class="card-header">
             @if ($dataReq->validasi_in == 1)
                 Simper & MinePermit
             @elseif ($dataReq->validasi_in == 2)
@@ -152,16 +172,13 @@
             @else
                 -
             @endif
-        </h3>
-        <!-- Foto Profil -->
+        </div>
+
         <img src="{{ $dataReq->foto_path }}" alt="Profile Photo" class="profile-photo">
 
-        <!-- Nama dan Jabatan -->
         <div class="name">{{ $dataReq->nama }}</div>
         <div class="position">{{ $dataReq->jab }}</div>
 
-        <!-- Akses dan QR Code di samping -->
-        {{-- !-- Di bagian HTML, ubah struktur tabel access --> --}}
         <div class="access-container">
             <div class="access-table">
                 <h4>ACCESS</h4>

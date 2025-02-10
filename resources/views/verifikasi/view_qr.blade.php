@@ -97,21 +97,6 @@
 <body>
     <div class="profile-container">
         <img src="{{ $dataReq->foto_path }}" alt="Profile Photo" class="profile-photo">
-        <div class="info-kode">
-            <div>Code : {{ $dataReq->kode }}</div>
-        </div>
-        <div class="info-kode">
-            <?php
-            $date_req = $dataReq->date_req;
-            $date = new DateTime($date_req);
-            $date->modify('+1 year');
-            $expired_date = $date->format('Y-m-d');
-            
-            // atau
-            $date->modify('+12 months');
-            $expired_date = $date->format('Y-m-d'); ?>
-            <div>expired : {{ $expired_date }}</div>
-        </div>
         <div class="info-section">
             <div class="info-row">
                 <div class="info-label">Nama</div>
@@ -129,54 +114,95 @@
                 <div class="info-label">Jabatan</div>
                 <div>: {{ $dataReq->jab }}</div>
             </div>
-        </div>
+            <div class="info-row">
+                <div class="info-label">Code</div>
+                <div>: {{ $dataReq->kode }}</div>
+            </div>
+            <div class="info-row">
+                <?php
+                $date_req = $dataReq->date_req;
+                $date = new DateTime($date_req);
+                $date->modify('+1 year');
+                $expired_date = $date->format('Y-m-d');
+                
+                // atau
+                $date->modify('+12 months');
+                $expired_date = $date->format('Y-m-d');
+                
+                function tanggalIndonesia($expired_date)
+                {
+                    $bulan = [
+                        1 => 'Januari',
+                        'Februari',
+                        'Maret',
+                        'April',
+                        'Mei',
+                        'Juni',
+                        'Juli',
+                        'Agustus',
+                        'September',
+                        'Oktober',
+                        'November',
+                        'Desember',
+                    ];
+                
+                    $split = explode('-', $expired_date);
+                    return $split[2] . ' ' . $bulan[(int) $split[1]] . ' ' . $split[0];
+                }
+                ?>
+                <div class="info-row">
+                    <div class="info-label">Expired</div>
+                    <div>: {{ tanggalIndonesia($expired_date) }}</div>
+                </div>
 
-        <div class="access-container">
-            <div class="access-table">
-                <h4>ACCESS</h4>
-                <table>
-                    <tr>
-                        <td>CHR BT</td>
-                        <td>: {{ $access['CHR BT'] === 'yes' ? '✓' : 'X' }}</td>
-                    </tr>
-                    <tr>
-                        <td>CHR FSB</td>
-                        <td>: {{ $access['CHR FSB'] === 'yes' ? '✓' : 'X' }}</td>
-                    </tr>
-                    <tr>
-                        <td>PIT BT</td>
-                        <td>: {{ $access['PIT BT'] === 'yes' ? '✓' : 'X' }}</td>
-                    </tr>
-                    <tr>
-                        <td>PIT TA</td>
-                        <td>: {{ $access['PIT TA'] === 'yes' ? '✓' : 'X' }}</td>
-                    </tr>
-                </table>
             </div>
 
-            <div class="access-table">
-                <h4>DOCUMENTS</h4>
-                <table>
-                    <tr>
-                        <td>Medical Certificate</td>
-                        <td>: {{ !empty($dataReq->medical_path) ? '✓' : '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Driver's License</td>
-                        <td>: {{ !empty($dataReq->drivers_license_path) ? '✓' : '' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Attachment</td>
-                        <td>: {{ !empty($dataReq->attachment_path) ? '✓' : '' }}</td>
-                    </tr>
-                    <tr>
-                        <td>SIO</td>
-                        <td>: {{ !empty($dataReq->sio_path) ? '✓' : '' }}</td>
-                    </tr>
-                </table>
+            <div class="access-container">
+                <div class="access-table">
+                    <h4>ACCESS</h4>
+                    <table>
+                        <tr>
+                            <td>CHR BT</td>
+                            <td>: {{ $access['CHR BT'] === 'yes' ? '✓' : 'X' }}</td>
+                        </tr>
+                        <tr>
+                            <td>CHR FSB</td>
+                            <td>: {{ $access['CHR FSB'] === 'yes' ? '✓' : 'X' }}</td>
+                        </tr>
+                        <tr>
+                            <td>PIT BT</td>
+                            <td>: {{ $access['PIT BT'] === 'yes' ? '✓' : 'X' }}</td>
+                        </tr>
+                        <tr>
+                            <td>PIT TA</td>
+                            <td>: {{ $access['PIT TA'] === 'yes' ? '✓' : 'X' }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="access-table">
+                    <h4>DOCUMENTS</h4>
+                    <table>
+                        <tr>
+                            <td>Medical Certificate</td>
+                            <td>: {{ !empty($dataReq->medical_path) ? '✓' : '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Driver's License</td>
+                            <td>: {{ !empty($dataReq->drivers_license_path) ? '✓' : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Attachment</td>
+                            <td>: {{ !empty($dataReq->attachment_path) ? '✓' : '' }}</td>
+                        </tr>
+                        <tr>
+                            <td>SIO</td>
+                            <td>: {{ !empty($dataReq->sio_path) ? '✓' : '' }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
