@@ -643,17 +643,17 @@
         }
 
         // Fungsi untuk membalik ID Card
-        function toggleCard() {
-            const front = document.getElementById('idCardFront');
-            const back = document.getElementById('idCardBack');
-            if (front.style.display === 'none') {
-                front.style.display = 'block';
-                back.style.display = 'none';
-            } else {
-                front.style.display = 'none';
-                back.style.display = 'block';
-            }
-        }
+        // function toggleCard() {
+        //     const front = document.getElementById('idCardFront');
+        //     const back = document.getElementById('idCardBack');
+        //     if (front.style.display === 'none') {
+        //         front.style.display = 'block';
+        //         back.style.display = 'none';
+        //     } else {
+        //         front.style.display = 'none';
+        //         back.style.display = 'block';
+        //     }
+        // }
 
         // app
         document.querySelectorAll('[id^="approveButton"]').forEach(button => {
@@ -714,7 +714,6 @@
                 // Handle approval based on current page
                 let route;
                 const currentPage = window.location.pathname;
-
                 if (currentPage.includes('she')) {
                     route = "{{ route('approveDataShe', '') }}";
                 } else if (currentPage.includes('pjo')) {
@@ -722,7 +721,6 @@
                 } else if (currentPage.includes('bec')) {
                     route = "{{ route('approveDataBec', '') }}";
                 }
-
                 window.location.href = route + "/" + activeKode;
             }
         }
