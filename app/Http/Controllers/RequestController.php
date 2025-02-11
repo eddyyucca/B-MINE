@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\UnitModel;
 use App\Models\DataReqModel;
 use App\Models\UnitUser;
+use App\Models\KaryawanModel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 class RequestController extends Controller {
 
     public function index() {
@@ -20,57 +22,55 @@ class RequestController extends Controller {
         return view('request.not_found',compact('name_page'));
     }
 
-   public function get_data_nik(Request $request) {
-    $name_page = "B'Mine - Date Employee";
-    // Tangkap data yang dikirim dari form
-    $nik = $request->input('nik');
-
-    // Cek apakah NIK diisi
-    if (empty($nik)) {
-        return redirect()->back()->withErrors(['error' => 'NIK is required.']);
-    }
-
-    // Ambil token API dari file .env
-    $token = env('BMINE_API_TOKEN');
-
+ public function get_data_nik(Request $request)
+{
     try {
-        // Request ke API dengan token menggunakan cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:8088/rest_api/karyawan/' . $nik);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $token,
+        $name_page = "B'Mine - Data Employee";
+        
+        // Validate NIK
+        $validatedData = $request->validate([
+            'nik' => 'required|numeric',
+        ], [
+            'nik.required' => 'NIK is required.',
+            'nik.numeric' => 'NIK must be a number.',
         ]);
 
-        $response = curl_exec($ch);
+        // Get employee data
+        $data_karyawan = KaryawanModel::where('nik', 'LIKE', $validatedData['nik'])
+            ->first();
 
-        if (curl_errno($ch)) {
-            // Jika terjadi kesalahan pada cURL
-            $error_msg = curl_error($ch);
-            curl_close($ch);
-            return redirect()->back()->withErrors(['error' => 'NIK tidak ditemukan atau API error: ' . $error_msg]);
+        // Check if employee exists
+        if (!$data_karyawan) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors(['error' => 'NIK tidak ditemukan dalam database.']);
         }
 
-        curl_close($ch);
+        // Get all licenses
+        $licenses = UnitModel::all();
 
-        $data = json_decode($response, true);
+        // Return view with data
+        return view('request.get_data', compact(
+            'name_page',
+            'data_karyawan',
+            'licenses'
+        ));
 
-        // Periksa apakah response berhasil (status code 200)
-        if (!empty($data)) {
-            // Ambil data units dari model Unit
-            $licenses = UnitModel::all(); // Mengambil semua data dari tabel units
-            // Kirimkan data ke view
-            return view('request.get_data', [
-                'data_karyawan' => $data,
-                'licenses' => $licenses
-            ], compact('name_page'));
-        } else {
-            // Jika data kosong
-            return redirect()->back()->withErrors(['error' => 'No data found for the provided NIK.']);
-        }
+    } catch (ValidationException $e) {
+        return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors($e->errors());
+            
     } catch (\Exception $e) {
-        // Jika terjadi error saat koneksi ke API
-        return redirect()->back()->withErrors(['error' => 'An error occurred while fetching data.']);
+        // Gunakan Facades\Log untuk logging
+        Log::error('Error in get_data_nik: ' . $e->getMessage());
+        
+        return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors(['error' => 'Terjadi kesalahan saat mengambil data. Silakan coba lagi.']);
     }
 }
 
@@ -114,10 +114,12 @@ public function insert_request(Request $request)
 
     // Inisialisasi array untuk menyimpan hasil dengan default 'no'
     $permissionsArray = [
-        'CHR BT' => $permissions['CHR BT'] ?? 'no',
-        'CHR FSB' => $permissions['CHR FSB'] ?? 'no',
-        'PIT BT' => $permissions['PIT BT'] ?? 'no',
-        'PIT TA' => $permissions['PIT TA'] ?? 'no',
+        'CHR-BT' => $permissions['CHR-BT'] ?? 'no',
+        'CHR-FSP' => $permissions['CHR-FSP'] ?? 'no',
+        'CP-FSP' => $permissions['CP-FSP'] ?? 'no',
+        'CP-BT' => $permissions['CP-BT'] ?? 'no',
+        'PIT-BT' => $permissions['PIT-BT'] ?? 'no',
+        'PIT-TA' => $permissions['PIT-TA'] ?? 'no',
     ];
 
     // Set nilai "yes" untuk permission yang ada di input
@@ -164,6 +166,8 @@ public function insert_request(Request $request)
         'sio_status' => $sio,
         'date_req' => date('Y-m-d'),
         'access' => json_encode($permissionsArray),
+        'ktt' => json_encode($permissionsArray),
+        'dep_req' => session('logged_in_user')['departement'],
     ]);
 
 // Jika license_type adalah 2, lakukan perulangan untuk menyimpan data units

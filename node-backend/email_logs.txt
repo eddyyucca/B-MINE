@@ -1,0 +1,83 @@
+[11/2/2025, 23.16.01] 
+            Email berhasil terkirim!
+            ID: <5f81dce7-e0c0-92c8-8d74-eee66f36196f@bukitmakmur.com>
+            Waktu: 11/2/2025, 23.16.00
+            Penerima: eddyyucca@gmail.com
+            Status: Terkirim
+            ------------------------------
+        
+[11/2/2025, 23.18.00] 
+            Email berhasil terkirim!
+            ID: <3e35bf19-aa2e-9a7c-237b-49b3ab3f9d4e@bukitmakmur.com>
+            Waktu: 11/2/2025, 23.18.00
+            Penerima: suriyadi@bukitmakmur.com
+            Status: Terkirim
+            ------------------------------
+        
+[11/2/2025, 23.22.21] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.22.21
+            Error: connect ETIMEDOUT 103.115.32.8:25
+            ------------------------------
+        
+[11/2/2025, 23.29.21] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.29.21
+            Error: connect ETIMEDOUT 103.115.32.8:25
+            ------------------------------
+        
+[11/2/2025, 23.32.21] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.32.21
+            Error: connect ETIMEDOUT 103.115.32.8:25
+            ------------------------------
+        
+[11/2/2025, 23.34.21] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.34.21
+            Error: connect ETIMEDOUT 103.115.32.8:25
+            ------------------------------
+        
+[11/2/2025, 23.43.00] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.43.00
+            Error: 34010000:error:0A00010B:SSL routines:ssl3_get_record:wrong version number:c:\ws\deps\openssl\openssl\ssl\record\ssl3_record.c:355:
+
+            ------------------------------
+        
+[11/2/2025, 23.44.00] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.44.00
+            Error: read ECONNRESET
+            ------------------------------
+        
+[11/2/2025, 23.47.26] 
+            GAGAL mengirim email!
+            Waktu: 11/2/2025, 23.47.26
+            Error: connect ETIMEDOUT 103.115.32.8:25
+            ------------------------------
+        
+[11/2/2025, 23.48.00] 
+            Email berhasil terkirim!
+            ID: <3911e31a-ac58-0bc8-8faa-21f75f264a82@bukitmakmur.com>
+            Waktu: 11/2/2025, 23.48.00
+            Penerima: eddyyucca@gmail.com
+            Status: Terkirim
+            ------------------------------
+        
+[11/2/2025, 23.52.01] 
+            Email berhasil terkirim!
+            ID: <34888dcf-98b3-922f-32c2-7852359da09e@bukitmakmur.com>
+            Waktu: 11/2/2025, 23.52.00
+            Penerima: eddyyucca@gmail.com
+            Status: Terkirim
+            ------------------------------
+        
+[11/2/2025, 23.53.01] 
+            Email berhasil terkirim!
+            ID: <abcaf986-f515-42bd-3cd7-94cb7c56ff42@bukitmakmur.com>
+            Waktu: 11/2/2025, 23.53.00
+            Penerima: eddyyucca@gmail.com
+            Status: Terkirim
+            ------------------------------
+        

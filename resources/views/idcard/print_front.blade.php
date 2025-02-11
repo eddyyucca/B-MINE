@@ -185,19 +185,27 @@
                 <table>
                     <tr>
                         <td>CHR BT</td>
-                        <td>: {{ $access['CHR BT'] === 'yes' ? '✔' : '✘' }}</td>
+                        <td>: {{ $access['CHR-BT'] === 'yes' ? '✔' : '✘' }}</td>
                     </tr>
                     <tr>
-                        <td>CHR FSB</td>
-                        <td>: {{ $access['CHR FSB'] === 'yes' ? '✔' : '✘' }}</td>
+                        <td>CHR FSP</td>
+                        <td>: {{ $access['CHR-FSP'] === 'yes' ? '✔' : '✘' }}</td>
                     </tr>
                     <tr>
                         <td>PIT BT</td>
-                        <td>: {{ $access['PIT BT'] === 'yes' ? '✔' : '✘' }}</td>
+                        <td>: {{ $access['PIT-BT'] === 'yes' ? '✔' : '✘' }}</td>
                     </tr>
                     <tr>
                         <td>PIT TA</td>
-                        <td>: {{ $access['PIT TA'] === 'yes' ? '✔' : '✘' }}</td>
+                        <td>: {{ $access['PIT-TA'] === 'yes' ? '✔' : '✘' }}</td>
+                    </tr>
+                    <tr>
+                        <td>CP FSP</td>
+                        <td>: {{ $access['CP-FSP'] === 'yes' ? '✔' : '✘' }}</td>
+                    </tr>
+                    <tr>
+                        <td>CP BT</td>
+                        <td>: {{ $access['CP-BT'] === 'yes' ? '✔' : '✘' }}</td>
                     </tr>
                 </table>
             </div>

@@ -98,12 +98,15 @@ class PersonalTaskController extends Controller {
 
             if (!$req->access) {
                 $req->access = [
-                    'CHR BT' => 'no',
-                    'CHR FSB' => 'no',
-                    'PIT BT' => 'no',
-                    'PIT TA' => 'no'
+                    'CHR-BT' => 'no',
+                    'CHR-FSP' => 'no',
+                    'PIT-BT' => 'no',
+                    'PIT-TA' => 'no',
+                    'CP-FSP' => 'no',
+                    'CP-BT' => 'no',
                 ];
             }
+            
 
             $paths = ['foto_path', 'medical_path', 'drivers_license_path', 'attachment_path'];
             $folders = [

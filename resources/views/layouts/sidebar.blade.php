@@ -78,6 +78,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('/personal_task_rejected') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-times"></i>
+                        <p>Rejected</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href={{ url('/') }} class="nav-link">
                         <i class="fas fa-check-circle"></i>
                         <p>Complete Submission</p>
@@ -113,12 +119,6 @@
                     <a href="{{ url('/personal_task_ktt') }}" class="nav-link">
                         <i class="nav-icon fas fa-user-check"></i>
                         <p>Personal Task KTT</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('/personal_task_rejected') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-times"></i>
-                        <p>Personal Task rejected</p>
                     </a>
                 </li>
             @elseif (session('logged_in_user')['level'] === 'she')

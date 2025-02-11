@@ -344,8 +344,8 @@
                                         <td style="text-align: center;"><span id="chrBT1"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>CHR FSB:</td>
-                                        <td style="text-align: center;"><span id="chrFSB1"></span></td>
+                                        <td>CHR FSP:</td>
+                                        <td style="text-align: center;"><span id="chrFSP1"></span></td>
                                     </tr>
                                     <tr>
                                         <td>PIT BT:</td>
@@ -354,6 +354,10 @@
                                     <tr>
                                         <td>PIT TA:</td>
                                         <td style="text-align: center;"><span id="pitTA1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CP BT:</td>
+                                        <td style="text-align: center;"><span id="pitCPBT1">Yes</span></td>
                                     </tr>
                                 </table>
                             </div>
@@ -636,10 +640,12 @@
             setPDF('attachment4', sioUrl);
 
             // Set nilai access
-            document.getElementById('chrBT1').textContent = access['CHR BT'] || 'no';
-            document.getElementById('chrFSB1').textContent = access['CHR FSB'] || 'no';
-            document.getElementById('pitBT1').textContent = access['PIT BT'] || 'no';
-            document.getElementById('pitTA1').textContent = access['PIT TA'] || 'no';
+            document.getElementById('chrBT1').textContent = access['CHR-BT'] || 'no';
+            document.getElementById('chrFSP1').textContent = access['CHR-FSP'] || 'no';
+            document.getElementById('pitBT1').textContent = access['PIT-BT'] || 'no';
+            document.getElementById('pitTA1').textContent = access['PIT-TA'] || 'no';
+            document.getElementById('pitCPFSP1').textContent = access['CP-FSP'] || 'no';
+            document.getElementById('pitCPBT1').textContent = access['CP-BT'] || 'no';
         }
 
         // Fungsi untuk membalik ID Card

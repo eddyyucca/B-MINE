@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use App\Models\UserModel;
+use App\Models\KaryawanModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -21,9 +22,6 @@ class AuthController extends Controller {
         'password' => 'required',
     ]);
 
-    // Ambil token API dari file .env
-    $token = env('BMINE_API_TOKEN');
-
     $user = null; // Default user
 
     try {
@@ -34,12 +32,9 @@ class AuthController extends Controller {
         } else {
             // Jika identifier adalah NIK, gunakan API eksternal
             $identifier = $request->identifier;
-            $response = Http::withToken($token)
-                ->timeout(10) // Timeout untuk mencegah permintaan lama
-                ->get('http://localhost:8088/rest_api/karyawan/' . $identifier);
-  
-            if ($response->successful()) {
-                $user = $response->json();
+            $response = KaryawanModel::where('nik', $identifier)->first();
+            if ($response == true) {
+                $user = $response;
             } else {
                 return redirect()->back()->with('error', 'NIK tidak ditemukan atau API error: ' . $response->status());
             }
