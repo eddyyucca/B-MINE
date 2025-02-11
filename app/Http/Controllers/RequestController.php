@@ -120,6 +120,7 @@ public function insert_request(Request $request)
         'CP-BT' => $permissions['CP-BT'] ?? 'no',
         'PIT-BT' => $permissions['PIT-BT'] ?? 'no',
         'PIT-TA' => $permissions['PIT-TA'] ?? 'no',
+        'PIT-TJ' => $permissions['PIT-TJ'] ?? 'no',
     ];
 
     // Set nilai "yes" untuk permission yang ada di input

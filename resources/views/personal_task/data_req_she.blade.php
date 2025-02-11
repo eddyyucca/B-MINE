@@ -357,7 +357,11 @@
                                     </tr>
                                     <tr>
                                         <td>CP BT:</td>
-                                        <td style="text-align: center;"><span id="pitCPBT1">Yes</span></td>
+                                        <td style="text-align: center;"><span id="pitCPBT1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIT TJ:</td>
+                                        <td style="text-align: center;"><span id="pitPITTJ1"></span></td>
                                     </tr>
                                 </table>
                             </div>
@@ -646,6 +650,7 @@
             document.getElementById('pitTA1').textContent = access['PIT-TA'] || 'no';
             document.getElementById('pitCPFSP1').textContent = access['CP-FSP'] || 'no';
             document.getElementById('pitCPBT1').textContent = access['CP-BT'] || 'no';
+            document.getElementById('pitPITTJ1').textContent = access['PIT-TJ'] || 'no';
         }
 
         // Fungsi untuk membalik ID Card

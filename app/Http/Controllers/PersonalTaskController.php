@@ -104,6 +104,7 @@ class PersonalTaskController extends Controller {
                     'PIT-TA' => 'no',
                     'CP-FSP' => 'no',
                     'CP-BT' => 'no',
+                    'PIT-TJ' => 'no',
                 ];
             }
             
