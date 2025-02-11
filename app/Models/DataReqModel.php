@@ -31,7 +31,8 @@ class DataReqModel extends Model
         'reject_history',
         'locked_by',
         'locked_by_name',
-        'locked_at'
+        'locked_at',
+        'ktt',
     ];
 
     protected $casts = [

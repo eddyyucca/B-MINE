@@ -160,6 +160,14 @@
                                                                 id="checkboxPITTA" value="yes">
                                                             <label for="checkboxPITTA"> PIT-TA </label>
                                                         </div>
+                                                        |
+                                                        <div class="icheck-primary d-inline">
+                                                            <input type="hidden" name="permissions[PIT-TJ]"
+                                                                value="no">
+                                                            <input type="checkbox" name="permissions[PIT-TJ]"
+                                                                id="checkboxPITTJ" value="yes">
+                                                            <label for="checkboxPITTJ"> PIT-TJ </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

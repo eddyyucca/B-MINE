@@ -34,6 +34,7 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Personal Task SHE";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 1)
+            ->orderBy('date_req', 'desc')
             ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -49,6 +50,7 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Personal Task PJO";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 2)
+            ->orderBy('date_req', 'desc')
             ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -63,7 +65,8 @@ class PersonalTaskController extends Controller {
     public function becTask() {
         $name_page = "B'Mine - Personal Task BEC";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-        ->whereIn('status', [3, 4])
+        ->whereIn('status', 3)
+        ->orderBy('date_req', 'desc')
         ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -79,6 +82,7 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Personal Task KTT";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 4)
+            ->orderBy('date_req', 'desc')
             ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong

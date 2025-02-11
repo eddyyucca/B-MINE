@@ -122,6 +122,15 @@ public function insert_request(Request $request)
         'PIT-TA' => $permissions['PIT-TA'] ?? 'no',
         'PIT-TJ' => $permissions['PIT-TJ'] ?? 'no',
     ];
+    $permissionsKTT = [
+        'CHR-BT' => $permissions['CHR-BT'] ?? 'no',
+        'CHR-FSP' => $permissions['CHR-FSP'] ?? 'no',
+        'CP-FSP' => $permissions['CP-FSP'] ?? 'no',
+        'CP-BT' => $permissions['CP-BT'] ?? 'no',
+        'PIT-BT' => $permissions['PIT-BT'] ?? 'no',
+        'PIT-TA' => $permissions['PIT-TA'] ?? 'no',
+        'PIT-TJ' => $permissions['PIT-TJ'] ?? 'no',
+    ];
 
     // Set nilai "yes" untuk permission yang ada di input
     foreach ($permissions as $permission) {
@@ -167,7 +176,7 @@ public function insert_request(Request $request)
         'sio_status' => $sio,
         'date_req' => date('Y-m-d'),
         'access' => json_encode($permissionsArray),
-        'ktt' => json_encode($permissionsArray),
+        'ktt' => json_encode($permissionsKTT),
         'dep_req' => session('logged_in_user')['departement'],
     ]);
 
