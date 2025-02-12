@@ -64,6 +64,29 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-circle"></i>
+                            <p>
+                                Akun
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('/request') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Internal Akun</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/request') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>External Akun</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
                 <li class="nav-item">
                     <a href={{ url('/history') }} class="nav-link">
@@ -89,12 +112,12 @@
                         <p>Complete Submission</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href={{ url('/comingsoon') }} class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Performance</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     @if (session('logged_in_user')['level'] === 'admin')
                 <li class="nav-item">
@@ -162,17 +185,10 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <form action="{{ url('/karyawan/reset-password') }}" method="POST" class="nav-link">
-                                @csrf
-                                <!-- Input Hidden untuk NIK -->
-                                <input type="hidden" name="nik"
-                                    value="{{ session('logged_in_user')['identifier'] }}">
-                                <button type="submit" class="btn btn-link nav-link"
-                                    style="border: none; background: none; padding: 0; margin: 0;">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Reset Password</p>
-                                </button>
-                            </form>
+                            <a href="{{ url('/about') }}" class="nav-link">
+                                <i class="nav-icon fas fa-info-circle"></i>
+                                <p>Ubah Password</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -182,8 +198,6 @@
                         <p>About</p>
                     </a>
                 </li>
-            </ul>
-            <ul class="nav nav-pills nav-sidebar flex-column mt-4" style="position: absolute; bottom: 10px;">
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf

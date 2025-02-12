@@ -13,6 +13,7 @@
         }
 
         body {
+            margin-top: 20%;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -46,8 +47,8 @@
         }
 
         .profile-photo {
-            width: 25mm;
-            height: 30mm;
+            width: 20mm;
+            height: 25mm;
             object-fit: cover;
             border: 0.2mm solid #ddd;
             border-radius: 1mm;
@@ -164,6 +165,9 @@
 
 <body>
     <div class="id-card">
+        <br>
+        <br>
+
         <div class="card-header">
             @if ($dataReq->validasi_in == 1)
                 Simper & MinePermit

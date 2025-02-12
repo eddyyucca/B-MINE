@@ -104,11 +104,11 @@ class PersonalTaskController extends Controller {
                 $req->access = [
                     'CHR-BT' => 'no',
                     'CHR-FSP' => 'no',
-                    'PIT-BT' => 'no',
-                    'PIT-TA' => 'no',
                     'CP-FSP' => 'no',
                     'CP-BT' => 'no',
-                    'PIT-TJ' => 'no',
+                    'PIT-BT' => 'no',
+                    'PIT-TA' => 'no',
+                    'PIT-TJ' => 'no'
                 ];
             }
             

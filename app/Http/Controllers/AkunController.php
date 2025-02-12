@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+// Model
+use App\Models\DataReqModel;
+use App\Models\DataRejectModel;
+use App\Models\UnitModel;
+use App\Models\UnitUser;
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
+
+class AkunController extends Controller
+{
+    //
+}

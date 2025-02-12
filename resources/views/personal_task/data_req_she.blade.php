@@ -356,8 +356,8 @@
                                         <td style="text-align: center;"><span id="pitTA1"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>CP BT:</td>
-                                        <td style="text-align: center;"><span id="pitCPBT1"></span></td>
+                                        <td>CP FSP:</td>
+                                        <td style="text-align: center;"><span id="pitCPFSP1"></span></td>
                                     </tr>
                                     <tr>
                                         <td>PIT TJ:</td>
@@ -649,7 +649,7 @@
             document.getElementById('pitBT1').textContent = access['PIT-BT'] || 'no';
             document.getElementById('pitTA1').textContent = access['PIT-TA'] || 'no';
             document.getElementById('pitCPFSP1').textContent = access['CP-FSP'] || 'no';
-            document.getElementById('pitCPBT1').textContent = access['CP-BT'] || 'no';
+            // document.getElementById('pitCPBT1').textContent = access['CP-BT'] || 'no';
             document.getElementById('pitPITTJ1').textContent = access['PIT-TJ'] || 'no';
         }
 
