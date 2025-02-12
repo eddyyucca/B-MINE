@@ -9,7 +9,7 @@ class UnitUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'user_unit';  // Nama tabel di database
+    protected $table = 'user_unit';
 
     protected $fillable = [
         'unit',
@@ -17,26 +17,29 @@ class UnitUser extends Model
         'id_uur',
     ];
 
-    // Nonaktifkan timestamps
     public $timestamps = false;
 
-    // Relasi ke model UnitModel (bukan Unit)
+    protected $primaryKey = 'id_user_unit';
+
+    // Hapus atau modifikasi casting untuk type_unit
+    protected $casts = [];
+    
+    // Atau jika ingin tetap menggunakan casting, tambahkan mutator
+    public function setTypeUnitAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['type_unit'] = '["' . implode('","', $value) . '"]';
+        } else {
+            $this->attributes['type_unit'] = $value;
+        }
+    }
+
     public function unitData() {
-        // Gunakan UnitModel::class
         return $this->belongsTo(UnitModel::class, 'unit', 'id_units');
     }
 
-    // Relasi ke DataReq
     public function dataReq()
     {
         return $this->belongsTo(DataReqModel::class, 'id_uur', 'kode');
     }
-
-    // Cast type_unit sebagai array
-    protected $casts = [
-        'type_unit' => 'array'
-    ];
-
-    // Primary Key jika berbeda dari 'id'
-    protected $primaryKey = 'id_user_unit';
 }

@@ -297,8 +297,8 @@
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="options[0][]" value="O" id="checkboxI">
-                                                            <label class="form-check-label" for="checkboxI">O</label>
+                                                                name="options[0][]" value="O" id="checkboxO">
+                                                            <label class="form-check-label" for="checkboxO">O</label>
                                                         </div>
 
                                                         <!-- Tombol untuk menghapus unit -->

@@ -109,6 +109,7 @@ public function insert_request(Request $request)
     $medicalPath = null;
     $driversLicensePath = null;
     $attachmentPath = null;
+    $sio_filePath = null;
     $validasi_in = "1";
     $permissions = $request->input('permissions', []); // Ambil data permissions
 
@@ -182,22 +183,26 @@ public function insert_request(Request $request)
 
 // Jika license_type adalah 2, lakukan perulangan untuk menyimpan data units
 if ($license_type == "2") {
-    // Pastikan unit_type dan options selalu dalam bentuk array
-    $unitTypes = (array) $request->input('unit_type', []);  // Array dari unit_type
-    $optionsList = (array) $request->input('options', []);  // Array dari options
-
+    $unitTypes = (array) $request->input('unit_type', []);
+    $optionsList = (array) $request->input('options', []);
+    
     foreach ($unitTypes as $index => $unitType) {
-        $options = $optionsList[$index] ?? []; // Ambil opsi berdasarkan indeks jika ada
-
-        // Simpan data ke tabel UserUnit
+        $options = $optionsList[$index] ?? [];
+        
+        // Membuat string array JSON secara manual
+        $formattedOptions = '[';
+        foreach ($options as $key => $value) {
+            $formattedOptions .= ($key > 0 ? ',' : '') . '"' . $value . '"';
+        }
+        $formattedOptions .= ']';
+        
         UnitUser::create([
             'unit' => $unitType,
-            'type_unit' => json_encode($options), // Simpan opsi dalam bentuk JSON
-            'id_uur' => $code, // Simpan referensi ID dari DataReqModel (contohnya $dataReq->id)
+            'type_unit' => $formattedOptions,
+            'id_uur' => $code,
         ]);
     }
 }
-
 
 
     return redirect()->back()->with('success', 'Employee data inserted successfully');
