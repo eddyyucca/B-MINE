@@ -336,8 +336,16 @@
                                         <td style="text-align: center;"><span id="chrBT1"></span></td>
                                     </tr>
                                     <tr>
-                                        <td>CHR FSB:</td>
-                                        <td style="text-align: center;"><span id="chrFSB1"></span></td>
+                                        <td>CHR FSP:</td>
+                                        <td style="text-align: center;"><span id="chrFSP1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CP FSP:</td>
+                                        <td style="text-align: center;"><span id="pitCPFSP1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CP BT:</td>
+                                        <td style="text-align: center;"><span id="pitCPBT1"></span></td>
                                     </tr>
                                     <tr>
                                         <td>PIT BT:</td>
@@ -346,6 +354,10 @@
                                     <tr>
                                         <td>PIT TA:</td>
                                         <td style="text-align: center;"><span id="pitTA1"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PIT TJ:</td>
+                                        <td style="text-align: center;"><span id="pitPITTJ1"></span></td>
                                     </tr>
                                 </table>
                             </div>
@@ -396,10 +408,10 @@
                         <div class="document-section mb-4">
                             <div class="card">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="text-center mb-0">Driver's License</h5>
+                                    <h5 class="text-center mb-0">Attachment</h5>
                                 </div>
                                 <div class="card-body p-0">
-                                    <embed id="attachment2" src="" type="application/pdf"
+                                    <embed id="attachment3" src="" type="application/pdf"
                                         style="width: 100%; height: 1000px;" class="pdf-embed">
                                 </div>
                             </div>
@@ -408,10 +420,10 @@
                         <div class="document-section mb-4">
                             <div class="card">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="text-center mb-0">Attachment</h5>
+                                    <h5 class="text-center mb-0">Driver's License</h5>
                                 </div>
                                 <div class="card-body p-0">
-                                    <embed id="attachment3" src="" type="application/pdf"
+                                    <embed id="attachment2" src="" type="application/pdf"
                                         style="width: 100%; height: 1000px;" class="pdf-embed">
                                 </div>
                             </div>
@@ -550,7 +562,7 @@
 
             if (unitTableBody.children.length === 0) {
                 const row = document.createElement('tr');
-                row.innerHTML = '<td colspan="6" class="text-center">No units found for this user</td>';
+                row.innerHTML = '<td colspan="7" class="text-center">No units found for this user</td>';
                 unitTableBody.appendChild(row);
             }
 
@@ -628,23 +640,13 @@
             setPDF('attachment4', sioUrl);
 
             // Set nilai access
-            document.getElementById('chrBT1').textContent = access['CHR BT'] || 'no';
-            document.getElementById('chrFSB1').textContent = access['CHR FSB'] || 'no';
-            document.getElementById('pitBT1').textContent = access['PIT BT'] || 'no';
-            document.getElementById('pitTA1').textContent = access['PIT TA'] || 'no';
-        }
-
-        // Fungsi untuk membalik ID Card
-        function toggleCard() {
-            const front = document.getElementById('idCardFront');
-            const back = document.getElementById('idCardBack');
-            if (front.style.display === 'none') {
-                front.style.display = 'block';
-                back.style.display = 'none';
-            } else {
-                front.style.display = 'none';
-                back.style.display = 'block';
-            }
+            document.getElementById('chrBT1').textContent = access['CHR-BT'] || 'no';
+            document.getElementById('chrFSP1').textContent = access['CHR-FSP'] || 'no';
+            document.getElementById('pitCPFSP1').textContent = access['CP-FSP'] || 'no';
+            document.getElementById('pitCPBT1').textContent = access['CP-BT'] || 'no';
+            document.getElementById('pitBT1').textContent = access['PIT-BT'] || 'no';
+            document.getElementById('pitTA1').textContent = access['PIT-TA'] || 'no';
+            document.getElementById('pitPITTJ1').textContent = access['PIT-TJ'] || 'no';
         }
 
         // app
@@ -671,8 +673,6 @@
                         console.error('Invalid route type.');
                         return;
                 }
-
-
                 window.location.href = url; // Arahkan ke URL yang dibentuk
             });
         });
@@ -708,7 +708,6 @@
                 // Handle approval based on current page
                 let route;
                 const currentPage = window.location.pathname;
-
                 if (currentPage.includes('she')) {
                     route = "{{ route('approveDataShe', '') }}";
                 } else if (currentPage.includes('pjo')) {
@@ -716,9 +715,22 @@
                 } else if (currentPage.includes('bec')) {
                     route = "{{ route('approveDataBec', '') }}";
                 }
-
                 window.location.href = route + "/" + activeKode;
             }
+        }
+
+        function openPrintPageFront(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcardFront') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
+        }
+
+        function openPrintPageBack(kode) {
+            // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
+            const url = '{{ url('generate-idcardBack') }}/' + kode;
+            const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
+            popup.focus();
         }
     </script>
 @endsection

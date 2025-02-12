@@ -18,6 +18,7 @@
                         <b>{{ session('logged_in_user')['nama'] }}</b>
                         <br>
                         <small class="text-muted">{{ session('logged_in_user')['departement'] }}</small>
+                        <small class="text-muted">{{ session('logged_in_user')['area'] }}</small>
                     </a>
                 </div>
             </div>

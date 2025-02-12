@@ -45,12 +45,14 @@ class AuthController extends Controller {
             // Cek level akun pengguna
             $level = $user['level'] ?? null;
             $departement = $user['departement'] ?? null;
+            $area = $user['area'] ?? null;
             // Simpan data pengguna ke dalam sesi
             Session::put('logged_in_user', [
                 'identifier' => $request->identifier,
                 'nama' => $user['nama'] ?? $user->name,
                 'level' => $level,
                 'departement' => $departement,
+                'area' => $area,
             ]);
 
             // Regenerasi sesi

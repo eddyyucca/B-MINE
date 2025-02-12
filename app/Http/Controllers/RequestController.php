@@ -101,7 +101,7 @@ public function insert_request(Request $request)
     $jabatan = $request->input('jabatan');
     $date_req = date('Y-m-d');
     $departement = $request->input('departement');
-    $sio = $request->input('sio');
+    $sio = $request->input('sio') ? $request->input('sio') : "No";
     $permissions = $request->input('permissions', []);
     $dep_req = $request->input('dep_req');
     // Mengatur jalur default jika file tidak ada
@@ -110,7 +110,6 @@ public function insert_request(Request $request)
     $driversLicensePath = null;
     $attachmentPath = null;
     $sio_filePath = null;
-    $validasi_in = "1";
     $permissions = $request->input('permissions', []); // Ambil data permissions
 
     // Inisialisasi array untuk menyimpan hasil dengan default 'no'
@@ -166,13 +165,12 @@ public function insert_request(Request $request)
         'nama' => $nama,
         'jab' => $jabatan,
         'dept' => $departement,
-        'status' => $license_type,
         'foto_path' => $fotoPath,
         'medical_path' => $medicalPath,
         'drivers_license_path' => $driversLicensePath,
         'attachment_path' => $attachmentPath,
         'sio_path' => $sio_filePath,
-        'validasi_in' => $validasi_in,
+        'validasi_in' => $license_type,
         'status' => "1",
         'sio_status' => $sio,
         'date_req' => date('Y-m-d'),

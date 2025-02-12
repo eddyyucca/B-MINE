@@ -34,7 +34,7 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Personal Task SHE";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 1)
-            ->orderBy('date_req', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -50,7 +50,7 @@ class PersonalTaskController extends Controller {
         $name_page = "B'Mine - Personal Task PJO";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 2)
-            ->orderBy('date_req', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -65,8 +65,8 @@ class PersonalTaskController extends Controller {
     public function becTask() {
         $name_page = "B'Mine - Personal Task BEC";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-        ->whereIn('status', 3)
-        ->orderBy('date_req', 'desc')
+        ->where('status', 3)
+        ->orderBy('id', 'desc')
         ->paginate(10);
 
         // Tambahkan pengecekan apakah data kosong
@@ -78,21 +78,24 @@ class PersonalTaskController extends Controller {
         return view('personal_task.data_req_bec', compact('dataReqs', 'name_page'));
     }
 
-    public function kttTask() {
-        $name_page = "B'Mine - Personal Task KTT";
-        $dataReqs = DataReqModel::with(['unitUsers.unitData'])
-            ->where('status', 4)
-            ->orderBy('date_req', 'desc')
-            ->paginate(10);
+public function kttTask() {
+    $name_page = "B'Mine - Personal Task KTT";
+    $userArea = session('logged_in_user')['area'];
 
-        // Tambahkan pengecekan apakah data kosong
-        if ($dataReqs->isEmpty()) {
-            $dataReqs = collect(); // Kirim koleksi kosong
-        }
+    $dataReqs = DataReqModel::with(['unitUsers.unitData'])
+        ->where('status', 4)
+        ->whereRaw("JSON_EXTRACT(ktt, '$." . $userArea . "') = 'no'")  // Filter berdasarkan area yang masih 'no'
+        ->orderBy('id', 'desc')
+        ->paginate(10);
 
-        $this->processData($dataReqs);
-        return view('personal_task.data_req_ktt', compact('dataReqs', 'name_page'));
+    // Tambahkan pengecekan apakah data kosong
+    if ($dataReqs->isEmpty()) {
+        $dataReqs = collect();
     }
+
+    $this->processData($dataReqs);
+    return view('personal_task.data_req_ktt', compact('dataReqs', 'name_page'));
+}
 
     private function processData($dataReqs) {
         foreach ($dataReqs as $req) {
@@ -193,17 +196,42 @@ class PersonalTaskController extends Controller {
             return redirect()->route('bec.task')->with('error', 'Failed to approve request');
         }
     }
-    public function approveDataKtt($kode) {
-        try {
-            $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-            $dataReq->status = 5; // Move to next stage
-            $dataReq->save();
 
-            return redirect()->route('ktt.task')->with('success', 'Request approved successfully');
-        } catch (\Exception $e) {
-            return redirect()->route('ktt.task')->with('error', 'Failed to approve request');
+    public function approveDataKtt($kode) {
+    try {
+        $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+        
+        // Validasi session
+        if (!session()->has('logged_in_user') || !isset(session('logged_in_user')['area'])) {
+            throw new \Exception('User area not found in session');
         }
+        
+        $userArea = session('logged_in_user')['area'];
+        
+        // Validasi format access
+        $access = json_decode($dataReq->access, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Invalid access data format');
+        }
+        
+        // Validasi area exists
+        if (!isset($access[$userArea])) {
+            throw new \Exception('Invalid area key: ' . $userArea);
+        }
+        
+        // Update access
+        $access[$userArea] = 'yes';
+        
+        // Update data
+        $dataReq->ktt = json_encode($access);
+        $dataReq->save();
+
+        return redirect()->route('ktt.task')->with('success', 'Request approved successfully');
+    } catch (\Exception $e) {
+        \Log::error('KTT Approval Error: ' . $e->getMessage());
+        return redirect()->route('ktt.task')->with('error', 'Failed to approve request: ' . $e->getMessage());
     }
+}
 
 
     private function getPreviousStage($currentStage) {

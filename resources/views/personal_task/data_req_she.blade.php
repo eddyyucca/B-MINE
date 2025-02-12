@@ -416,10 +416,10 @@
                         <div class="document-section mb-4">
                             <div class="card">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="text-center mb-0">Driver's License</h5>
+                                    <h5 class="text-center mb-0">Attachment</h5>
                                 </div>
                                 <div class="card-body p-0">
-                                    <embed id="attachment2" src="" type="application/pdf"
+                                    <embed id="attachment3" src="" type="application/pdf"
                                         style="width: 100%; height: 1000px;" class="pdf-embed">
                                 </div>
                             </div>
@@ -428,10 +428,10 @@
                         <div class="document-section mb-4">
                             <div class="card">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="text-center mb-0">Attachment</h5>
+                                    <h5 class="text-center mb-0">Driver's License</h5>
                                 </div>
                                 <div class="card-body p-0">
-                                    <embed id="attachment3" src="" type="application/pdf"
+                                    <embed id="attachment2" src="" type="application/pdf"
                                         style="width: 100%; height: 1000px;" class="pdf-embed">
                                 </div>
                             </div>
@@ -570,7 +570,7 @@
 
             if (unitTableBody.children.length === 0) {
                 const row = document.createElement('tr');
-                row.innerHTML = '<td colspan="6" class="text-center">No units found for this user</td>';
+                row.innerHTML = '<td colspan="7" class="text-center">No units found for this user</td>';
                 unitTableBody.appendChild(row);
             }
 
