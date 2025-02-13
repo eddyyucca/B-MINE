@@ -186,14 +186,13 @@ if ($license_type == "2") {
     
     foreach ($unitTypes as $index => $unitType) {
         $options = $optionsList[$index] ?? [];
-        
         // Membuat string array JSON secara manual
         $formattedOptions = '[';
         foreach ($options as $key => $value) {
             $formattedOptions .= ($key > 0 ? ',' : '') . '"' . $value . '"';
         }
         $formattedOptions .= ']';
-        
+      
         UnitUser::create([
             'unit' => $unitType,
             'type_unit' => $formattedOptions,
@@ -201,8 +200,6 @@ if ($license_type == "2") {
         ]);
     }
 }
-
-
     return redirect()->back()->with('success', 'Employee data inserted successfully');
 }
 

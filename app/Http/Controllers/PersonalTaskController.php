@@ -31,6 +31,13 @@ class PersonalTaskController extends Controller {
     }
 
     public function sheTask() {
+           // Cek level user dari session
+    $userLevel = session('logged_in_user')['level'] ?? null;
+    
+    // Validasi level user
+    if (!in_array($userLevel, ['she', 'admin'])) {
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+    }
         $name_page = "B'Mine - Personal Task SHE";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 1)
@@ -47,6 +54,13 @@ class PersonalTaskController extends Controller {
     }
 
     public function pjoTask() {
+           // Cek level user dari session
+    $userLevel = session('logged_in_user')['level'] ?? null;
+    
+    // Validasi level user
+    if (!in_array($userLevel, ['pjo', 'admin'])) {
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+    }
         $name_page = "B'Mine - Personal Task PJO";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
             ->where('status', 2)
@@ -63,6 +77,13 @@ class PersonalTaskController extends Controller {
     }
 
     public function becTask() {
+           // Cek level user dari session
+    $userLevel = session('logged_in_user')['level'] ?? null;
+    
+    // Validasi level user
+    if (!in_array($userLevel, ['bec', 'admin'])) {
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+    }
         $name_page = "B'Mine - Personal Task BEC";
         $dataReqs = DataReqModel::with(['unitUsers.unitData'])
         ->where('status', 3)
@@ -79,6 +100,13 @@ class PersonalTaskController extends Controller {
     }
 
 public function kttTask() {
+       // Cek level user dari session
+    $userLevel = session('logged_in_user')['level'] ?? null;
+    
+    // Validasi level user
+    if (!in_array($userLevel, ['ktt', 'admin'])) {
+        return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+    }
     $name_page = "B'Mine - Personal Task KTT";
     $userArea = session('logged_in_user')['area'];
 
@@ -169,9 +197,9 @@ public function kttTask() {
             $dataReq->status = 2; // Move to next stage
             $dataReq->save();
 
-            return redirect()->route('pjo.task')->with('success', 'Request approved successfully');
+            return redirect()->route('she.task')->with('success', 'Request approved successfully');
         } catch (\Exception $e) {
-            return redirect()->route('pjo.task')->with('error', 'Failed to approve request');
+            return redirect()->route('she.task')->with('error', 'Failed to approve request');
         }
     }
     public function approveDataPjo($kode) {
@@ -180,9 +208,9 @@ public function kttTask() {
             $dataReq->status = 3; // Move to next stage
             $dataReq->save();
 
-            return redirect()->route('bec.task')->with('success', 'Request approved successfully');
+            return redirect()->route('pjo.task')->with('success', 'Request approved successfully');
         } catch (\Exception $e) {
-            return redirect()->route('bec.task')->with('error', 'Failed to approve request');
+            return redirect()->route('pjo.task')->with('error', 'Failed to approve request');
         }
     }
     public function approveDataBec($kode) {

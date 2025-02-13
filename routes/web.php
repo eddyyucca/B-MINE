@@ -31,7 +31,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/data/view/{kode}', [PersonalTaskController::class, 'viewData'])->name('data.view');
    
    // akun
-   Route::get('/akun_external', [AkunController::class, 'akun_external'])->name('dataaccounts.view');
+   Route::get('/akun_external', [AkunController::class, 'akun_external'])->name('dataaccounts_ext.view');
+   Route::get('/akun_internal', [AkunController::class, 'akun_internal'])->name('dataaccounts_int.view');
    
    // Reset Password
    Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');

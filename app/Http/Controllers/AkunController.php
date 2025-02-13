@@ -6,6 +6,8 @@ use App\Models\DataReqModel;
 use App\Models\DataRejectModel;
 use App\Models\UnitModel;
 use App\Models\UnitUser;
+use App\Models\karyawanModel;
+use App\Models\UserModel;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -18,10 +20,14 @@ class AkunController extends Controller
     public function akun_external()
     {
         $name_page  = "B'Mine - External Akun";
-        $dataReqs = DataReqModel::all();
-        $unit = UnitModel::all();
-        $unit_user = UnitUser::all();
-        $reject = DataRejectModel::all();
-        return view('akun.external', compact('dataReqs', 'unit', 'unit_user', 'name_page'));
+        $dataKar = UserModel::all();
+        return view('akun.external', compact('dataKar','name_page'));
+    }
+
+    public function akun_internal()
+    {
+        $name_page  = "B'Mine - Internal Akun";
+        $dataKar = karyawanModel::all();
+        return view('akun.internal', compact('dataKar','name_page'));
     }
 }

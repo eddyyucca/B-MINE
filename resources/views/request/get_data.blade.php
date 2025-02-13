@@ -189,6 +189,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label for="XP_Medical_Certificate">Experid Date Medical Certificate</label>
+                                            <input type="date" class="form-control" id="jabatan"
+                                                name="XP_Medical_Certificate"
+                                                placeholder="Experid Date  Medical Certificate">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="attachment">Attachment</label>
                                             <div class="input-group">
                                                 <div class="custom-file">

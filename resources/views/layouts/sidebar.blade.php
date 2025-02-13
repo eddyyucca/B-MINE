@@ -75,7 +75,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ url('/request') }}" class="nav-link">
+                                <a href="{{ url('/akun_internal') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Internal Akun</p>
                                 </a>
