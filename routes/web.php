@@ -10,6 +10,7 @@ use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\PersonalTaskController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\OutstandingController;
+use App\Http\Controllers\AkunController;
 
 Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    // Dashboard
@@ -28,7 +29,10 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::post('/reject-request/{stage}/{kode}', [PersonalTaskController::class, 'rejectRequest'])->name('reject.request');
    Route::get('/view-data/{kode}', [PersonalTaskController::class, 'viewData'])->name('view.data');
    Route::get('/data/view/{kode}', [PersonalTaskController::class, 'viewData'])->name('data.view');
-
+   
+   // akun
+   Route::get('/akun_external', [AkunController::class, 'akun_external'])->name('dataaccounts.view');
+   
    // Reset Password
    Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');
 

@@ -81,7 +81,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/request') }}" class="nav-link">
+                                <a href="{{ url('/akun_external') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>External Akun</p>
                                 </a>
