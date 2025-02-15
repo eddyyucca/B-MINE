@@ -276,7 +276,7 @@
                                                         data-medical="{{ $dataReq->medical_path }}"
                                                         data-license="{{ $dataReq->drivers_license_path }}"
                                                         data-attachment="{{ $dataReq->attachment_path }}"
-                                                        data-sio="{{ $dataReq->sio_path }}"
+                                                        data-sio="{{ url('/' . $dataReq->sio_path) }}"
                                                         data-name="{{ $dataReq->nama }}" data-nik="{{ $dataReq->nik }}"
                                                         data-jabatan="{{ $dataReq->jab }}"
                                                         data-departement="{{ $dataReq->dept }}"

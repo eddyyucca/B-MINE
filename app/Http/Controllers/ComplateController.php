@@ -26,9 +26,34 @@ class ComplateController extends Controller
             ->paginate(10);
 
         // Menghapus baris yang tidak diperlukan karena $dataReqs tidak didefinisikan
-        // $dataReqs = $dataReqs->paginate(10);
-        // $this->processData($dataReqs);
+        // $data_complate = $data_complate->paginate(10);
+        // $this->processData($data_complate);
 
         return view('complate.data_complate', compact('data_complate', 'name_page'));
+    }
+
+     public function accept($kode)
+    {
+        try {
+            // Mencari data berdasarkan kode
+            $data = Data_m_s_Model::where('kode', $kode)->first();
+
+            if (!$data) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan');
+            }
+
+            // Update status menjadi 1
+            $data->status = '1';
+            $data->save();
+
+            // Logging untuk tracking
+            Log::info('Status updated successfully for kode: ' . $kode);
+
+            return redirect()->back()->with('success', 'Status berhasil diupdate');
+
+        } catch (\Exception $e) {
+            Log::error('Error updating status: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengupdate status: ' . $e->getMessage());
+        }
     }
 }

@@ -50,7 +50,8 @@
                                                      onclick="openPrintPageFront('{{ $data_complate->kode }}')">Depan</button>
                                                  <button class="btn btn-success text-white"
                                                      onclick="openPrintPageBack('{{ $data_complate->kode }}')">Belakang</button>
-
+                                                 <a href="{{ url('/accept/' . $data_complate->kode) }}"
+                                                     class="btn btn-primary">Accept</a>
                                              </td>
                                          </tr>
                                      @endforeach

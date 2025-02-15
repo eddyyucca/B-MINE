@@ -37,6 +37,8 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    
    //    Complate
    Route::get('/complate_submission', [ComplateController::class, 'data_complate'])->name('data_complate');
+   // accept
+   Route::get('/accept/{kode}', [ComplateController::class, 'accept'])->name('accept');
    // Reset Password
    Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');
 
