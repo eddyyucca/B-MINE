@@ -445,8 +445,9 @@ public function kttTask() {
 
     public function generateIdCardFront($kode)
     {
+        //Bukan data req ya
         // Ambil data pegawai berdasarkan kode
-        $dataReq = DataReqModel::where('kode', $kode)->first();
+        $dataReq = Data_m_s_Model::where('kode', $kode)->first();
         // Jika data tidak ditemukan
         if (!$dataReq) {
             abort(404, 'Data tidak ditemukan');
@@ -493,7 +494,7 @@ public function kttTask() {
 
     public function generateIdCardBack($kode)
     {
-        $dataReq = DataReqModel::where('kode', $kode)->first();
+        $dataReq = Data_m_s_Model::where('kode', $kode)->first();
 
         if (!$dataReq) {
             abort(404, 'Data tidak ditemukan');

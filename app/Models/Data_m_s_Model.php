@@ -55,7 +55,10 @@ class Data_m_s_Model extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-
+  public function unitUsers()
+    {
+        return $this->hasMany(UnitUser::class, 'id_uur', 'kode'); // Relasi: kode -> id_uur
+    }
     /**
      * Indicates if the model should be timestamped.
      *

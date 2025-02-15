@@ -108,7 +108,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href={{ url('/') }} class="nav-link">
+                    <a href={{ url('/complate_submission') }} class="nav-link">
                         <i class="fas fa-check-circle"></i>
                         <p>Complete Submission</p>
                     </a>
