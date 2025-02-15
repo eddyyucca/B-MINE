@@ -122,12 +122,12 @@ public function insert_request(Request $request)
         'PIT-TA' => $permissions['PIT-TA'] ?? 'no',
         'PIT-TJ' => $permissions['PIT-TJ'] ?? 'no',
     ];
-    $permissionsKTT = [
-        'BT',
-        'FSP',
-        'TA',
-        'TJ',
-    ];
+    $permissionsKTT = array(
+    'BT' => 'no',
+    'FSP' => 'no',
+    'TA' => 'no',
+    'TJ' => 'no',
+);
 
     // Set nilai "yes" untuk permission yang ada di input
     foreach ($permissions as $permission) {

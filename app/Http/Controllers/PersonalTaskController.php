@@ -7,6 +7,7 @@ use App\Models\DataReqModel;
 use App\Models\DataRejectModel;
 use App\Models\UnitModel;
 use App\Models\UnitUser;
+use App\Models\Data_m_s_Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -225,42 +226,88 @@ public function kttTask() {
         }
     }
 
-    public function approveDataKtt($kode) {
-    try {
-        $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
-        
-        // Validasi session
-        if (!session()->has('logged_in_user') || !isset(session('logged_in_user')['area'])) {
-            throw new \Exception('User area not found in session');
-        }
-        
-        $userArea = session('logged_in_user')['area'];
-        
-        // Validasi format access
-        $access = json_decode($dataReq->access, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Invalid access data format');
-        }
-        
-        // Validasi area exists
-        if (!isset($access[$userArea])) {
-            throw new \Exception('Invalid area key: ' . $userArea);
-        }
-        
-        // Update access
-        $access[$userArea] = 'yes';
-        
-        // Update data
-        $dataReq->ktt = json_encode($access);
-        $dataReq->save();
+  public function approveDataKtt($kode) {
+   try {
+       $dataReq = DataReqModel::where('kode', $kode)->firstOrFail();
+       
+       // Validasi session
+       if (!session()->has('logged_in_user') || !isset(session('logged_in_user')['area'])) {
+           throw new \Exception('User area not found in session');
+       }
+       
+       $userArea = session('logged_in_user')['area'];
+       
+       // Validasi format access
+       $access = json_decode($dataReq->ktt, true);
+       if (json_last_error() !== JSON_ERROR_NONE) {
+           throw new \Exception('Invalid access data format');
+       }
+       
+       // Validasi area exists
+       if (!isset($access[$userArea])) {
+           throw new \Exception('Invalid area key: ' . $userArea);
+       }
+       
+       // Update access
+       $access[$userArea] = 'yes';
+       
+       // Update data
+       $dataReq->ktt = json_encode($access);
+       $dataReq->save();
 
-        return redirect()->route('ktt.task')->with('success', 'Request approved successfully');
-    } catch (\Exception $e) {
-        \Log::error('KTT Approval Error: ' . $e->getMessage());
-        return redirect()->route('ktt.task')->with('error', 'Failed to approve request: ' . $e->getMessage());
-    }
+       // Cek apakah semua approval sudah "yes"
+       $expectedPermissions = [
+           'BT' => 'yes',
+           'FSP' => 'yes',
+           'TA' => 'yes',
+           'TJ' => 'yes'
+       ];
+
+       if ($access == $expectedPermissions) {
+           try {
+               DB::beginTransaction();
+
+               // Insert ke data_m_s menggunakan model
+               $data_ms = new Data_m_s_Model();
+               $data_ms->kode = $dataReq->kode;
+               $data_ms->nik = $dataReq->nik;
+               $data_ms->nama = $dataReq->nama;
+               $data_ms->jab = $dataReq->jab;
+               $data_ms->dept = $dataReq->dept;
+               $data_ms->date_req = $dataReq->date_req;
+               $data_ms->foto_path = $dataReq->foto_path;
+               $data_ms->medical_path = $dataReq->medical_path;
+               $data_ms->drivers_license_path = $dataReq->drivers_license_path;
+               $data_ms->attachment_path = $dataReq->attachment_path;
+               $data_ms->sio_path = $dataReq->sio_path;
+               $data_ms->validasi_in = $dataReq->validasi_in;
+               $data_ms->status = $dataReq->status;
+               $data_ms->dep_req = $dataReq->dep_req;
+               $data_ms->sio_status = $dataReq->sio_status;
+               $data_ms->access = $dataReq->access;
+               $data_ms->ktt = $dataReq->ktt;
+               $data_ms->ktt = $dataReq->status_access; // Tambahkan kolom baru
+               $data_ms->save();
+
+               // Hapus data dari data_req
+               $dataReq->delete();
+
+               DB::commit();
+               return redirect()->route('ktt.task')->with('success', 'Request approved and moved to data_m_s successfully');
+           } catch (\Exception $e) {
+               DB::rollBack();
+               \Log::error('Data Migration Error: ' . $e->getMessage());
+               return redirect()->route('ktt.task')->with('error', 'Failed to move data: ' . $e->getMessage());
+           }
+       }
+
+       // Jika belum semua yes, kembali ke halaman task
+       return redirect()->route('ktt.task')->with('success', 'Request approved successfully');
+   } catch (\Exception $e) {
+       \Log::error('KTT Approval Error: ' . $e->getMessage());
+       return redirect()->route('ktt.task')->with('error', 'Failed to approve request: ' . $e->getMessage());
+   }
 }
-
 
     private function getPreviousStage($currentStage) {
         $stageMap = [
