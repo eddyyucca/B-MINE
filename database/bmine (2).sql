@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Waktu pembuatan: 15 Feb 2025 pada 00.33
+-- Waktu pembuatan: 16 Feb 2025 pada 00.31
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -51,12 +51,35 @@ CREATE TABLE `area` (
 --
 
 CREATE TABLE `data_m_s` (
-  `id_ms` int(11) NOT NULL,
-  `nik` varchar(100) NOT NULL,
-  `status_access` varchar(10) NOT NULL,
-  `unit` varchar(100) NOT NULL,
-  `klasifikasi` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+  `id` int(11) NOT NULL,
+  `kode` varchar(100) DEFAULT NULL,
+  `nik` varchar(50) DEFAULT NULL,
+  `nama` varchar(100) DEFAULT NULL,
+  `jab` varchar(100) DEFAULT NULL,
+  `dept` varchar(100) DEFAULT NULL,
+  `date_req` varchar(30) DEFAULT NULL,
+  `foto_path` text DEFAULT NULL,
+  `medical_path` text DEFAULT NULL,
+  `drivers_license_path` text DEFAULT NULL,
+  `attachment_path` text DEFAULT NULL,
+  `sio_path` text DEFAULT NULL,
+  `validasi_in` varchar(50) DEFAULT NULL,
+  `status` varchar(25) DEFAULT NULL,
+  `dep_req` varchar(100) DEFAULT NULL,
+  `sio_status` varchar(25) DEFAULT NULL,
+  `access` varchar(255) DEFAULT NULL,
+  `ktt` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `status_access` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `data_m_s`
+--
+
+INSERT INTO `data_m_s` (`id`, `kode`, `nik`, `nama`, `jab`, `dept`, `date_req`, `foto_path`, `medical_path`, `drivers_license_path`, `attachment_path`, `sio_path`, `validasi_in`, `status`, `dep_req`, `sio_status`, `access`, `ktt`, `created_at`, `updated_at`, `status_access`) VALUES
+(1, 'BUMA-20250215030059-1iPb04', '10034026', 'Eddy Adha Saputra', 'Foreman - IT', 'Information & Techno', '2025-02-15', 'public/fotos/WhhDMWuWzTocB54iTsjErBPfhFbyC6uJET7Xki2N.png', 'public/medical_certificates/8v6aKfJcqHVV6RZ0cpKZdsOuc1dmcuIHT7zMZi5X.pdf', 'public/drivers_licenses/dipm6DLFtCHEffFVbKK3ecnkkyo1l0624d3kry0a.pdf', 'public/attachments/kBVm8wXYj7PS9uTxI69qmedhfKVgEycClNJCUgKd.pdf', 'public/sio_files/ZyyiDA4ZVO4h21lSdR7U5bdjkyKvlgHpDoGi2aPi.pdf', '2', '1', 'Information & Techno', 'yes', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"yes\",\"PIT-TA\":\"yes\",\"PIT-TJ\":\"no\"}', '{\"BT\":\"yes\",\"FSP\":\"yes\",\"TA\":\"yes\",\"TJ\":\"yes\"}', '2025-02-14 19:36:02', '2025-02-15 00:23:10', 0);
 
 -- --------------------------------------------------------
 
@@ -73,13 +96,6 @@ CREATE TABLE `data_reject` (
   `dept` varchar(255) NOT NULL,
   `reject_history` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=armscii8 COLLATE=armscii8_bin ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data untuk tabel `data_reject`
---
-
-INSERT INTO `data_reject` (`id`, `kode`, `nik`, `nama`, `jab`, `dept`, `reject_history`) VALUES
-(5, 'BUMA-20250213061059-1BD3tZ', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '{\"2\":{\"reason\":\"121212\",\"timestamp\":\"2025-02-13 18:18:57\"}}');
 
 -- --------------------------------------------------------
 
@@ -113,20 +129,7 @@ CREATE TABLE `data_req` (
 --
 
 INSERT INTO `data_req` (`id`, `kode`, `nik`, `nama`, `jab`, `dept`, `date_req`, `foto_path`, `medical_path`, `drivers_license_path`, `attachment_path`, `sio_path`, `validasi_in`, `status`, `dep_req`, `sio_status`, `access`, `ktt`) VALUES
-(92, 'BUMA-20250212055828-vVtemU', '10034026', 'Eddy Adha Saputra', 'Foreman - IT', 'Information & Techno', '2025-02-12', NULL, 'public/medical_certificates/DgZ9AYnzV7obJkprOvca0frTvFoi8bTaakyaL68Z.pdf', NULL, 'public/attachments/RuwqQZt3PeviaMPFCI6XDgqkznMAWXU2t5eHpVEY.pdf', NULL, '2', '3', 'Information & Techno', 'No', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"no\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"no\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"no\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(93, 'BUMA-20250212060344-PIMYMT', '10023252', 'Dwi Suriananda', 'Supervisor - IT', 'Information & Techno', '2025-02-12', 'public/fotos/Ik7m7d2Qs3fFO9odwDnwkH8QDu9JCz24kXYjARuy.jpg', 'public/medical_certificates/J0uViGQnPgLk7qSNsbAsdOM2hDBPyEs8csXZkG1g.pdf', NULL, 'public/attachments/DcaNYUSdIwAYfOishm1gG9IguePBSmdfcSfwMKDH.pdf', NULL, '1', '4', 'Information & Techno', 'No', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"no\\\",\\\"CP-BT\\\":\\\"no\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"no\",\"CP-BT\":\"no\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(94, 'BUMA-20250213055834-hyGx4J', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/76bXCrB645ky0bVD05VU1dEapabZLZJpdqXnsQbh.jpg', 'public/medical_certificates/OZma9Zv4Rw4OaTQxsR1BJOW0xjFkTr7Z7EdWRZ39.pdf', NULL, 'public/attachments/8YsfYG16M6hnAkYjJ1VF7VdEUT4UnsTuMSfyfYQP.pdf', 'public/sio_files/BjsMdkl9LBRQpBkZsNaAX8K8higkNoXf2924CPXe.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(95, 'BUMA-20250213060514-0U5TN9', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/fIVNO3xg78q41ACoWTvwtlQnFwTBxK55AUOaJg4n.jpg', 'public/medical_certificates/MzHZVeDdmNNUhwZhKToVlptHkzvOwLJaWYDwTQoo.pdf', NULL, 'public/attachments/2oCKnj15ixN5AFL1J9U6qARRFN4wuRfz39TvDMx2.pdf', 'public/sio_files/R8II4n1q4HrgARK59esv0rXM23QDw028eCmuGbNE.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(96, 'BUMA-20250213060524-e4LGAp', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/MPgbdXJ4F0YjHQGvAPBcG2hLGZPS3m2QTWkxXbF4.jpg', 'public/medical_certificates/fuvyHDANhuyhMx9NCWxBHS9nBguas0z1BEHLtj09.pdf', NULL, 'public/attachments/WskzjE50QfQdPnhoJrBsV2mIJ00R2mzW05VEXh4i.pdf', 'public/sio_files/BdjCa1tAdt1wnOpoPHbJ5Wc0FopKH8n0DJoDwHv2.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(97, 'BUMA-20250213060613-pVWNic', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/bpwYip3oQLljW9LgJJ0RTcYlwkXw0Fsv9G3zyq7Q.jpg', 'public/medical_certificates/eYpF8EhCYcYpJg9Kd30GmCxKl4Wim7hEKwzq0Mv2.pdf', NULL, 'public/attachments/LwnVVLeZeIAvPIeXcNJ2TjBwU8pm1AomXnnipuit.pdf', 'public/sio_files/mGF7LIlH9fE4iQYtNCzr1ia8te2wbM3EuXxSg9li.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(98, 'BUMA-20250213060738-DN5rKf', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/DlYhA8HK2hsW75UoveIR39zMZ337AQ9b29IY8WNC.jpg', 'public/medical_certificates/HpsK4QB1TrfYDIGpG95QFD2wOvvPTCqU4SAZufWR.pdf', NULL, 'public/attachments/RvivHB1fufvPiCwWBQlV5vxqVCKpMPRs17UI7yUj.pdf', 'public/sio_files/WPW8U3gBWvbrzJQRYWs8HPA5mdKci6F6oCWOjPZ7.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(99, 'BUMA-20250213060751-GjFSuB', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/cKegt8l3pUvEmmrbzyigeWi0B5lZFjPvqDPsjVAs.jpg', 'public/medical_certificates/7UWofzPh2GeOmT067ScBXa2pifIjBMWAwFJT6HUN.pdf', NULL, 'public/attachments/9uLFau19fJKrZNAQ89z2OrMkbp5u8X6UE8IJJY94.pdf', 'public/sio_files/G00DviVUj7eSYp7GRb3V7GYLzTGKc4qBxOzryv7Y.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(100, 'BUMA-20250213060949-P00jp7', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/So54Q5X4bLdlwtNR6J6DYXvM5JshPv8hL3Tjn7iw.jpg', 'public/medical_certificates/XUW4QD8j5oHbcR6L83nhNrpeJU1pReS6sRZrzLPy.pdf', NULL, 'public/attachments/N6gKXvmaKxrW2RfL8zDrjjpD6dXShEEUQqh2xtzv.pdf', 'public/sio_files/ujPYMuPCttIW47gzd1kSyfcSc0IZNZtHMqeNgqra.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(101, 'BUMA-20250213061002-ChCt9b', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/ZUTA7lkE5ufwB5wP5QMWb2HRoysV5r1JzASfBB5p.jpg', 'public/medical_certificates/KD4kTm98dgIHXE2wBpNyBJEG2Bp8E8AQmSKps76f.pdf', NULL, 'public/attachments/vrbkCeKC7gmDllSXjx1mU7VI4S8e2vup3Xm2lbQX.pdf', 'public/sio_files/lWKMKmQjlRh4N7WkkDWmwKopUgyYULY3is3hV41y.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(102, 'BUMA-20250213061029-Xr8eS8', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/iD7Dp8nwOcgQwZDsinMMwHkFSQETCKf7vXassGfO.jpg', 'public/medical_certificates/djuU3HwzCYejW4oUTdtBoKG20EQpEv3PVDuh9oB1.pdf', NULL, 'public/attachments/Em69Wp1mXiSW9HQ9HNjDCg3VVjFXQFmN26Y8al9L.pdf', 'public/sio_files/UJmc2E11KjJ1B3n4ANulDxzw6e0oJL1WbfyQZD2G.pdf', '2', '1', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(104, 'BUMA-20250213061156-Vv27Qg', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/hyUBai9CI7ZGzydqoJiRbwaZZ375ZigCNTISsDaZ.jpg', 'public/medical_certificates/ExLYiQ4PHwEk4Fmcnm0Hh5ZR9dGWXsrdEiJvT6bZ.pdf', NULL, 'public/attachments/P0y1NhNsWvmKJYrURBkwvnbYXmNezI55pfWsYLzM.pdf', 'public/sio_files/IyZR3urg4bGSEANSVZV7DFPlQjMyQ1I0hcde8VFv.pdf', '2', '2', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"yes\\\",\\\"CP-BT\\\":\\\"yes\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"yes\",\"CP-BT\":\"yes\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(105, 'BUMA-20250213061408-8DoLrX', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/fcxJeMqJsmZWhneFpjc1f6ygA6lMY9dAYXRXeqUo.png', 'public/medical_certificates/BJ1R7jQ7w7yTie7a02P5p6Eykga91gSJKbslfXdJ.pdf', 'public/drivers_licenses/3kD9TiWcmQmq95M4mRip1V03Qhq8nQUQ8FbGr4Ya.pdf', 'public/attachments/j7E6bTB0t8t4ciLhEwtCISK1WiOqolPEUmcoSkSc.pdf', 'public/sio_files/SZfHNaRinhIJp9nWB06qo1sHPYW013T7yb04Wk5I.pdf', '2', '2', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"no\\\",\\\"CP-BT\\\":\\\"no\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"no\",\"CP-BT\":\"no\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}'),
-(106, 'BUMA-20250213061431-O6keje', '10030862', 'Andi Muhammad Faisal', 'Technical Support - IT', 'Information & Techno', '2025-02-13', 'public/fotos/ApqAQFy0s8k1jV8APwsW0r9Jiy17gCGUslfOEFlr.png', 'public/medical_certificates/k24AnsKedibkPIc3ZwygDcEP7gx59GVzTi2IqUdq.pdf', 'public/drivers_licenses/wCezviGvAWmrueXnsVkWqZZFRhFXCOwNDDAzWNyj.pdf', 'public/attachments/eMB9jA9FmcUMEhbvoRlaZdZJ3tDjbbEKj9cOIlNj.pdf', 'public/sio_files/oR7FgEwV4cdIkHyfzIqojUGBqMk25EIQDvCFvUEj.pdf', '2', '2', 'Information & Techno', 'yes', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"no\\\",\\\"CP-BT\\\":\\\"no\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"CHR-BT\":\"yes\",\"CHR-FSP\":\"yes\",\"CP-FSP\":\"no\",\"CP-BT\":\"no\",\"PIT-BT\":\"no\",\"PIT-TA\":\"no\",\"PIT-TJ\":\"no\"}');
+(108, 'BUMA-20250215031735-uZShDr', '10034026', 'Eddy Adha Saputra', 'Foreman - IT', 'Information & Techno', '2025-02-15', 'public/fotos/hkscfIUHZoCoQaTZ4jGvWnSHy27LHWqvV1uJkavf.png', 'public/medical_certificates/pLQJmiHuD8LfLCtvzcZq28sUV0mtY0WTQmWZk948.pdf', NULL, 'public/attachments/HZACzjzQCJwwV2LcCWwSoxiPLWq6Ap1s6DnkblBf.pdf', NULL, '1', '1', 'Information & Techno', 'No', '\"{\\\"CHR-BT\\\":\\\"yes\\\",\\\"CHR-FSP\\\":\\\"yes\\\",\\\"CP-FSP\\\":\\\"no\\\",\\\"CP-BT\\\":\\\"no\\\",\\\"PIT-BT\\\":\\\"no\\\",\\\"PIT-TA\\\":\\\"no\\\",\\\"PIT-TJ\\\":\\\"no\\\"}\"', '{\"BT\":\"no\",\"FSP\":\"no\",\"TA\":\"no\",\"TJ\":\"no\"}');
 
 -- --------------------------------------------------------
 
@@ -5589,13 +5592,10 @@ CREATE TABLE `login_external` (
 
 INSERT INTO `login_external` (`id_login_ext`, `nama`, `email`, `password`, `level`, `area`) VALUES
 (1, 'BEC BAYAN', 'bec@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'bec', ''),
-(2, 'KTT CHR-BT', 'ktt_chrbt@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'CHR-BT'),
-(3, 'CHR-FSP', 'ktt_chrfsp@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'CHR-FSP'),
-(4, 'CP-FSP', 'ktt_cpfsp@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'CP-FSP'),
-(5, 'CP-BT', 'ktt_cpbt@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'CP-BT'),
-(6, 'PIT-BT', 'ktt_pitbt@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'PIT-BT'),
-(7, 'PIT-TA', 'ktt_pitta@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'PIT-TA'),
-(8, 'PIT-TJ', 'ktt_pittj@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'PIT-TJ');
+(2, 'KTT CHR-BT', 'ktt_chrbt@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'BT'),
+(3, 'CHR-FSP', 'ktt_chrfsp@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'FSP'),
+(7, 'PIT-TA', 'ktt_pitta@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'TA'),
+(8, 'PIT-TJ', 'ktt_pittj@bayan.com', '25d55ad283aa400af464c76d713c07ad', 'ktt', 'TJ');
 
 -- --------------------------------------------------------
 
@@ -5691,17 +5691,7 @@ CREATE TABLE `user_unit` (
 --
 
 INSERT INTO `user_unit` (`id_user_unit`, `unit`, `type_unit`, `id_uur`) VALUES
-(68, '1', '[\"P\",\"T\",\"I\"]', 'BUMA-20250213055834-hyGx4J'),
-(69, '16', '[\"P\",\"T\"]', 'BUMA-20250213055834-hyGx4J'),
-(70, '1', '[\"P\",\"T\",\"I\"]', 'BUMA-20250213060524-e4LGAp'),
-(71, '16', '[\"P\",\"T\"]', 'BUMA-20250213060524-e4LGAp'),
-(72, '1', '[\"P\",\"T\",\"I\"]', 'BUMA-20250213060751-GjFSuB'),
-(73, '16', '[\"P\",\"T\"]', 'BUMA-20250213060751-GjFSuB'),
-(74, '1', '[\"P\",\"T\",\"I\"]', 'BUMA-20250213061059-1BD3tZ'),
-(75, '16', '[\"P\",\"T\"]', 'BUMA-20250213061059-1BD3tZ'),
-(76, '1', '[\"I\",\"O\"]', 'BUMA-20250213061431-O6keje'),
-(77, '14', '[\"R\",\"T\"]', 'BUMA-20250213061431-O6keje'),
-(78, '18', '[\"I\",\"O\"]', 'BUMA-20250213061431-O6keje');
+(79, '1', '[\"P\",\"R\"]', 'BUMA-20250215030059-1iPb04');
 
 --
 -- Indexes for dumped tables
@@ -5723,7 +5713,7 @@ ALTER TABLE `area`
 -- Indeks untuk tabel `data_m_s`
 --
 ALTER TABLE `data_m_s`
-  ADD PRIMARY KEY (`id_ms`) USING BTREE;
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `data_reject`
@@ -5781,7 +5771,7 @@ ALTER TABLE `area`
 -- AUTO_INCREMENT untuk tabel `data_m_s`
 --
 ALTER TABLE `data_m_s`
-  MODIFY `id_ms` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_reject`
@@ -5793,7 +5783,7 @@ ALTER TABLE `data_reject`
 -- AUTO_INCREMENT untuk tabel `data_req`
 --
 ALTER TABLE `data_req`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT untuk tabel `karyawan`
@@ -5817,7 +5807,7 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT untuk tabel `user_unit`
 --
 ALTER TABLE `user_unit`
-  MODIFY `id_user_unit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_user_unit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
