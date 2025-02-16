@@ -81,3 +81,51 @@
             Status: Terkirim
             ------------------------------
         
+[16/2/2025, 09.37.01] 
+            SHE Task Email berhasil terkirim!
+            ID: <15f17c88-6aa3-63b2-5aa1-96c5dbc03676@bukitmakmur.com>
+            Waktu: 16/2/2025, 09.37.00
+            Penerima: eddyyucca@gmail.com
+            Outstanding Tasks: 1
+            Status: Terkirim
+            ------------------------------
+        
+[16/2/2025, 10.11.01] 
+            SHE Task Email berhasil terkirim!
+            ID: <ebcd75c2-bcb2-5d01-e645-4a97c95cf84c@bukitmakmur.com>
+            Waktu: 16/2/2025, 10.11.00
+            Penerima: eddyyucca@gmail.com
+            Outstanding Tasks: 1
+            Status: Terkirim
+            ------------------------------
+        
+[16/2/2025, 10.30.00] 
+            GAGAL mengirim SHE task email!
+            Waktu: 16/2/2025, 10.30.00
+            Error: Table 'bmine.data_reqs' doesn't exist
+            ------------------------------
+        
+[16/2/2025, 10.31.00] 
+            GAGAL mengirim KTT task email!
+            Waktu: 16/2/2025, 10.31.00
+            Error: Table 'bmine.data_reqs' doesn't exist
+            ------------------------------
+        
+[16/2/2025, 10.32.00] 
+            GAGAL mengirim BEC task email!
+            Waktu: 16/2/2025, 10.32.00
+            Error: Table 'bmine.data_reqs' doesn't exist
+            ------------------------------
+        
+[16/2/2025, 10.33.00] 
+            GAGAL mengirim PJO task email!
+            Waktu: 16/2/2025, 10.33.00
+            Error: Table 'bmine.data_reqs' doesn't exist
+            ------------------------------
+        
+[16/2/2025, 10.47.00] 
+            GAGAL mengirim KTT task email!
+            Waktu: 16/2/2025, 10.47.00
+            Error: Table 'bmine.unit_users' doesn't exist
+            ------------------------------
+        

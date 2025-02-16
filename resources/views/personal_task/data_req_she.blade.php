@@ -244,7 +244,6 @@
                                         <th>Name</th>
                                         <th>Request</th>
                                         <th class="no-export">Actions</th>
-                                        <th class="no-export">Cetak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -286,14 +285,6 @@
                                                         data-access="{{ json_encode($dataReq->access) }}">
                                                         Lihat Berkas Pengajuan <i class="fas fa-eye"></i>
                                                     </button>
-
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-success text-white"
-                                                        onclick="openPrintPageFront('{{ $dataReq->kode }}')">Depan</button>
-                                                    <button class="btn btn-success text-white"
-                                                        onclick="openPrintPageBack('{{ $dataReq->kode }}')">Belakang</button>
-
                                                 </td>
                                             </tr>
                                         @endforeach
