@@ -11,7 +11,7 @@ use App\Http\Controllers\PersonalTaskController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\OutstandingController;
 use App\Http\Controllers\AkunController;
-use App\Http\Controllers\complateController;
+use App\Http\Controllers\CompletedController;
 
 Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    // Dashboard
@@ -35,10 +35,10 @@ Route::middleware(['web', EnsureUserIsLoggedIn::class])->group(function () {
    Route::get('/akun_external', [AkunController::class, 'akun_external'])->name('dataaccounts_ext.view');
    Route::get('/akun_internal', [AkunController::class, 'akun_internal'])->name('dataaccounts_int.view');
    
-   //    Complate
-   Route::get('/complate_submission', [ComplateController::class, 'data_complate'])->name('data_complate');
+   //    completed
+   Route::get('/completed_submission', [CompletedController::class, 'data_completed'])->name('data_completed');
    // accept
-   Route::get('/accept/{kode}', [ComplateController::class, 'accept'])->name('accept');
+   Route::get('/accept/{kode}', [CompletedController::class, 'accept'])->name('accept');
    // Reset Password
    Route::get('/reset_password', [DashboardController::class, 'reset_password'])->name('reset_pass');
 

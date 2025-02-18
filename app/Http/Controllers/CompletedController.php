@@ -13,23 +13,23 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ComplateController extends Controller
+class CompletedController extends Controller
 {
-    public function data_complate() 
+    public function data_completed() 
     {
-        $name_page = "B'Mine - Complate Submission";
+        $name_page = "B'Mine - Completed Submission";
         
         // Menggunakan nama model yang benar (Data_m_s_Model)
-        $data_complate = Data_m_s_Model::with(['unitUsers.unitData'])
+        $data_completed = Data_m_s_Model::with(['unitUsers.unitData'])
             ->where('status', 4)
             ->orderBy('id', 'desc')
             ->paginate(10);
 
         // Menghapus baris yang tidak diperlukan karena $dataReqs tidak didefinisikan
-        // $data_complate = $data_complate->paginate(10);
-        // $this->processData($data_complate);
+        // $data_completed = $data_completed->paginate(10);
+        // $this->processData($data_completed);
 
-        return view('complate.data_complate', compact('data_complate', 'name_page'));
+        return view('completed.data_completed', compact('data_completed', 'name_page'));
     }
 
      public function accept($kode)

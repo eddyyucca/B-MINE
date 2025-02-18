@@ -7,12 +7,12 @@
          <div class="container-fluid">
              <div class="row mb-2">
                  <div class="col-sm-6">
-                     <h1 class="m-0">Complate Submission</h1>
+                     <h1 class="m-0">Completed Submission</h1>
                  </div>
                  <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
                          <li class="breadcrumb-item"><a href="#">Home</a></li>
-                         <li class="breadcrumb-item active">Complate Submission</li>
+                         <li class="breadcrumb-item active">Completed Submission</li>
                      </ol>
                  </div>
              </div>
@@ -24,7 +24,7 @@
                  <div class="col-12">
                      <div class="card">
                          <div class="card-header">
-                             <h3 class="card-title">List Complate Submission {{ session('logged_in_user')['departement'] }}
+                             <h3 class="card-title">List Completed Submission {{ session('logged_in_user')['departement'] }}
                              </h3>
                          </div>
                          <div class="card-body">
@@ -38,19 +38,19 @@
                                      </tr>
                                  </thead>
                                  <tbody>
-                                     @foreach ($data_complate as $index => $data_complate)
+                                     @foreach ($data_completed as $index => $data_completed)
                                          <tr>
                                              <td>{{ $index + 1 }}</td>
-                                             <td>{{ $data_complate->nik }}</td>
+                                             <td>{{ $data_completed->nik }}</td>
                                              <td
-                                                 class="{{ !empty($data_complate->reject_history) ? 'bg-danger text-white' : '' }}">
-                                                 {{ $data_complate->nama }}</td>
+                                                 class="{{ !empty($data_completed->reject_history) ? 'bg-danger text-white' : '' }}">
+                                                 {{ $data_completed->nama }}</td>
                                              <td class="text-center">
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageFront('{{ $data_complate->kode }}')">Depan</button>
+                                                     onclick="openPrintPageFront('{{ $data_completed->kode }}')">Depan</button>
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageBack('{{ $data_complate->kode }}')">Belakang</button>
-                                                 <a href="{{ url('/accept/' . $data_complate->kode) }}"
+                                                     onclick="openPrintPageBack('{{ $data_completed->kode }}')">Belakang</button>
+                                                 <a href="{{ url('/accept/' . $data_completed->kode) }}"
                                                      class="btn btn-primary">Accept</a>
                                              </td>
                                          </tr>
