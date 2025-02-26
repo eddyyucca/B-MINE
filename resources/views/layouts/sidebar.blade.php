@@ -65,6 +65,10 @@
                             </li>
                         </ul>
                     </li>
+                @endif
+
+                {{-- Akun --}}
+                @if (session('logged_in_user')['level'] === 'admin' || session('logged_in_user')['level'] === 'she')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-user-circle"></i>
@@ -88,6 +92,7 @@
                             </li>
                         </ul>
                     </li>
+                @else
                 @endif
                 <li class="nav-item">
                     <a href={{ url('/history') }} class="nav-link">
@@ -107,18 +112,18 @@
                         <p>Rejected</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href={{ url('/completed_submission') }} class="nav-link">
-                        <i class="fas fa-check-circle"></i>
-                        <p>Completed Submission</p>
-                    </a>
-                </li>
-                {{-- <li class="nav-item">
-                    <a href={{ url('/comingsoon') }} class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        <p>Performance</p>
-                    </a>
-                </li> --}}
+
+                @php
+                    $userLevel = session('logged_in_user')['level'] ?? '';
+                @endphp
+                @if (in_array($userLevel, ['admin', 'she']))
+                    <li class="nav-item">
+                        <a href={{ url('/completed_submission') }} class="nav-link">
+                            <i class="fas fa-check-circle"></i>
+                            <p>Completed Submission</p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     @if (session('logged_in_user')['level'] === 'admin')
                 <li class="nav-item">

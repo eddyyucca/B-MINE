@@ -47,6 +47,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $userLevel = session('logged_in_user')['level'];
+                                        $userDepartment = session('logged_in_user')['departement'] ?? null;
+                                    @endphp
+
                                     @if ($dataReqs->isEmpty())
                                         <tr>
                                             <td colspan="7" class="text-center">No rejected tasks found</td>
@@ -54,10 +59,23 @@
                                     @else
                                         @foreach ($dataReqs as $index => $dataReq)
                                             @php
-                                                $rejectHistory = $dataReq->reject_history ?: []; // Hapus json_decode
+                                                $rejectHistory = $dataReq->reject_history ?: [];
+                                                $showRow = false;
+
+                                                // Filter berdasarkan level pengguna
+                                                if (in_array($userLevel, ['admin', 'section_admin', 'pjo'])) {
+                                                    // Admin, section_admin, dan PJO melihat semua data reject_history
+                                                    $showRow = !empty($rejectHistory);
+                                                } elseif (in_array($userLevel, ['bec', 'ktt'])) {
+                                                    // BEC dan KTT hanya melihat reject_history dengan nilai 4 dan 5
+                                                    $showRow =
+                                                        !empty($rejectHistory) &&
+                                                        (array_key_exists('4', $rejectHistory) ||
+                                                            array_key_exists('5', $rejectHistory));
+                                                }
                                             @endphp
 
-                                            @if (!empty($rejectHistory))
+                                            @if ($showRow)
                                                 @php
                                                     $latestReject = end($rejectHistory);
                                                     $stageMap = [
@@ -74,6 +92,9 @@
                                                     $timestamp = isset($latestReject['timestamp'])
                                                         ? date('Y-m-d H:i:s', strtotime($latestReject['timestamp']))
                                                         : '-';
+
+                                                    // Cek apakah departemen pengguna sama dengan departemen data
+                                                    $canClearHistory = $userDepartment == $dataReq->dep;
                                                 @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
@@ -83,15 +104,18 @@
                                                     <td>{{ $reason }}</td>
                                                     <td>{{ $timestamp }}</td>
                                                     <td>
-                                                        <form action="{{ route('clear.reject.history', $dataReq->kode) }}"
-                                                            method="POST" style="display: inline;">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                onclick="return confirm('Are you sure you want to clear this rejection history?')">
-                                                                <i class="fas fa-trash"></i> Clear History
-                                                            </button>
-                                                        </form>
+                                                        @if ($canClearHistory)
+                                                            <form
+                                                                action="{{ route('clear.reject.history', $dataReq->kode) }}"
+                                                                method="POST" style="display: inline;">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Are you sure you want to clear this rejection history?')">
+                                                                    <i class="fas fa-trash"></i> Clear History
+                                                                </button>
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endif

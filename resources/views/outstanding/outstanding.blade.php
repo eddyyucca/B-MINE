@@ -37,25 +37,66 @@
                                      </tr>
                                  </thead>
                                  <tbody>
+                                     @php
+                                         $userLevel = session('logged_in_user')['level'];
+                                         $userDepartment = session('logged_in_user')['departement'] ?? null;
+                                     @endphp
+
                                      @foreach ($dataReqs as $index => $dataReq)
-                                         <tr>
-                                             <td>{{ $index + 1 }}</td>
-                                             <td>{{ $dataReq->nik }}</td>
-                                             <td
-                                                 class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
-                                                 {{ $dataReq->nama }}</td>
-                                             <td>
-                                                 @if ($dataReq->status == 1)
-                                                     SHE Proccess
-                                                 @elseif ($dataReq->status == 2)
-                                                     PJO Proccess
-                                                 @elseif ($dataReq->status == 3)
-                                                     BEC Proccess
-                                                 @elseif ($dataReq->status == 4)
-                                                     KTT Proccess
-                                                 @endif
-                                             </td>
-                                         </tr>
+                                         @php
+                                             $showRow = false;
+
+                                             // Filter berdasarkan level pengguna
+                                             if ($userLevel == 'admin' || $userLevel == 'she') {
+                                                 // Admin dan SHE melihat semua status
+                                                 $showRow = true;
+                                             } elseif (
+                                                 $userLevel == 'pjo' &&
+                                                 $dataReq->status >= 2 &&
+                                                 $dataReq->status <= 4
+                                             ) {
+                                                 // PJO melihat status 2 sampai 4
+                                                 $showRow = true;
+                                             } elseif (
+                                                 ($userLevel == 'bec' || $userLevel == 'ktt') &&
+                                                 $dataReq->status >= 3 &&
+                                                 $dataReq->status <= 4
+                                             ) {
+                                                 // BEC dan KTT melihat status 3 sampai 4
+                                                 $showRow = true;
+                                             } elseif (
+                                                 $userLevel == 'section_admin' &&
+                                                 $dataReq->status >= 1 &&
+                                                 $dataReq->status <= 4
+                                             ) {
+                                                 // Section Admin melihat status 1 sampai 4 dengan departemen yang sama
+                                                 if ($userDepartment == $dataReq->dep_req) {
+                                                     $showRow = true;
+                                                 }
+                                             }
+                                         @endphp
+
+                                         @if ($showRow)
+                                             <tr>
+                                                 <td>{{ $index + 1 }}</td>
+                                                 <td>{{ $dataReq->nik }}</td>
+                                                 <td
+                                                     class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
+                                                     {{ $dataReq->nama }}
+                                                 </td>
+                                                 <td>
+                                                     @if ($dataReq->status == 1)
+                                                         SHE Proccess
+                                                     @elseif ($dataReq->status == 2)
+                                                         PJO Proccess
+                                                     @elseif ($dataReq->status == 3)
+                                                         BEC Proccess
+                                                     @elseif ($dataReq->status == 4)
+                                                         KTT Proccess
+                                                     @endif
+                                                 </td>
+                                             </tr>
+                                         @endif
                                      @endforeach
                                  </tbody>
                              </table>
