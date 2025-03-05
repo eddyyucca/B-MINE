@@ -36,7 +36,7 @@ class AuthController extends Controller {
             if ($response == true) {
                 $user = $response;
             } else {
-                return redirect()->back()->with('error', 'NIK tidak ditemukan atau API error: ' . $response->status());
+                return redirect()->back()->with('error', 'Akun Tidak Ditemukan.');
             }
 
         }
