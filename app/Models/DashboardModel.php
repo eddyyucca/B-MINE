@@ -11,12 +11,12 @@ class DashboardModel extends Model
      // Metode untuk menghitung user dengan akses 1
     public static function countAccess1()
     {
-        return self::where('status_access', 1)->count();
+        return self::where('validasi_in', 1)->count();
     }
 
     // Metode untuk menghitung user dengan akses 2
     public static function countAccess2()
     {
-        return self::where('status_access', 2)->count();
+        return self::where('validasi_in', 2)->count();
     }
 }
