@@ -32,6 +32,7 @@ class KaryawanModel extends Model
         'nama',
         'departement',
         'jabatan',
+        'email',
         'status_mp',
         'password',
         'level',
@@ -96,4 +97,7 @@ class KaryawanModel extends Model
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+      // Jika tabel tidak memiliki timestamps (created_at, updated_at)
+      public $timestamps = false;
 }

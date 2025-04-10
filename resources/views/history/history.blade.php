@@ -46,9 +46,9 @@
                                                  {{ $data_complate->nama }}</td>
                                              <td class="text-center">
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageFront('{{ $data_complate->kode }}')">Depan</button>
+                                                     onclick="openPrintPageFront('{{ $data_complate->nik }}')">Depan</button>
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageBack('{{ $data_complate->kode }}')">Belakang</button>
+                                                     onclick="openPrintPageBack('{{ $data_complate->nik }}')">Belakang</button>
                                              </td>
                                          </tr>
                                      @endforeach
@@ -64,17 +64,11 @@
 
      <script>
          function openPrintPageFront(kode) {
-             // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
-             const url = '{{ url('generate-idcardFront') }}/' + kode;
-             const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
-             popup.focus();
+             window.open("{{ url('/idcard/generate-idcardFront') }}/" + kode, '_blank');
          }
 
          function openPrintPageBack(kode) {
-             // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
-             const url = '{{ url('generate-idcardBack') }}/' + kode;
-             const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
-             popup.focus();
+             window.open("{{ url('/idcard/generate-idcardBack') }}/" + kode, '_blank');
          }
      </script>
  @endsection

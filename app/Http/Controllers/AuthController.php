@@ -10,79 +10,144 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller {
 
-    public function login() {
-        return view('auth.login');
-    }
-
-  public function auth(Request $request)
+   /**
+ * Display the login page
+ * 
+ * @return \Illuminate\View\View
+ */
+public function login()
 {
-    // Validasi input NIK/email dan password
+    return view('auth.login');
+}
+
+public function auth(Request $request)
+{
+    // Validate input
     $request->validate([
-        'identifier' => 'required', // Bisa NIK atau email
+        'identifier' => 'required', // Can be NIK or email
         'password' => 'required',
     ]);
 
-    $user = null; // Default user
-
     try {
-        // Cek apakah identifier adalah email atau NIK
-        if (filter_var($request->identifier, FILTER_VALIDATE_EMAIL)) {
-            // Jika identifier adalah email, gunakan database user_external
-            $user = UserModel::where('email', $request->identifier)->first();
-        } else {
-            // Jika identifier adalah NIK, gunakan API eksternal
-            $identifier = $request->identifier;
-            $response = KaryawanModel::where('nik', $identifier)->first();
-            if ($response == true) {
-                $user = $response;
-            } else {
-                return redirect()->back()->with('error', 'Akun Tidak Ditemukan.');
-            }
-
+        // Determine if identifier is email or NIK
+        $isEmail = filter_var($request->identifier, FILTER_VALIDATE_EMAIL);
+        
+        // Find user based on identifier type
+        $user = $isEmail 
+            ? $this->findUserByEmail($request->identifier)
+            : $this->findUserByNIK($request->identifier);
+            
+        if (!$user) {
+            return redirect()->back()->with('error', 'Account Not Found.');
         }
-        // Verifikasi user dan password
-        if ($user && md5($request->password) === ($user['password'] ?? $user->password)) {
-            // Cek level akun pengguna
-            $level = $user['level'] ?? null;
-            $departement = $user['departement'] ?? null;
-            $area = $user['area'] ?? null;
-            // Simpan data pengguna ke dalam sesi
-            Session::put('logged_in_user', [
-                'identifier' => $request->identifier,
-                'nama' => $user['nama'] ?? $user->name,
-                'level' => $level,
-                'departement' => $departement,
-                'area' => $area,
-            ]);
-
-            // Regenerasi sesi
-            $request->session()->regenerate();
-
-            // Arahkan pengguna sesuai dengan level akun
-            if ($level) {
-                return redirect('/dashboard')->with('success', 'Login berhasil sebagai Admin');
-            } else {
-                return redirect()->back()->with('error', 'Tidak ada level akun yang cocok.');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Password salah.');
+        
+        // Verify password
+        if (!$this->verifyPassword($request->password, $user)) {
+            return redirect()->back()->with('error', 'Incorrect password.');
         }
+        
+        // Extract user attributes
+        $level = $user['level'] ?? null;
+        $departement = $user['departement'] ?? null;
+        $area = $user['area'] ?? null;
+        
+        if (!$level) {
+            return redirect()->back()->with('error', 'No matching account level found.');
+        }
+        
+        // Create session
+        $this->createUserSession($request, [
+            'identifier' => $request->identifier,
+            'nama' => $user['nama'] ?? $user->name,
+            'level' => $level,
+            'departement' => $departement,
+            'area' => $area,
+        ]);
+        
+        // Check if password is still the default (12345678)
+        $defaultPasswordMd5 = '25d55ad283aa400af464c76d713c07ad'; // MD5 of 12345678
+        $userPassword = $user['password'] ?? $user->password;
+        
+        if ($userPassword === $defaultPasswordMd5) {
+            // Set session flag for password change requirement
+            Session::put('password_change_required', true);
+            // Redirect to dashboard with warning about password change
+            return redirect('/dashboard')->with('warning', 'Please change your default password.');
+        }
+        
+        return redirect('/dashboard')->with('success', 'Login successful as Admin');
+        
     } catch (Exception $e) {
-        // Tangani exception
-        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
     }
 }
 
-    public function logout(Request $request) {
-        // Hapus semua data pengguna dari sesi
-        Session::forget('logged_in_user');
+/**
+ * Find user by email
+ * 
+ * @param string $email
+ * @return mixed
+ */
+private function findUserByEmail($email)
+{
+    return UserModel::where('email', $email)->first();
+}
 
-        // Hapus sesi
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+/**
+ * Find user by NIK
+ * 
+ * @param string $nik
+ * @return mixed
+ */
+private function findUserByNIK($nik)
+{
+    return KaryawanModel::where('nik', $nik)->first();
+}
 
-        return redirect('/login')->with('success', 'Anda telah logout.');
-    }
+/**
+ * Verify user password
+ * 
+ * @param string $inputPassword
+ * @param mixed $user
+ * @return bool
+ */
+private function verifyPassword($inputPassword, $user)
+{
+    $storedPassword = $user['password'] ?? $user->password;
+    return md5($inputPassword) === $storedPassword;
+}
+
+/**
+ * Create user session
+ * 
+ * @param Request $request
+ * @param array $userData
+ * @return void
+ */
+private function createUserSession(Request $request, array $userData)
+{
+    Session::put('logged_in_user', $userData);
+    $request->session()->regenerate();
+}
+/**
+ * Handle user logout
+ * 
+ * @param Request $request
+ * @return \Illuminate\Http\RedirectResponse
+ */
+public function logout(Request $request)
+{
+    // Remove user session data
+    Session::forget('logged_in_user');
+    
+    // Invalidate the session
+    $request->session()->invalidate();
+    
+    // Regenerate CSRF token
+    $request->session()->regenerateToken();
+    
+    return redirect('/login')->with('success', 'You have been logged out.');
+}
 
      public function resetPassword(Request $request)
     {

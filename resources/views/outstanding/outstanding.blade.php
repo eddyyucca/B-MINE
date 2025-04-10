@@ -84,15 +84,23 @@
                                                      class="{{ !empty($dataReq->reject_history) ? 'bg-danger text-white' : '' }}">
                                                      {{ $dataReq->nama }}
                                                  </td>
-                                                 <td>
+                                                 <td style="text-align: center;">
                                                      @if ($dataReq->status == 1)
-                                                         SHE Proccess
+                                                         <span
+                                                             style="background-color: #17a2b8; color: white; padding: 3px 8px; border-radius: 4px; display: inline-block; width: 100%; text-align: center;">SHE
+                                                             Process</span>
                                                      @elseif ($dataReq->status == 2)
-                                                         PJO Proccess
+                                                         <span
+                                                             style="background-color: #007bff; color: white; padding: 3px 8px; border-radius: 4px; display: inline-block; width: 100%; text-align: center;">PJO
+                                                             Process</span>
                                                      @elseif ($dataReq->status == 3)
-                                                         BEC Proccess
+                                                         <span
+                                                             style="background-color: #ffc107; color: #212529; padding: 3px 8px; border-radius: 4px; display: inline-block; width: 100%; text-align: center;">BEC
+                                                             Process</span>
                                                      @elseif ($dataReq->status == 4)
-                                                         KTT Proccess
+                                                         <span
+                                                             style="background-color: #28a745; color: white; padding: 3px 8px; border-radius: 4px; display: inline-block; width: 100%; text-align: center;">KTT
+                                                             Process</span>
                                                      @endif
                                                  </td>
                                              </tr>

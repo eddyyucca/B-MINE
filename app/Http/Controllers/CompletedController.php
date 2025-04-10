@@ -33,27 +33,34 @@ class CompletedController extends Controller
     }
 
      public function accept($kode)
-    {
-        try {
-            // Mencari data berdasarkan kode
-            $data = Data_m_s_Model::where('kode', $kode)->first();
+{
+    try {
+        // Debug untuk melihat kode yang diterima
+        Log::info('Accepting kode: ' . $kode);
+        
+        // Mencari data berdasarkan kode
+        $data = Data_m_s_Model::where('kode', $kode)->first();
 
-            if (!$data) {
-                return redirect()->back()->with('error', 'Data tidak ditemukan');
-            }
-
-            // Update status menjadi 1
-            $data->status = '1';
-            $data->save();
-
-            // Logging untuk tracking
-            Log::info('Status updated successfully for kode: ' . $kode);
-
-            return redirect()->back()->with('success', 'Status berhasil diupdate');
-
-        } catch (\Exception $e) {
-            Log::error('Error updating status: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal mengupdate status: ' . $e->getMessage());
+        if (!$data) {
+            Log::warning('Data tidak ditemukan untuk kode: ' . $kode);
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
+
+        // Log status sebelum diubah
+        Log::info('Status sebelum: ' . $data->status);
+
+        // Update status menjadi 1
+        $data->status = '1';
+        $data->save();
+
+        // Log status setelah diubah
+        Log::info('Status setelah: ' . $data->status);
+
+        return redirect()->back()->with('success', 'Status berhasil diupdate');
+
+    } catch (\Exception $e) {
+        Log::error('Error updating status: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Gagal mengupdate status: ' . $e->getMessage());
     }
+}
 }

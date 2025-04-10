@@ -32,6 +32,7 @@ class Data_m_s_Model extends Model
         'jab',
         'dept',
         'date_req',
+        'expiry_date',
         'foto_path',
         'medical_path',
         'drivers_license_path',

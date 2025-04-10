@@ -26,6 +26,12 @@
                          <div class="card-header">
                              <h3 class="card-title">List Completed Submission {{ session('logged_in_user')['departement'] }}
                              </h3>
+                             @if (session('success'))
+                                 <div class="alert alert-success">{{ session('success') }}</div>
+                             @endif
+                             @if (session('error'))
+                                 <div class="alert alert-danger">{{ session('error') }}</div>
+                             @endif
                          </div>
                          <div class="card-body">
                              <table id="example1" class="table table-bordered table-hover">
@@ -47,10 +53,10 @@
                                                  {{ $data_completed->nama }}</td>
                                              <td class="text-center">
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageFront('{{ $data_completed->kode }}')">Depan</button>
+                                                     onclick="openPrintPageFront('{{ $data_completed->nik }}')">Depan</button>
                                                  <button class="btn btn-success text-white"
-                                                     onclick="openPrintPageBack('{{ $data_completed->kode }}')">Belakang</button>
-                                                 <a href="{{ url('/accept/' . $data_completed->kode) }}"
+                                                     onclick="openPrintPageBack('{{ $data_completed->nik }}')">Belakang</button>
+                                                 <a href="{{ route('accept', ['kode' => $data_completed->kode]) }}"
                                                      class="btn btn-primary">Accept</a>
                                              </td>
                                          </tr>
@@ -67,17 +73,11 @@
 
      <script>
          function openPrintPageFront(kode) {
-             // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
-             const url = '{{ url('generate-idcardFront') }}/' + kode;
-             const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
-             popup.focus();
+             window.open("{{ url('/idcard/generate-idcardFront') }}/" + kode, '_blank');
          }
 
          function openPrintPageBack(kode) {
-             // Buat URL untuk membuka halaman ID card berdasarkan kode pegawai
-             const url = '{{ url('generate-idcardBack') }}/' + kode;
-             const popup = window.open(url, 'ID Card', 'width=1500,height=1500');
-             popup.focus();
+             window.open("{{ url('/idcard/generate-idcardBack') }}/" + kode, '_blank');
          }
      </script>
  @endsection

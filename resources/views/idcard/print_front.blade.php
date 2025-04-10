@@ -178,38 +178,60 @@
             @endif
         </div>
 
-        <img src="{{ $dataReq->foto_path }}" alt="Profile Photo" class="profile-photo">
-
+        <img src="{{ str_replace('/storage/app/public', '/storage', $dataReq->foto_path) }}" alt="Profile Photo"
+            class="profile-photo">
         <div class="name">{{ $dataReq->nama }}</div>
         <div class="position">{{ $dataReq->jab }}</div>
 
         <div class="access-container">
             <div class="access-table">
                 <h4>ACCESS</h4>
-                <table>
+                <table style="width: 100%;">
                     <tr>
-                        <td>CHR BT</td>
-                        <td>: {{ $access['CHR-BT'] === 'yes' ? '✔' : '✘' }}</td>
-                    </tr>
-                    <tr>
-                        <td>CHR FSP</td>
-                        <td>: {{ $access['CHR-FSP'] === 'yes' ? '✔' : '✘' }}</td>
-                    </tr>
-                    <tr>
-                        <td>PIT BT</td>
-                        <td>: {{ $access['PIT-BT'] === 'yes' ? '✔' : '✘' }}</td>
-                    </tr>
-                    <tr>
-                        <td>PIT TA</td>
-                        <td>: {{ $access['PIT-TA'] === 'yes' ? '✔' : '✘' }}</td>
-                    </tr>
-                    <tr>
-                        <td>CP FSP</td>
-                        <td>: {{ $access['CP-FSP'] === 'yes' ? '✔' : '✘' }}</td>
-                    </tr>
-                    <tr>
-                        <td>CP BT</td>
-                        <td>: {{ $access['CP-BT'] === 'yes' ? '✔' : '✘' }}</td>
+                        <td style="width: 50%; vertical-align: top;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>CHR BT</td>
+                                    <td>: {{ $access['CHR-BT'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CHR FSP</td>
+                                    <td>: {{ $access['CHR-FSP'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CP BT</td>
+                                    <td>: {{ $access['CP-BT'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CP FSP</td>
+                                    <td>: {{ $access['CP-FSP'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>CP TA</td>
+                                    <td>: {{ $access['CP-TA'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width: 50%; vertical-align: top;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>CP TJ</td>
+                                    <td>: {{ $access['CP-TJ'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>PIT BT</td>
+                                    <td>: {{ $access['PIT-BT'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>PIT TA</td>
+                                    <td>: {{ $access['PIT-TA'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>PIT TJ</td>
+                                    <td>: {{ $access['PIT-TJ'] === 'yes' ? '✔' : '✘' }}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </div>

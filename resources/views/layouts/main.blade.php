@@ -20,7 +20,53 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('adminlte/img/logo-bmine.ico') }}">
     <style>
-        /* CSS untuk progress bar */
+        /* CSS untuk loading screen modern */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         .loading-screen {
             display: flex;
             flex-direction: column;
@@ -31,57 +77,139 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgb(255, 255, 255);
+            background-color: #ffffff;
             z-index: 9999;
         }
 
-        /* Logo */
-        .logo {
-            width: 150px;
-            /* Atur ukuran logo */
-            margin-bottom: 20px;
-            /* Jarak antara logo dan progress bar */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
+        /* Logo styling */
+        .logo {
+            width: 150px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .company-title {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #303030, #505050);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-subtitle {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            width: 100%;
+            margin-bottom: 15px;
+        }
 
         .progress-text {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .progress-label {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .progress-percentage {
+            font-weight: bold;
+            font-size: 1rem;
         }
 
         .progress-bar {
-            width: 80%;
-            height: 20px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
+            width: 100%;
+            height: 8px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .progress-bar-fill {
             height: 100%;
-            background-color: #3498db;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
             width: 0;
-            transition: width 0.2s;
+            transition: width 0.3s ease;
         }
 
+        /* Loading icon */
+        .loading-icon {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+            font-size: 1.2rem;
+        }
+
+        .loading-icon i {
+            margin-right: 10px;
+            animation: spin 1.5s infinite linear;
+        }
+
+        /* Hide main content until loaded */
         #content {
             visibility: hidden;
         }
     </style>
 </head>
 
-
 <body class="hold-transition sidebar-mini layout-fixed">
     {{-- loading screen --}}
     <div class="loading-screen" id="loading-screen">
-        <img src="{{ asset('adminlte/img/logo-bmine.png') }}" alt="Logo" class="logo">
-        <div class="progress-text" id="progress-text">0%</div>
-        <div class="progress-bar">
-            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        <div class="loading-container">
+            <img src="{{ asset('adminlte/img/logo-bmine.png') }}" alt="Logo" class="logo">
+            <div class="loading-subtitle">Mining Identity Number Electronic</div>
+
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span class="progress-label">Loading System</span>
+                    <span class="progress-percentage" id="progress-text">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="loading-icon">
+                <i class="fas fa-cog"></i>
+                <span id="loading-message">Initializing components...</span>
+            </div>
         </div>
     </div>
-    <div class="wrapper">
 
+    <div class="wrapper">
         <!-- Navbar -->
         @include('layouts.navbar')
 
@@ -94,12 +222,11 @@
 
         <!-- Footer -->
         @include('layouts.footer')
-
     </div>
+
     <!-- jQuery -->
     <script src="{{ asset('adminlte/plugins/jquery/jquery.js') }}"></script>
     <!-- sweetalert -->
-
     <script>
         document.querySelectorAll('.confirmButton').forEach(button => {
             button.addEventListener('click', function(event) {
@@ -130,9 +257,7 @@
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('adminlte/plugins/flot/jquery.flot.js') }}"></script>
-
     <script src="{{ asset('adminlte/plugins/flot/plugins/jquery.flot.resize.js') }}"></script>
-
     <script src="{{ asset('adminlte/plugins/flot/plugins/jquery.flot.pie.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -160,28 +285,52 @@
     <script src="{{ asset('adminlte/js/qrcode/jscode.js') }}"></script>
     <script src="{{ asset('adminlte/js/qrcode/JsBarcode.all.min.js') }}"></script>
     <script src="{{ asset('adminlte/js/qrcode/jquery.qrcode.min.js') }}"></script>
-    {{-- loading --}}
+
+    {{-- loading script modern --}}
     <script>
         document.onreadystatechange = function() {
             if (document.readyState === "interactive") {
                 let progress = 0;
                 const progressText = document.getElementById('progress-text');
                 const progressBarFill = document.getElementById('progress-bar-fill');
+                const loadingMessage = document.getElementById('loading-message');
+
+                const messages = [
+                    "Loading...",
+                    "Please wait...",
+                    "Almost ready..."
+                ];
 
                 const loadingInterval = setInterval(() => {
-                    progress += Math.floor(Math.random() * 10) + 5; // Naikkan progress secara acak
+                    // Naikkan progress dengan kecepatan yang bervariasi
+                    progress += Math.floor(Math.random() * 8) + 3;
+
                     if (progress >= 100) {
                         progress = 100;
                         clearInterval(loadingInterval);
-                        document.getElementById('loading-screen').style.display = 'none';
-                        document.getElementById('content').style.visibility = 'visible';
+
+                        progressText.textContent = progress + '%';
+                        progressBarFill.style.width = progress + '%';
+                        loadingMessage.textContent = "System ready!";
+
+                        // Delay sedikit sebelum menghilangkan loading screen
+                        setTimeout(() => {
+                            document.getElementById('loading-screen').style.display = 'none';
+                            document.getElementById('content').style.visibility = 'visible';
+                        }, 500);
+                    } else {
+                        progressText.textContent = progress + '%';
+                        progressBarFill.style.width = progress + '%';
+
+                        // Ganti pesan berdasarkan progress
+                        const messageIndex = Math.floor(progress / (100 / messages.length));
+                        loadingMessage.textContent = messages[Math.min(messageIndex, messages.length - 1)];
                     }
-                    progressText.textContent = progress + '%';
-                    progressBarFill.style.width = progress + '%';
-                }, 100);
+                }, 120);
             }
         };
     </script>
+
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -233,6 +382,7 @@
             });
         });
     </script>
+
     <script>
         $(function() {
             //Initialize Select2 Elements

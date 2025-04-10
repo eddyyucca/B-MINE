@@ -2,8 +2,8 @@
 <script>
     function openPdf(nik) {
         const url = '{{ url('karyawan') }}/' + nik + '/idcard-pdf';
-        const popup = window.open(url, 'ID Card', 'width=600,height=400'); // Buka popup
-        popup.focus(); // Fokus pada popup
+        const popup = window.open(url, 'ID Card', 'width=600,height=400'); // Open popup
+        popup.focus(); // Focus on popup
     }
 </script>
 
@@ -32,13 +32,28 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Rejected Tasks List</h3>
+                            {{-- Success Alert --}}
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            {{-- Error Alert --}}
+                            @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>NIK</th>
+                                        <th>Employee ID</th>
                                         <th>Name</th>
                                         <th>Rejected By</th>
                                         <th>Reason</th>
@@ -48,65 +63,72 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $userLevel = session('logged_in_user')['level'];
+                                        $userLevel = session('logged_in_user')['level'] ?? 'none';
                                         $userDepartment = session('logged_in_user')['departement'] ?? null;
                                     @endphp
 
-                                    @if ($dataReqs->isEmpty())
+                                    @if ($dataReject->isEmpty())
                                         <tr>
                                             <td colspan="7" class="text-center">No rejected tasks found</td>
                                         </tr>
                                     @else
-                                        @foreach ($dataReqs as $index => $dataReq)
+                                        @foreach ($dataReject as $index => $dataRejects)
                                             @php
-                                                $rejectHistory = $dataReq->reject_history ?: [];
-                                                $showRow = false;
+                                                // Decode JSON string if it's a string
+if (is_string($dataRejects->reject_history)) {
+    $rejectData = json_decode($dataRejects->reject_history, true) ?? [];
+} else {
+    $rejectData = is_array($dataRejects->reject_history)
+        ? $dataRejects->reject_history
+        : [];
+}
 
-                                                // Filter berdasarkan level pengguna
-                                                if (in_array($userLevel, ['admin', 'section_admin', 'pjo'])) {
-                                                    // Admin, section_admin, dan PJO melihat semua data reject_history
-                                                    $showRow = !empty($rejectHistory);
-                                                } elseif (in_array($userLevel, ['bec', 'ktt'])) {
-                                                    // BEC dan KTT hanya melihat reject_history dengan nilai 4 dan 5
-                                                    $showRow =
-                                                        !empty($rejectHistory) &&
-                                                        (array_key_exists('4', $rejectHistory) ||
-                                                            array_key_exists('5', $rejectHistory));
+$showRow = !empty($rejectData);
+
+// Filter based on user level if needed
+if (in_array($userLevel, ['bec', 'ktt']) && !empty($rejectData)) {
+    // For BEC and KTT, only show if stage is 4 or 5
+    $stage = isset($rejectData['stage'])
+        ? (int) $rejectData['stage']
+                                                        : 0;
+                                                    $showRow = $stage == 4 || $stage == 5;
                                                 }
                                             @endphp
 
                                             @if ($showRow)
                                                 @php
-                                                    $latestReject = end($rejectHistory);
                                                     $stageMap = [
-                                                        2 => 'SHE',
-                                                        3 => 'PJO',
-                                                        4 => 'BEC',
-                                                        5 => 'KTT',
+                                                        '2' => 'SHE',
+                                                        '3' => 'PJO',
+                                                        '4' => 'BEC',
+                                                        '5' => 'KTT',
                                                     ];
 
-                                                    $rejectedBy = $latestReject
-                                                        ? $stageMap[key($rejectHistory)] ?? 'Unknown'
-                                                        : '-';
-                                                    $reason = $latestReject['reason'] ?? '-';
-                                                    $timestamp = isset($latestReject['timestamp'])
-                                                        ? date('Y-m-d H:i:s', strtotime($latestReject['timestamp']))
+                                                    $stage = $rejectData['stage'] ?? '';
+                                                    $rejectedBy = isset($stageMap[$stage])
+                                                        ? $stageMap[$stage]
+                                                        : 'Unknown';
+                                                    $reason = $rejectData['reason'] ?? '-';
+
+                                                    // Format the rejection date if it exists
+                                                    $timestamp = isset($rejectData['rejected_at'])
+                                                        ? date('Y-m-d H:i:s', strtotime($rejectData['rejected_at']))
                                                         : '-';
 
-                                                    // Cek apakah departemen pengguna sama dengan departemen data
-                                                    $canClearHistory = $userDepartment == $dataReq->dep;
+                                                    // Check if user's department matches data department
+                                                    $canClearHistory = $userDepartment == $dataRejects->dept;
                                                 @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $dataReq->nik }}</td>
-                                                    <td>{{ $dataReq->nama }}</td>
+                                                    <td>{{ $dataRejects->nik }}</td>
+                                                    <td>{{ $dataRejects->nama }}</td>
                                                     <td>{{ $rejectedBy }}</td>
                                                     <td>{{ $reason }}</td>
                                                     <td>{{ $timestamp }}</td>
                                                     <td>
                                                         @if ($canClearHistory)
                                                             <form
-                                                                action="{{ route('clear.reject.history', $dataReq->kode) }}"
+                                                                action="{{ route('clear.reject.history', $dataRejects->kode) }}"
                                                                 method="POST" style="display: inline;">
                                                                 @csrf
                                                                 @method('PUT')
@@ -123,7 +145,7 @@
                                     @endif
                                 </tbody>
                             </table>
-                            {{ $dataReqs->links() }}
+                            {{ $dataReject->links() }}
                         </div>
                     </div>
                 </div>

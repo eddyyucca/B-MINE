@@ -193,7 +193,8 @@
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
                                     <span>SIMPOL</span>
-                                    <span class="circle-checkbox">{{ !empty($dataReq->medical_path) ? '✓' : '' }}</span>
+                                    <span
+                                        class="circle-checkbox">{{ !empty($dataReq->drivers_license_path) ? '✓' : '' }}</span>
                                 </div>
                                 <div class="checkbox-item">
                                     <span>SIO</span>
@@ -226,12 +227,41 @@
                                         <td style="text-align: left;">{{ $unit->unitData->nama_unit ?? 'Data Kosong' }}
                                         </td>
                                         @php
-                                            $typeUnit = !empty($unit->type_unit)
-                                                ? (is_array($unit->type_unit)
-                                                    ? $unit->type_unit
-                                                    : explode(',', $unit->type_unit))
-                                                : [];
+                                            // Dapatkan nilai type_unit
+                                            $typeUnitRaw = $unit->type_unit;
+
+                                            // Jika typeUnitRaw adalah array (mungkin dari hasil casting Laravel)
+                                            if (is_array($typeUnitRaw)) {
+                                                // Proses setiap elemen array untuk membersihkan karakter tambahan
+                                                $typeUnit = [];
+                                                foreach ($typeUnitRaw as $item) {
+                                                    // Bersihkan karakter yang tidak diinginkan
+                                                    $clean = trim($item, '"[]');
+                                                    if (!empty($clean)) {
+                                                        $typeUnit[] = $clean;
+                                                    }
+                                                }
+                                            }
+                                            // Jika typeUnitRaw adalah string JSON
+                                            elseif (is_string($typeUnitRaw) && strpos($typeUnitRaw, '[') === 0) {
+                                                // Gunakan regex untuk mengekstrak nilai di dalam tanda kutip
+                                                preg_match_all('/"([^"]+)"/', $typeUnitRaw, $matches);
+                                                $typeUnit = $matches[1] ?? [];
+                                            }
+                                            // Jika string biasa (dipisahkan koma)
+                                            elseif (is_string($typeUnitRaw)) {
+                                                $typeUnit = explode(',', $typeUnitRaw);
+                                            }
+                                            // Default array kosong
+                                            else {
+                                                $typeUnit = [];
+                                            }
+
+                                            // Debug untuk memeriksa hasil
+                                            // echo "<pre>"; print_r($typeUnit); echo "</pre>";
+
                                         @endphp
+
                                         <td>{!! in_array('P', $typeUnit) ? '✓' : '-' !!}</td>
                                         <td>{!! in_array('R', $typeUnit) ? '✓' : '-' !!}</td>
                                         <td>{!! in_array('T', $typeUnit) ? '✓' : '-' !!}</td>
